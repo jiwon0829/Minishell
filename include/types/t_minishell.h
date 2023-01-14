@@ -9,7 +9,7 @@ typedef struct s_minishell t_minishell;
 struct s_minishell
 {
 	int			exit_status;
-	char 		**path;
+	t_envp		*envp;
 	t_cmd_tbl	*cmd_tbl;
 };
 

@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "envp.h": "c",
+        "t_envp.h": "c"
+    }
+}

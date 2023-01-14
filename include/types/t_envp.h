@@ -1,5 +1,5 @@
-#ifndef ENVP_H
-# define ENVP_H
+#ifndef T_ENVP_H
+# define T_ENVP_H
 
 typedef struct s_envp t_envp;
 

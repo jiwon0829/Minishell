@@ -24,6 +24,6 @@ int main(int ac, char *av[], char *envp[])
 
 	check_arg(ac, av);
 	init(&minishell, envp);
-	//main_loop(&minishell);
+	main_loop(&minishell);
 	return (0);
 }

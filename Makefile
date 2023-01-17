@@ -26,7 +26,8 @@ LIBFT_DIR = libft
 SRCS = src/test_code.c \
 		src/utils/error_message.c src/utils/setting.c \
 		src/minishell.c src/main_loop.c  \
-		src/envp/setting.c src/envp/node.c
+		src/envp/setting.c src/envp/node.c \
+		src/signal/setting.c
 
 OBJS = $(SRCS:.c=.o)
 

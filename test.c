@@ -38,3 +38,5 @@ int main(void)
 }
 
 // cc -lreadline -L/Users/song-in-oh/goinfre/.brew/readline/lib -I $HOME/goinfre/.brew/readline/include test.c  
+
+// cc -lreadline -L/Users/song-in-oh/goinfre/.brew/readline/lib -I $HOME/goinfre/.brew/readline/include minishell.c lexer/lexer.c      

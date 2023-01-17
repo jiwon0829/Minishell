@@ -1,4 +1,5 @@
-#include "../include/minishell.h"
+#include "minishell.h"
+#include "lexer.h"
 
 char	*ft_strdup(const char *s1)
 {
@@ -53,37 +54,83 @@ static char *read_line(char **line)
 	return (*line);
 }
 
-void main_loop(t_minishell *minishell)
+
+static char	check_quote(char *line)
 {
-	char	*line;
-	t_token	*token;
+	int	i = -1;
+	char quote = 0;
 
-	while (read_line(&line))
+	if (!line)
+		return (0);
+	while (line[++i])
 	{
-		add_history(&line);
-		// check_line(&line);
-		// token = lexer(minishell, line);
-		token = lexer(line);
-		// token = token->next;
-		// token = token->next;
-
-		while (0)
+		if ((line[i] == '\\' && ((int)(ft_strlen(line)) - 1 != i + 1) && line[i + 1] == '\'') || \
+			(line[i] == '\\' && ((int)(ft_strlen(line)) - 1 != i + 1) && line[i + 1] == '\"'))
 		{
-			printf("11\n");
-			// char *str;
-			// printf("22\n");
-			// str = ft_substr(token->tok,0, 1);
-			// printf("len = %d ", token->len);
-			// printf("str = %s ", token->tok);			
-			// printf("type : %d, value :%s\n",token->type, str);
-			// printf("33\n");			
-			// token = token->next;
-			// free (str);
+			++i;
+			continue ;
 		}
-			printf("\n");			
-
+		if (line[i] == '\'' || line[i] == '"')
+		{
+			if (quote == 0)
+				quote = line[i];
+			else if (quote == '\'' && line[i] == '\'')
+				quote = 0;
+			else if (quote == '"' && line[i] == '"')
+				quote = 0;
+			else if (quote == '\'' && line[i] == '"')
+				continue ;
+			else if (quote == '"' && line[i] == '\'')
+				continue ;
+		}
 	}
+	return (quote);
 }
 
+static int check_line(char **line)
+{
+	//TODO NULL string, empty string
+	if (ft_strlen(*line) == 0)
+		return (0);
 
-// cc -lreadline -L/Users/song-in-oh/goinfre/.brew/readline/lib -I $HOME/goinfre/.brew/readline/include minishell.c lexer/lexer.c lexer/lexer_free.c lexer/lexer_util.c lexer/token.c main_loop.c
+	//TODO blank string
+	int i = -1;
+	size_t blank_cnt = 0;
+	while ((*line)[++i])
+	{
+		if ((*line)[i] == ' ')
+			++blank_cnt;
+	}
+	if (blank_cnt == ft_strlen(*line))
+		return (0);
+	//TODO unclosed quotes
+	char quote = check_quote(*line);
+	while (quote)
+	{
+		*line = ft_strjoin(*line, "\n");
+		*line = ft_strjoin(*line, readline("> "));
+		quote = check_quote(*line);
+	}
+	return (1);
+}
+
+void main_loop(t_minishell *minishell)
+{
+	char			*line;
+	t_token			*token;
+	
+	while (read_line(&line))
+	{
+		add_history(line);
+		check_line(&line);
+        printf("input:%s\n", line);
+		token = lexer(line);
+        //analize_line
+		free(line);
+		//parser
+        //exev
+	}(void)minishell;(void)token;
+	return ;
+	// cc -lreadline -L/Users/song-in-oh/goinfre/.brew/readline/lib -I $HOME/goinfre/.brew/readline/include minishell.c lexer/lexer.c lexer/lexer_free.c lexer/lexer_util.c lexer/token.c main_loop.c
+}
+

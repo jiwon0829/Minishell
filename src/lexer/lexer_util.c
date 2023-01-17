@@ -1,4 +1,5 @@
-#include "../../include/minishell.h"
+#include "minishell.h"
+#include "lexer.h"
 
 void	init_separs(char **separs)
 {

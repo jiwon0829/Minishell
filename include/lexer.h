@@ -4,7 +4,7 @@
 #include "minishell.h"
 
 # define WORD 0
-# define SPACE 1
+# define BLANK 1
 # define PIPE 2
 # define INPUT 3
 # define OUTPUT_OVER 4
@@ -20,14 +20,15 @@
 # define SEPAR_LESS 15
 # define SEPAR_PIPE 16
 
-typedef struct s_token
+typedef struct s_token t_token;
+struct s_token
 {
     char            *tok;
     int             len;
     int             type;
-    struct t_token  *prev;
-    struct t_token  *next;
-}                   t_token;
+    t_token  *prev;
+    t_token  *next;
+}                   ;
 
 //lexer.c
 // t_token	*lexer(t_minishell *minishell, char *input);

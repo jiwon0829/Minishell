@@ -1,5 +1,6 @@
-#include "../../include/minishell.h"
+#include "minishell.h"
 #include "unistd.h"
+#include "lexer.h"
 
 t_token	*create_token(int length, char *start, int type)
 {

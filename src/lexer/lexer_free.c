@@ -1,4 +1,6 @@
-#include "../../include/minishell.h"
+#include "minishell.h"
+#include "lexer.h"
+
 
 t_token *free_tokens(t_token *token)
 {

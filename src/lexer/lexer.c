@@ -1,5 +1,5 @@
-#include "../../include/minishell.h"
-
+#include "minishell.h"
+#include "lexer.h"
 
 int	sub_set_token_types(char **separs, int *index, t_token *temp)
 {

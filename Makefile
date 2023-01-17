@@ -2,8 +2,8 @@ CC = cc -g -fsanitize=address
 CFLAGS = -Wall -Wextra -Werror
 
 # 클러스터
-# READLINE_LIB = -lreadline -L/goinfre/$(USER)/.brew/opt/readline/lib
-# READLINE_INC = -I/goinfre/$(USER)/.brew/opt/readline/include
+#  READLINE_LIB = -lreadline -L/goinfre/$(USER)/.brew/opt/readline/lib
+#  READLINE_INC = -I/goinfre/$(USER)/.brew/opt/readline/include
 
 # MAC 인텔
  READLINE_LIB = -lreadline -L/usr/local/opt/readline/lib
@@ -27,7 +27,9 @@ SRCS = src/test_code.c \
 		src/utils/error_message.c src/utils/setting.c \
 		src/minishell.c src/main_loop.c  \
 		src/envp/setting.c src/envp/node.c \
-		src/signal/setting.c
+		src/signal/setting.c \
+		src/lexer/lexer_free.c src/lexer/lexer_util.c \
+		src/lexer/lexer.c src/lexer/token.c
 
 OBJS = $(SRCS:.c=.o)
 

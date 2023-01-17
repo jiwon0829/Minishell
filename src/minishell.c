@@ -1,5 +1,4 @@
 #include "minishell.h"
-#include "t_minishell.h"
 
 void	a()
 {

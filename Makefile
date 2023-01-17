@@ -1,33 +1,46 @@
 CC = cc -g -fsanitize=address
-CFLAGS = -Wall -Wextra -Werror -Iinclude
+CFLAGS = -Wall -Wextra -Werror
 
 # 클러스터
 # READLINE_LIB = -lreadline -L/goinfre/$(USER)/.brew/opt/readline/lib
 # READLINE_INC = -I/goinfre/$(USER)/.brew/opt/readline/include
 
 # MAC 인텔
-# READLINE_LIB = -lreadline -L/usr/local/opt/readline/lib
-# READLINE_INC = -I/usr/local/opt/readline/include
+ READLINE_LIB = -lreadline -L/usr/local/opt/readline/lib
+ READLINE_INC = -I/usr/local/opt/readline/include
 
 LIBFT = libft/libft.a
 
 NAME = minishell
 
-SRCS = src/utils/error_message.c src/utils/setting.c \
-		src/minishell.c src/main_loop.c 
+INC_DIR = include
+INC_FILES := minishell.h envp.h
+INC_FILES := $(addprefix $(INC_DIR)/, $(INC_FILES))
+
+INC_TYPES_DIR = $(INC_DIR)/types
+INC_TYPES := t_minishell.h t_envp.h t_cmd.h
+INC_TYPES := $(addprefix $(INC_TYPES_DIR)/, $(INC_TYPES))
+
+LIBFT_DIR = libft
+
+SRCS = src/test_code.c \
+		src/utils/error_message.c src/utils/setting.c \
+		src/minishell.c src/main_loop.c  \
+		src/envp/setting.c src/envp/node.c \
+		src/signal/setting.c
 
 OBJS = $(SRCS:.c=.o)
 
 all:  $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)
+$(NAME): $(OBJS) $(LIBFT) $(INC_FILES) $(INC_TYPES)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(READLINE_LIB) $(READLINE_INC)
 
 $(LIBFT):
-	@make -C ./libft
+	@make -C ./libft all
 
 %.o: %.c
-	@$(CC) $(CFLAGS) $(READLINE_INC) -c $< -o $@
+	@$(CC) $(CFLAGS) $(READLINE_INC) -I$(INC_DIR) -I$(INC_TYPES_DIR) -c $< -o $@
 
 clean:
 	@make clean -C libft/

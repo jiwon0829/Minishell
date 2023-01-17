@@ -10,6 +10,7 @@
 #include <termios.h>
 #include <fcntl.h>
 #include "../libft/libft.h"
+#include "lexer.h"
 
 #define FALSE 0
 #define TRUE 1

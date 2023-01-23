@@ -27,6 +27,7 @@ SRCS = src/test_code.c \
 		src/utils/error_message.c src/utils/setting.c \
 		src/minishell.c src/main_loop.c  \
 		src/envp/setting.c src/envp/node.c \
+		src/builtin/builtin.c \
 		src/signal/setting.c \
 		src/lexer/lexer_free.c src/lexer/lexer_util.c \
 		src/lexer/lexer.c src/lexer/token.c

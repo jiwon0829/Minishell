@@ -4,6 +4,10 @@
 #define AC_LESS_1	201		// 명령어 인자 개수가 0 또는 1인 경우
 #define AC_ANY		202		// 명령어 인자 개수가 제한 없는 경우(echo)
 
+
+#define FALSE 0
+#define TRUE 1
+
 t_cmd_tbl	*init_cmd_tbl(void);
 
 /*void	echo(t_minishell *minishell, char **arr);

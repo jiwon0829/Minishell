@@ -70,7 +70,7 @@ void main_loop(t_minishell *minishell)
 {
 	char			*line;
 	t_token			*token;
-	
+
 	while (read_line(&line))
 	{
 		add_history(line);

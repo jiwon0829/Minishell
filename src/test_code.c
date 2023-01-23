@@ -1,6 +1,6 @@
 #include "test_code.h"
 
-void print_envp(t_envp *envp)
+void print_envp_test(t_envp *envp)
 {
     t_envp *tmp;
 

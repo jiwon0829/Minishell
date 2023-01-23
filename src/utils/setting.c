@@ -26,5 +26,5 @@ void	init(t_minishell *minishell, char *envp[])
 	minishell->cmd_tbl = init_cmd_tbl();
 	print_cmd_tbl(minishell->cmd_tbl);
 	setting_shlvl(minishell->envp);
-	print_envp(minishell->envp);	//TODO
+	print_envp_test(minishell->envp);	//TODO
 }

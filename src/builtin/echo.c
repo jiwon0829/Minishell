@@ -30,4 +30,5 @@ void	echo(t_minishell *minishell, char **arr)
 		}
 		printf("\n");
 	}
+    minishell->exit_status = 100;//TODO
 }

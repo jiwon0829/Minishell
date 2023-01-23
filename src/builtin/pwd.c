@@ -11,4 +11,5 @@ void	pwd(t_minishell *minishell, char **arr)
 	printf("%s\n", path);
 	free(path);
 	path = NULL;
+    minishell->exit_status = 100;//TODO
 }

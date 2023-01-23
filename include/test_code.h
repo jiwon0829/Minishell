@@ -6,6 +6,6 @@
 #include "envp.h"
 #include "builtin.h"
 
-void print_envp(t_envp *envp);
+void print_envp_test(t_envp *envp);
 void print_cmd_tbl(t_cmd_tbl *tbl);
 #endif

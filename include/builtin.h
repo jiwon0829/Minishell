@@ -1,4 +1,5 @@
 #include "types/t_cmd.h"
+#include "envp.h"
 
 #define AC_ZERO		200		//명령어 인자 개수가 0인 경우
 #define AC_LESS_1	201		// 명령어 인자 개수가 0 또는 1인 경우

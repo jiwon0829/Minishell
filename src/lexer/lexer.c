@@ -1,28 +1,49 @@
 #include "minishell.h"
 #include "lexer.h"
 
+//토큰체크용 함수
+static void lexer_check(t_token *token)
+{
+    t_token *test;
+    test = token;
+	while(test)
+	{
+		printf("(%s)",test->value);
+        if (test->type == 2)
+    		printf("type:PIPE -> ");
+        else if (test->type == 3)
+            printf("type:INPUT -> ");
+        else if (test->type == 4)
+    		printf("type:OUTPUT_OVER -> ");        
+        else if (test->type == 5)
+    		printf("type:HERE_DOC -> ");
+        else if (test->type == 6)
+            printf("type:OUTPUT_APPEND -> ");
+        else if (test->type == 10)
+    		printf("type:PRNTH_LEFT -> ");
+        else if (test->type == 11)
+    		printf("type:PRNTH_LEFT ");    
+        else if (test->type == 12)
+            printf("type:LOGIC_AND -> ");
+        else if (test->type == 13)
+    		printf("type:LOGIC_OR -> ");
+		else
+			printf("type:WORD ->");
+		test = test->next;
+	}
+    printf("\n");
+}
+
 int	sub_set_token_types(char **separs, int *index, t_token *temp)
 {
 	int	i;
-			printf("set type %s,%d\n",temp->tok,temp->len);
 
 	i = 0;
 	while (separs[i])
 	{
-		if (i == 9)
-		{
-			perror("wrong separator");
-			return (0);
-		}
-		else if (temp->type == LOGICAL_AND && temp->len == 1)
-		{
-			perror("wrong separator");
-			return (0);
-		}
-		if (ft_strncmp(separs[i], temp->tok, temp->len) == 0)
+		if (ft_strncmp(separs[i], temp->value, temp->len) == 0)
 		{
 			temp->type = index[i];
-			printf("a\n");
 			break ;
 		}
 		i++;
@@ -39,8 +60,6 @@ int	set_token_types(t_token **token)
 	init_separs(separs);
 	init_index(index);
 	temp = *token;
-			printf("\n%s ,%d\n",(*token)->tok, temp->type);
-
 	while (temp)
 	{
 		if (temp->type == PRNTH_RIGHT || temp->type == SEPAR_MORE || \
@@ -53,71 +72,11 @@ int	set_token_types(t_token **token)
 	return (1);
 }
 
-void	sub_lexer(int *type, char *input_i, char **start, t_token **tokens)
+t_token *lexer(t_token *token)
 {
-	if (*type == SPACE && get_type(*input_i) != SPACE) 
-		init_common_token(tokens, input_i, start, type);
-	else if (*type == WORD && get_type(*input_i) != WORD)
-		init_common_token(tokens, input_i, start, type);
-	else if (*type == SEPAR_LESS && get_type(*input_i) != SEPAR_LESS)
-		init_common_token(tokens, input_i, start, type);
-	else if (*type == SEPAR_MORE && get_type(*input_i) != SEPAR_MORE)
-		init_common_token(tokens, input_i, start, type);
-	else if (*type == SEPAR_PIPE && get_type(*input_i) != SEPAR_PIPE)
-		init_common_token(tokens, input_i, start, type);
-	else if (*type == PRNTH_LEFT)
-		init_common_token(tokens, input_i, start, type);
-	else if (*type == PRNTH_RIGHT)
-		init_common_token(tokens, input_i, start, type);
-	else if (*type == LOGICAL_AND && get_type(*input_i) != LOGICAL_AND)
-		init_common_token(tokens, input_i, start, type);
-}
-
-int	sub_lexer_quotes(int *type, char *input_i, \
-					char **start, t_token **tokens)
-{
-	int	ret;
-
-	ret = 0;
-	if (get_type(*input_i) == DQUOT || \
-					get_type(*input_i) == SQUOT)
-	{
-		if (!(*tokens)) // "ls" && ls 아예처음 나올때
-			init_common_token(tokens, input_i, start, type);
-		ret = init_quot_token(tokens, input_i, start, type);
-		if (ret == -1)
-		{
-			free_tokens(*tokens);
-			return (-1);
-		}
-	}
-	return (ret);
-}
-
-t_token	*lexer(char *input)
-{
-	int		i;
-	int		type;
-	int		temp;
-	char	*start;
-    t_token *tokens;
-	
-    if (!ft_strlen(input))
-		return (NULL);
-	i = 0;
-	tokens = NULL;
-	type = get_type(input[i]);
-	start = input;
-	while (input[i])
-	{
-		sub_lexer(&type, &input[i], &start, &tokens);
-		temp = sub_lexer_quotes(&type, &input[i], &start, &tokens);
-		if (temp == -1)
-			 return (NULL);
-		i += temp + 1;
-	}
-	add_token(&tokens, create_token((int)(&input[i] - start), start, type)); //마지막토큰 NULL타입추가 or 이전처럼 \n 추가한상태로 개행타입, 현재 없음 // 길이 0 짜리 quot 생성안할지(현재 생성함) 
-	if (set_token_types(&tokens) == -1)
-		return (free_tokens(tokens));
-	return (tokens);
+	if (set_token_types(&token) == -1)
+        return (free_tokens(token));
+    //렉서 타입체크함수
+	lexer_check(token);
+    return (token);
 }

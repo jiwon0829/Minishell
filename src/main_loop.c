@@ -75,8 +75,8 @@ void main_loop(t_minishell *minishell)
 	{
 		add_history(line);
 		check_line(&line);
-        // printf("input:%s\n", line);
-		token = lexer(line);
+		token = tokenizer(line);
+		token = lexer(token);
 		free(line);
 	}(void)minishell;(void)token;
 	return ;

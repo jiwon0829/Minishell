@@ -29,7 +29,8 @@ SRCS = src/test_code.c \
 		src/envp/setting.c src/envp/node.c \
 		src/signal/setting.c \
 		src/lexer/lexer_free.c src/lexer/lexer_util.c \
-		src/lexer/lexer.c src/lexer/token.c
+		src/lexer/tokenizer.c src/lexer/token.c src/lexer/lexer_check_quote.c \
+		src/lexer/tokenize_symbol.c src/lexer/lexer.c
 
 OBJS = $(SRCS:.c=.o)
 

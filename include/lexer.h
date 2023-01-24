@@ -24,6 +24,7 @@ typedef struct s_token t_token;
 struct s_token
 {
     char            *tok;
+    char            *value;
     int             len;
     int             type;
     t_token  *prev;
@@ -32,11 +33,10 @@ struct s_token
 
 //lexer.c
 // t_token	*lexer(t_minishell *minishell, char *input);
-t_token	*lexer(char *input);
+t_token	*tokenizer(char *input);
 int	sub_lexer_quotes(int *type, char *input_i, char **start, t_token **tokens);
 void	sub_lexer(int *type, char *input_i, char **start, t_token **tokens);
-int	set_token_types(t_token **token);
-int	sub_set_token_types(char **separs, int *index, t_token *temp);
+
 
 //lexer_util.c
 void    init_common_token(t_token **token, char *input, char **start, int *type);
@@ -45,8 +45,21 @@ int     get_type(char input);
 void	init_index(int *index);
 void	init_separs(char **separs);
 
+//lexer_check_qoute.c
+int check_quot(char input);
+
 //lexer_free.c
 t_token *free_tokens(t_token *token);
+
+//lexer.c
+t_token *lexer(t_token *token);
+void tokenize_space(int *type, char *input_i, char **start);
+int	set_token_types(t_token **token);
+int	sub_set_token_types(char **separs, int *index, t_token *temp);
+
+
+//tokenize_symbol.c
+int	tokenize_special(int *type, char *input_i, char **start, t_token **tokens);
 
 //token.c
 void	add_token(t_token **first, t_token *to_add);

@@ -59,3 +59,10 @@ char    **envp_to_dptr(t_envp *head)
     ret[i] = NULL;
     return (ret);
 }
+
+t_envp *get_envpNode(t_envp *head, const char *key)
+{
+    while (head && ft_strncmp(head->key, key, ft_strlen(key) + 1))
+        head = head->next;
+    return (head);
+}

@@ -1,7 +1,9 @@
 #ifndef CMD_H
 # define CMD_H
 
+#include <stdlib.h>
 #include "t_minishell.h"	//TODO remove?
+#include "../libft/libft.h"
 
 typedef struct s_minishell t_minishell;
 typedef struct s_cmd_tbl t_cmd_tbl;

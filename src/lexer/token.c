@@ -9,18 +9,14 @@ t_token	*create_token(int length, char *start, int type)
 	if (!length && !(type == DQUOT || type == SQUOT)) 
 		return (NULL);
 	token = (t_token *)malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);//널가드추가
 	token->len = length;
 	token->next = NULL;
 	token->prev = NULL;
-	token->tok = start;
-	char *separs[9];
-	int index[9];
-	init_separs(separs);
-	init_index(index);
-	token->tok = ft_substr(token->tok,0, length);
+	token->value = ft_substr(start, 0, length);
 
 	token->type = type;
-	printf("(%s) -> ",token->tok);
 	return (token);
 }
 

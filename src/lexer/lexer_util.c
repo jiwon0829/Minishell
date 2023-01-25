@@ -31,11 +31,11 @@ void	init_index(int *index)
 int get_type(char input)
 {
     if (input == ' ' || (input >= 9 && input <= 13))
-        return (SPACE);
-    if (input == '\'')
-        return (SQUOT);
-    if (input == '\"')
-		return (DQUOT);
+        return (BLANK);
+    // if (input == '\'')
+    //     return (SQUOT);
+    // if (input == '\"')
+	// 	return (DQUOT);
 	if (input == '|')
 		return (SEPAR_PIPE);
 	if (input == '>')
@@ -58,25 +58,23 @@ int	init_quot_token(t_token **token, char *input, char **start, int *type)
 	i = 1;
 	while (input[0] != input[i])
 	{
-		if (input[i] == '\0')
-		{
-			perror("quotes are not closed");
-			return (-1);
-		}
+		// if (input[i] == '\0')
+		// {
+		// 	perror("quotes are not closed");
+		// 	return (-1);
+		// }
 		i++;
 	}
-	if (i == 1)
-		add_token(token, create_token(0, *start, *type));
-	else
-		add_token(token, create_token(i - 1, *start + 1, *type));
-	*start = &input[i] + 1;
-	*type = get_type(input[i + 1]);
+	(void)token ;
+	(void)start ;
+	(void)type;
 	return (i);
 }
 
 void    init_common_token(t_token **token, char *input, char **start, int *type)
 {
-    add_token(token, create_token((int)(input - *start), *start, *type));
+	
+	add_token(token, create_token((int)(input - *start), *start, *type));
     *start = input;
     *type = get_type(*input);
 }

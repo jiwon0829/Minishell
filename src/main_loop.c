@@ -1,5 +1,7 @@
 #include "minishell.h"
 #include "lexer.h"
+#include "parser.h"
+#include "test_code.h"
 
 static char *read_line(char **line)
 {
@@ -70,14 +72,17 @@ void main_loop(t_minishell *minishell)
 {
 	char			*line;
 	t_token			*token;
+	t_parse_tree	*parse_tree;
 
 	while (read_line(&line))
 	{
 		add_history(line);
 		check_line(&line);
 		token = tokenizer(line);
-		token = lexer(token);
 		free(line);
+		token = lexer(token);
+		parse_tree = parser(token);
+		print_parse_tree(parse_tree, 0);//TODO
 	}(void)minishell;(void)token;
 	return ;
 }

@@ -2,6 +2,7 @@
 # define LEXER_H
 
 #include "minishell.h"
+#include "types/t_token.h"
 
 # define WORD 0
 # define BLANK 1
@@ -20,16 +21,6 @@
 # define SEPAR_LESS 15
 # define SEPAR_PIPE 16
 
-typedef struct s_token t_token;
-struct s_token
-{
-    char            *tok;
-    char            *value;
-    int             len;
-    int             type;
-    t_token  *prev;
-    t_token  *next;
-}                   ;
 
 //lexer.c
 // t_token	*lexer(t_minishell *minishell, char *input);

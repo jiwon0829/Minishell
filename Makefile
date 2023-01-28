@@ -32,7 +32,9 @@ SRCS = src/test_code.c \
 		src/signal/setting.c \
 		src/lexer/lexer_free.c src/lexer/lexer_util.c \
 		src/lexer/tokenizer.c src/lexer/token.c src/lexer/lexer_check_quote.c \
-		src/lexer/tokenize_symbol.c src/lexer/lexer.c
+		src/lexer/tokenize_symbol.c src/lexer/lexer.c \
+		src/parser/parser.c src/parser/tool.c src/parser/parenthesis.c \
+		src/parser/make_tree.c src/parser/insert_tree.c
 
 OBJS = $(SRCS:.c=.o)
 

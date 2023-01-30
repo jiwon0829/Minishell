@@ -72,10 +72,16 @@ void main_loop(t_minishell *minishell)
 		if (!check_line(&line))
 			continue ;
 		token = tokenizer(line);
-		free(line);
+		free(line);line = NULL;
 		token = lexer(token);
 		parse_tree = parser(token);
-	}(void)minishell;(void)parse_tree;
+		if (parse_tree)
+			printf("parse tree\n");
+		//	excutor(minishell, parse_tree);
+		free(parse_tree);
+		parse_tree = NULL;
+		free(token); token = NULL;
+	}(void)minishell;
 	rl_clear_history();
 	return ;
 }

@@ -36,4 +36,11 @@ void    remove_tail_token(t_token **tail);
 void    remove_token(t_token **del_token);
 void    check_parenthesis(t_parse_tree **parse_tree, t_token **tail);
 
+//check_syntax
+int syntax_error_check(t_token *token);
+int first_token_error(t_token *token);;
+int last_token_error(t_token *token);;
+int quote_match_error(t_token *token);;
+int parenthesis_match_error(t_token *token);;
+
 #endif 

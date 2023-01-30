@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "signal.h"
 #include "lexer.h"
 #include "parser.h"
 #include "test_code.h"
@@ -43,28 +44,19 @@ static char	check_quote(char *line)
 
 static int check_line(char **line)
 {
-	//TODO NULL string, empty string
-	if (ft_strlen(*line) == 0)
-		return (0);
-
-	//TODO blank string
 	int i = -1;
 	size_t blank_cnt = 0;
+	char quote = check_quote(*line);
+
+	if (ft_strlen(*line) == 0)
+		return (0);
 	while ((*line)[++i])
 	{
 		if ((*line)[i] == ' ')
 			++blank_cnt;
 	}
-	if (blank_cnt == ft_strlen(*line))
+	if (blank_cnt == ft_strlen(*line) || quote)
 		return (0);
-	//TODO unclosed quotes
-	char quote = check_quote(*line);
-	while (quote)
-	{
-		*line = ft_strjoin(*line, "\n");
-		*line = ft_strjoin(*line, readline("> "));
-		quote = check_quote(*line);
-	}
 	return (1);
 }
 
@@ -77,12 +69,13 @@ void main_loop(t_minishell *minishell)
 	while (read_line(&line))
 	{
 		add_history(line);
-		check_line(&line);
+		if (!check_line(&line))
+			continue ;
 		token = tokenizer(line);
 		free(line);
 		token = lexer(token);
 		parse_tree = parser(token);
-		print_parse_tree(parse_tree, 0);//TODO
-	}(void)minishell;(void)token;
+	}(void)minishell;(void)parse_tree;
+	rl_clear_history();
 	return ;
 }

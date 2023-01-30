@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "signal.h"
 
 void	handler(int sig)
 {
@@ -10,9 +11,9 @@ void	handler(int sig)
 		rl_replace_line("", 1);
 		rl_redisplay();
 	}
-	else if (sig == SIGTERM)
+	if (sig == SIGTERM)
 	{
-		printf("exit\n");
+		write(STDOUT_FILENO, "exit\n", 1);sleep(10);
 		exit (-1);
 	}
 	else
@@ -27,6 +28,6 @@ void	setting_signal(void)
 	term.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	signal(SIGINT, handler);	// CTRL + C
-	signal(SIGTERM, handler);	// CTRL + D
-	signal(SIGQUIT, handler);	// CTRL + /
+	signal(SIGTERM, SIG_IGN);	// CTRL + D
+	signal(SIGQUIT, SIG_IGN);	// CTRL + /
 }

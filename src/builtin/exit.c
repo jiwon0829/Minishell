@@ -4,8 +4,8 @@ int is_valid_value(char **arr)
 {
     if (!arr[1])
         return (EXIT_NO);
-    if (!ft_isalnum(arr[1]))
-        return (EXIT_NON_NUM);
+    //if (!ft_isalnum(arr[1]))
+    //    return (EXIT_NON_NUM);
     if (arr[2])
         return (EXIT_MANY);
     return (ft_atoi(arr[1]));

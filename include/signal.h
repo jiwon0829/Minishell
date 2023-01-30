@@ -3,4 +3,8 @@
 
 #include <termios.h>
 #include <signal.h>
+
+void	setting_signal(void);
+void	quote_handler();
+
 #endif

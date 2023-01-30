@@ -9,7 +9,7 @@ static void setting_shlvl(t_envp *envp)
 
 	shlvl_node = get_envpNode(envp, "SHLVL");
 	if (!shlvl_node)
-	{printf("in null\n");
+	{
 		insert_envp(&envp, "SHLVL", "1");
 		return ;
 	}

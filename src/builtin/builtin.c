@@ -31,6 +31,6 @@ t_cmd_tbl	*init_cmd_tbl(void)
 	setting_cmd(&cmd_tbl->cmd[5], "env", 0, "");
 	cmd_tbl->cmd[5].func = env;
 	setting_cmd(&cmd_tbl->cmd[6], "exit", AC_ZERO, "");
-	//cmd_tbl->cmd[6].func = ft_exit;
+	cmd_tbl->cmd[6].func = ft_exit;
 	return (cmd_tbl);
 }

@@ -29,12 +29,14 @@ SRCS = src/test_code.c \
 		src/envp/setting.c src/envp/node.c src/envp/print.c\
 		src/builtin/builtin.c src/builtin/echo.c src/builtin/env.c \
 		src/builtin/export.c src/builtin/pwd.c src/builtin/unset.c \
+		src/builtin/exit.c \
 		src/signal/setting.c \
 		src/lexer/lexer_free.c src/lexer/lexer_util.c \
 		src/lexer/tokenizer.c src/lexer/token.c src/lexer/lexer_check_quote.c \
 		src/lexer/tokenize_symbol.c src/lexer/lexer.c \
 		src/parser/parser.c src/parser/tool.c src/parser/parenthesis.c \
-		src/parser/make_tree.c src/parser/insert_tree.c
+		src/parser/make_tree.c src/parser/insert_tree.c \
+		src/parser/check_syntax.c src/parser/match_error.c src/parser/near_token_error.c
 
 OBJS = $(SRCS:.c=.o)
 

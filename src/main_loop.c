@@ -2,6 +2,7 @@
 #include "signal.h"
 #include "lexer.h"
 #include "parser.h"
+#include "exec.h"
 #include "test_code.h"
 
 static char *read_line(char **line)
@@ -75,8 +76,13 @@ void main_loop(t_minishell *minishell)
 		free(line);line = NULL;
 		token = lexer(token);
 		parse_tree = parser(token);
+		printf("gogo1\n");
+
 		if (parse_tree)
-			excutor(minishell, parse_tree);
+		{
+			executor(minishell, parse_tree);
+			printf("gogo2\n");
+		}
 		free(parse_tree);
 		parse_tree = NULL;
 		free(token); token = NULL;

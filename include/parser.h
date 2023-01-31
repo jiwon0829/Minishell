@@ -1,6 +1,7 @@
 #ifndef PARSER_H
 # define PARSER_H
 
+#include "minishell.h"
 #include <stdlib.h>
 #include "types/t_parse_tree.h"
 #include "lexer.h"

@@ -1,5 +1,8 @@
 #include "minishell.h"
 #include "exec.h"
+#include "t_parse_tree.h"
+#include "t_exec.h"
+#include "lexer.h"
 
 void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
 {

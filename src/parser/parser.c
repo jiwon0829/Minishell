@@ -4,6 +4,7 @@ t_parse_tree *parser(t_token *token)
 {
 	t_parse_tree	*parse_tree;
 	t_token			*tail;
+	printf("gogo3\n");
 	
 	if (!syntax_error_check(token))
 		return (NULL);

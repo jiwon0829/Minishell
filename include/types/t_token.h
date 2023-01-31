@@ -5,6 +5,8 @@ typedef struct s_token t_token;
 
 struct s_token
 {
+	int		fd_in;
+	int		fd_out;
 	char	*tok;
 	char	*value;
 	int		len;

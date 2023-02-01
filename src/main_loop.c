@@ -77,9 +77,9 @@ void main_loop(t_minishell *minishell)
 		parse_tree = parser(token);
 		if (parse_tree)print_parse_tree(parse_tree, 0);
 			//excutor(minishell, parse_tree);
-		free(parse_tree);
+		/*free(parse_tree);
 		parse_tree = NULL;
-		free(token); token = NULL;
+		free(token); token = NULL;*/
 	}(void)minishell;
 	rl_clear_history();
 	return ;

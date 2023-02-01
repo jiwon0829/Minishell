@@ -40,7 +40,6 @@ void    check_parenthesis(t_parse_tree **parse_tree, t_token **tail);
 int syntax_error_check(t_token *token);
 int first_token_error(t_token *token);;
 int last_token_error(t_token *token);;
-int quote_match_error(t_token *token);;
 int parenthesis_match_error(t_token *token);;
 
 #endif 

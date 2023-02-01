@@ -1,17 +1,6 @@
 #include "minishell.h"
 #include "lexer.h"
-
-static void tokenizer_check(t_token *token)
-{
-	t_token *test;
-	test = token;
-	while(test)
-	{
-		printf("(%s) -> ",test->value);
-		test = test->next;
-	}
-	printf("\n");
-}
+#include "test_code.h"
 
 void	sub_lexer(int *type, char *input_i, char **start, t_token **tokens)
 {
@@ -65,7 +54,6 @@ t_token	*tokenizer(char *input)
 		i += temp + 1;
 	}
 	add_token(&tokens, create_token((int)(&input[i] - start), start, type));  
-	//토큰체크함수
-	tokenizer_check(tokens);
+	//print_tokenizer_token(tokens);	//TODO
 	return (tokens);
 }

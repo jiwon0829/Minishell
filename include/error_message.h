@@ -3,3 +3,4 @@
 
 void	export_error_message(char *msg);
 void	unset_error_message(char *msg);
+int	snytax_error_message(char   *msg);

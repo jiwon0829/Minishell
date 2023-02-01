@@ -18,7 +18,7 @@ int last_token_error(t_token *token)
 		node = node->next;
 	if (node && (node->type == WORD || node->type == PRNTH_RIGHT))
 		return (1);
-	return (snytax_error_message(node->value));
+	return (snytax_error_message("newline"));
 }
 
 int context_token_error(t_token *token)

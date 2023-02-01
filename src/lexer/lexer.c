@@ -1,38 +1,6 @@
 #include "minishell.h"
 #include "lexer.h"
-
-//토큰체크용 함수
-static void lexer_check(t_token *token)
-{
-    t_token *test;
-    test = token;
-	while(test)
-	{
-		printf("(%s)",test->value);
-        if (test->type == 2)
-    		printf("type:PIPE -> ");
-        else if (test->type == 3)
-            printf("type:INPUT -> ");
-        else if (test->type == 4)
-    		printf("type:OUTPUT_OVER -> ");        
-        else if (test->type == 5)
-    		printf("type:HERE_DOC -> ");
-        else if (test->type == 6)
-            printf("type:OUTPUT_APPEND -> ");
-        else if (test->type == 10)
-    		printf("type:PRNTH_LEFT -> ");
-        else if (test->type == 11)
-    		printf("type:PRNTH_LEFT ");    
-        else if (test->type == 12)
-            printf("type:LOGIC_AND -> ");
-        else if (test->type == 13)
-    		printf("type:LOGIC_OR -> ");
-		else
-			printf("type:WORD ->");
-		test = test->next;
-	}
-    printf("\n");
-}
+#include "test_code.h"
 
 int	sub_set_token_types(char **separs, int *index, t_token *temp)
 {
@@ -76,7 +44,6 @@ t_token *lexer(t_token *token)
 {
 	if (set_token_types(&token) == -1)
         return (free_tokens(token));
-    //렉서 타입체크함수
-	lexer_check(token);
+	//print_lexer_token(token);	//TODO
     return (token);
 }

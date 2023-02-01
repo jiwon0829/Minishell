@@ -15,6 +15,7 @@ int parenthesis_match_error(t_token *token)
             parenthesis += node->type;
         if (parenthesis < 0)
             break ;
+        node = node->next;
     }
     if (parenthesis == 0)
         return (1);

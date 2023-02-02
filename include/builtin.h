@@ -2,6 +2,9 @@
 #include "minishell.h"
 #include "error_message.h"
 #include "types/t_cmd.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include "envp.h"
 
 #define AC_ZERO		200		//명령어 인자 개수가 0인 경우
@@ -16,6 +19,9 @@
 #define TRUE 1
 
 t_cmd_tbl	*init_cmd_tbl(void);
+int	check_builtin_arg(t_cmd *cmd, char **arr);
+int	check_builtin(t_cmd_tbl *cmd_tbl, const char *cmd);
+void	ft_execve(t_minishell *minishell, t_cmd_tbl *cmd_tbl, char **arr);
 
 void	echo(t_minishell *minishell, char **arr);
 void	cd(t_minishell *minishell, char **arr);

@@ -53,11 +53,4 @@ void	export(t_minishell *minishell, char **arr)
 			split_key_value(minishell->envp, arr[i]);
 		++i;
 	}
-	printf("export result(%d)\n", minishell->envp->cnt);
-	t_envp *node = minishell->envp;
-	while (node)
-	{
-		printf("%s=%s\n", node->key, node->value);
-		node = node->next;
-	}
 }

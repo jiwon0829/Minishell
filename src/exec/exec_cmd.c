@@ -1,106 +1,114 @@
 #include "minishell.h"
 #include "exec.h"
-#include "t_exec.h"
-#include "lexer.h"
-// #include "t_minishell.h"
+#include "envp.h"
+#include "error_message.h"
+#include "t_cmd.h"
+
+// static int check_builtin(t_cmd_tbl *cmd_tbl, const char *cmd)
+// {
+// 	int	i;
+
+// 	i = -1;
+// 	while (++i < cmd_tbl->max_element)
+// 	{
+// 		if (ft_strncmp(get_cmd->cmd[i].cmd, cmd, ft_strlen(cmd)) == 0)
+// 			return (TRUE);
+// 	}
+// 	return (FALSE);
+// }
 
 void	run_program(t_arg *arg, char **envp)
 {
-	// str = arg->cmd_arg[1];
-    //  built-in fnc
-	// if (ft_strcmp(str, "echo") == 0)
-		 
-	// else if (ft_strcmp(str, "cd") == 0)
-
-	// else if (ft_strcmp(str, "pwd") == 0)
 	
-    // else if (ft_strcmp(str, "export") == 0)
-	
-    // else if (ft_strcmp(str, "unset") == 0)
-	
-    // else if (ft_strcmp(str, "env") == 0)
-	
-    // else if (ft_strcmp(str, "exit") == 0)
-	// // 내장함수
-    // else
 		execve(arg->cmd, arg->cmd_arg, envp); //실패하면 리턴값 -1
 }
 
-// void	logical_process(t_minishell *minishell, t_parse_tree *parse_tree)
-// {
-// 	minishell->exit_status = 0;
-// 	get_cmd(pipe->arg, parse_tree->token->value, minishell->envp);
-// 	run_program(pipe->arg, minishell->envp);
-// 	// execve(arg->cmd1, arg->cmd_arg1, envp);
-// 	minishell->exit_status = 1;
-// 	shell_exit(1, perror("실행에러"));
-
-// }
-
-
-
 void	child_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
 {
+	t_arg	arg;
+	
+	// printf("%s\n",parse_tree->token->next->value);
 	minishell->exit_status = 0;
-	// if ((parse_tree->up->left == parse_tree))
-	// {
-		get_cmd(minishell, pipe->arg, parse_tree->token->value, minishell->envp2);
+	char **envp;
+	envp = envp_to_dptr(minishell->envp);
+	parse_tree->token->arg = &arg;
+	if (parse_tree->up != NULL)
+	{
+		get_cmd(minishell, parse_tree->token->arg, parse_tree->token->value, envp);
 		close(pipe->fd[0]);
 		dup2(pipe->fd[1], STDOUT_FILENO);
 		close(pipe->fd[1]);
-		run_program(pipe->arg, minishell->envp2);
-		// execve(pipe->arg->cmd1, pipe->arg->cmd_arg1, envp); //실패하면 리턴값 -1
-	// }
-	// else if ((parse_tree->up->right == parse_tree) && parse_tree->up->up->type == PIPE)
-	// {
-	// 	get_cmd(minishell, pipe->arg, parse_tree->token->value, minishell->envp2);
-	// 	close(pipe->next->fd[0]);
-	// 	dup2(pipe->next->fd[1], STDOUT_FILENO);
-	// 	close(pipe->next->fd[1]);
-	// 	run_program(pipe->arg, minishell->envp2);
-	// 	// execve(pipe->arg->cmd1, pipe->arg->cmd_arg1, envp);
-	// }
+		run_program(parse_tree->token->arg, envp);
+	}
+	else
+	{
+		get_cmd(minishell, parse_tree->token->arg, parse_tree->token->value, envp);
+		run_program(parse_tree->token->arg, envp);
+	}
+	
 	minishell->exit_status = 1;
-	shell_exit(minishell, 1, "error");
+	shell_exit(minishell, 1, "error2");
 }
 
 void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
 {
 	(void)minishell;
 	(void)parse_tree;
+	int	status, waitpid;
 	// if ((parse_tree->up->left == parse_tree))
 	// {
+		waitpid = wait(&status);
+		(void)waitpid;
 		close(pipe->fd[1]);
 		dup2(pipe->fd[0], STDIN_FILENO);
 		close(pipe->fd[0]);
 	// }
-	//up->up check할때 루트노드가 | 이면 루트의->up이 없기때문에 세그폴트 날수도있음 파서에서 루트의 up은 null로 해주면 
-	// 안나는지확인
-	// else if ((parse_tree->up->right == parse_tree) && parse_tree->up->up->type == PIPE)
-	// {
-	// 	close(pipe->next->fd[1]);
-	// 	dup2(pipe->next->fd[0], STDIN_FILENO);
-	// 	close(pipe->next->fd[0]);
-	// }
+	
 }
 
 
-void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
+void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 {
-	// execve함수하면 프로세스 종료되는거때문에 일단 구분 없앴음
-	// if (parse_tree->up->type == PIPE)
+	// 빌트인함수일때
+	// if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
 	// {
-		pipe->pid = fork();
-		if (pipe->pid < 0)
+	// 	ft_execve(minishell, minishell->cmd_tbl, cmds);
+	// 	exit(1);
+	// }
+
+	//명령어 2개 이상일때
+	if (pipes)
+	{
+		pipes->pid = fork();
+		if (pipes->pid < 0)
 			shell_err(minishell, 1, "error");
-		if (pipe->pid == 0)
+		if (pipes->pid == 0)
 		{
-			// signal(SIGQUIT, SIG_DFL);
-			child_process(minishell, parse_tree, pipe);
+			child_process(minishell, parse_tree, pipes);
 		}
 		else
-			parent_process(minishell, parse_tree, pipe);
-	// }
-	// else
-	// 	logical_process(minishell, parse_tree);
+			parent_process(minishell, parse_tree, pipes);
+	}
+	//명령어 단일로 들어왔을때
+	else
+	{
+		int fd[2];
+		pipe(fd);
+		pipes = lstnew(fd);
+		pipes->pid = fork();
+		// printf("\n%d\n",pipes->pid);
+		if (pipes->pid < 0)
+			shell_err(minishell, 1, "error");
+		if (pipes->pid == 0)
+		{
+			child_process(minishell, parse_tree, pipes);
+		}
+		else
+		{
+			int	status, waitpid;
+			waitpid = wait(&status);
+			(void)waitpid;
+		}
+		// 	parent_process(minishell, parse_tree, pipes);
+	}
 }

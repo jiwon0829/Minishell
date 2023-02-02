@@ -1,7 +1,6 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-#include "minishell.h"
 #include <stdlib.h>
 #include "types/t_parse_tree.h"
 #include "lexer.h"
@@ -39,9 +38,9 @@ void    check_parenthesis(t_parse_tree **parse_tree, t_token **tail);
 
 //check_syntax
 int syntax_error_check(t_token *token);
-int first_token_error(t_token *token);;
-int last_token_error(t_token *token);;
-int quote_match_error(t_token *token);;
+int first_token_error(t_token *token);
+int context_token_error(t_token *token);
+int last_token_error(t_token *token);
 int parenthesis_match_error(t_token *token);;
 
 #endif 

@@ -67,7 +67,6 @@ void go_right_node(t_parse_tree **parse_tree)
 void parse_token(t_parse_tree **parse_tree, t_token **tail, t_parse_tree *prev_tree)
 {
 	t_token *find;
-	printf("gogo4\n");
 	
 	check_parenthesis(parse_tree, tail);
 	if (find_head_from_tail(*tail, &find, LOGICAL_OR) == TRUE || find_head_from_tail(*tail, &find, LOGICAL_AND) == TRUE)

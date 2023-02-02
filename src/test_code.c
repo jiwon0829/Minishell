@@ -33,6 +33,50 @@ void print_node(t_token *token)
 	printf("\n");
 }
 
+void print_lexer_token(t_token *token)
+{
+    t_token *test;
+    test = token;
+	while(test)
+	{
+		printf("(%s)",test->value);
+        if (test->type == 2)
+    		printf("type:PIPE -> ");
+        else if (test->type == 3)
+            printf("type:INPUT -> ");
+        else if (test->type == 4)
+    		printf("type:OUTPUT_OVER -> ");        
+        else if (test->type == 5)
+    		printf("type:HERE_DOC -> ");
+        else if (test->type == 6)
+            printf("type:OUTPUT_APPEND -> ");
+        else if (test->type == 10)
+    		printf("type:PRNTH_LEFT -> ");
+        else if (test->type == 11)
+    		printf("type:PRNTH_LEFT ");    
+        else if (test->type == 12)
+            printf("type:LOGIC_AND -> ");
+        else if (test->type == 13)
+    		printf("type:LOGIC_OR -> ");
+		else
+			printf("type:WORD ->");
+		test = test->next;
+	}
+    printf("\n");
+}
+
+void print_tokenizer_token(t_token *token)
+{
+	t_token *test;
+	test = token;
+	while(test)
+	{
+		printf("(%s) -> ",test->value);
+		test = test->next;
+	}
+	printf("\n");
+}
+
 void print_parse_tree(t_parse_tree *parse_tree, int level)
 {
 	printf("level%d root(%d)\t", level, parse_tree->type);

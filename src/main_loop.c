@@ -76,16 +76,12 @@ void main_loop(t_minishell *minishell)
 		free(line);line = NULL;
 		token = lexer(token);
 		parse_tree = parser(token);
-		printf("gogo1\n");
-
 		if (parse_tree)
-		{
+			// print_parse_tree(parse_tree, 0);
 			executor(minishell, parse_tree);
-			printf("gogo2\n");
-		}
-		free(parse_tree);
+		/*free(parse_tree);
 		parse_tree = NULL;
-		free(token); token = NULL;
+		free(token); token = NULL;*/
 	}(void)minishell;
 	rl_clear_history();
 	return ;

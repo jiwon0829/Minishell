@@ -49,7 +49,7 @@ void	get_cmd(t_minishell *minishell, t_arg *arg, char *av, char **envp);
 //shell_exit.c
 void shell_err(t_minishell *minishell, int status, char *msg);
 void shell_exit(t_minishell *minishell, int status, char *msg);
-
+void	exit_value_set(t_minishell *minishell, int exit_status);
 
 
 

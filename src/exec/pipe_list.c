@@ -1,6 +1,5 @@
 #include "minishell.h"
 #include "exec.h"
-#include "t_exec.h"
 
 t_pipe	*lstlast(t_pipe *lst)
 {

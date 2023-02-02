@@ -1,26 +1,27 @@
 #include "parser.h"
 
-// int near_token_error(t_token *token)
-// {
-// 	if (!first_token_error(token))  //pipe, and, or, ) 불가능
-// 		return (0);
-// 	if (!last_token_error(token))   //word, )만 가능
-// 		return (0);
-// 	return (0); // non void function error 나와서 넣어둠
-// }
+int near_token_error(t_token *token)
+{
+	if (!first_token_error(token))
+		return (0);
+	if (!context_token_error(token))
+		return (0);
+	if (!last_token_error(token))
+		return (0);
+	return (1);
+}
 
 int match_error(t_token *token)
 {
-	// if (!quote_match_error(token) || !parenthesis_match_error(token))
-	// 	return (0);
-	(void)token;
-	return (0); // non void function error 나와서 넣어둠
+	if (!parenthesis_match_error(token))
+		return (0);
+	return (1);
 }
 
 int syntax_error_check(t_token *token)
 {
-	// if (!near_token_error(token))
-	// 	return (0);
+	if (!near_token_error(token))
+		return (0);
 	if (!match_error(token))
 		return (0);
 	return (1);

@@ -36,10 +36,10 @@ SRCS = src/test_code.c \
 		src/lexer/tokenize_symbol.c src/lexer/lexer.c \
 		src/parser/parser.c src/parser/tool.c src/parser/parenthesis.c \
 		src/parser/make_tree.c src/parser/insert_tree.c \
-		src/parser/check_syntax.c src/parser/match_error.c src/parser/near_token_error.c \
+		src/parser/check_syntax.c src/parser/near_token_error.c \
+		src/parser/match_error.c \
 		src/exec/command_list.c src/exec/exec_cmd.c src/exec/executor.c src/exec/pipe_list.c \
 		src/exec/pipe_util.c src/exec/shell_exit.c
-
 
 OBJS = $(SRCS:.c=.o)
 

@@ -3,9 +3,6 @@
 
 #include "minishell.h"
 #include "types/t_token.h"
-#include <sys/wait.h>
-#include <fcntl.h>
-#include <errno.h>
 
 # define WORD 0
 # define BLANK 1

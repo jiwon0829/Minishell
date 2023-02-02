@@ -1,7 +1,5 @@
 #include "minishell.h"
-#include "t_exec.h"
 #include "exec.h"
-#include "error_message.h"
 
 char	**get_path_envp(char *envp[])
 {
@@ -44,10 +42,14 @@ char	*get_cmd_argv(char **path, char *cmd)
 void	get_cmd(t_minishell *minishell, t_arg *arg, char *av, char **envp)
 {
 	arg->path = get_path_envp(envp);
+	// printf("%s\n",);
 	arg->cmd_arg = ft_split(av, ' ');
+	// exit(0);
 	if (arg->cmd_arg == NULL)
 		shell_exit(minishell, 1, "error");
 	arg->cmd = get_cmd_argv(arg->path, arg->cmd_arg[0]);
 	if (arg->cmd == NULL )
-		shell_exit(minishell, 1, "error");
+		shell_exit(minishell, 1, "error3");
+	// printf("%s\n",arg->cmd_arg[1]);
+	
 }

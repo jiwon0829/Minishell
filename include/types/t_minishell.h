@@ -11,7 +11,6 @@ struct s_minishell
 {
 	int			exit_status;
 	t_envp		*envp;
-	char		**envp2;
 	t_cmd_tbl	*cmd_tbl;
 };
 

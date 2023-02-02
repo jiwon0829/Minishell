@@ -9,6 +9,8 @@
 
 void print_envp_test(t_envp *envp);
 void print_cmd_tbl(t_cmd_tbl *tbl);
+void print_lexer_token(t_token *token);
 void print_parse_tree(t_parse_tree *parse_tree, int level);
+void print_tokenizer_token(t_token *token);
 
 #endif

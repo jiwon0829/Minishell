@@ -40,7 +40,6 @@ SRCS = src/test_code.c \
 		src/parser/match_error.c \
 		src/exec/command_list.c src/exec/exec_cmd.c src/exec/executor.c src/exec/pipe_list.c \
 		src/exec/pipe_util.c src/exec/shell_exit.c
-		src/parser/match_error.c
 
 OBJS = $(SRCS:.c=.o)
 

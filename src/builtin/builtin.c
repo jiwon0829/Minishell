@@ -34,3 +34,44 @@ t_cmd_tbl	*init_cmd_tbl(void)
 	cmd_tbl->cmd[6].func = ft_exit;
 	return (cmd_tbl);
 }
+
+int	check_builtin(t_cmd_tbl *cmd_tbl, const char *cmd)
+{
+	int	i;
+
+	i = -1;
+	while (++i < cmd_tbl->cnt)
+	{
+		if (ft_strncmp(cmd_tbl->cmd[i].cmd, cmd, ft_strlen(cmd)) == 0)
+			return (TRUE);
+	}
+	return (FALSE);
+}
+
+int	check_builtin_arg(t_cmd *cmd, char **arr)
+{
+	int	argc = 0;
+	while (arr[argc])
+		argc++;
+	if ((cmd->argc == AC_ZERO && argc > 1) \
+		|| (cmd->argc == AC_LESS_1 && argc > 2))
+		{
+			printf("%s: too many arguments\n", arr[0]);
+			return (FALSE);
+		}
+	return (TRUE);
+}
+
+void	ft_execve(t_minishell *minishell, t_cmd_tbl *cmd_tbl, char **arr)
+{
+	int	i;
+	i = -1;
+	while (++i < cmd_tbl->cnt)
+	{
+		if (ft_strncmp(cmd_tbl->cmd[i].cmd, arr[0], ft_strlen(arr[0])) == 0)
+		{
+			if (check_builtin_arg(&cmd_tbl->cmd[i], arr))
+				cmd_tbl->cmd[i].func(minishell, arr);
+		}
+	}
+}

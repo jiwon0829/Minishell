@@ -67,10 +67,11 @@ void main_loop(t_minishell *minishell)
 	t_token			*token;
 	t_parse_tree	*parse_tree;
 
-	// while (read_line(&line))
 	if (1)
+	// while (read_line(&line))
 	{
-		line = "echo a && echo b || echo c | ls && echo dd";
+		line = "echo a && echo b | echo c && ls | ls";
+		// line = "echo a && echo b || echo c && echo dd";
 		add_history(line);
 		// if (!check_line(&line))
 		// 	continue ;
@@ -78,14 +79,13 @@ void main_loop(t_minishell *minishell)
 		// free(line);line = NULL;
 		token = lexer(token);
 		parse_tree = parser(token);
-		// printf("%s %s\n",parse_tree->token->value,parse_tree->token->next->value);
 		print_parse_tree(parse_tree, 0);
 		if (parse_tree)
 			executor(minishell, parse_tree);
-		/*free(parse_tree);
-		parse_tree = NULL;
-		free(token); token = NULL;*/
-	}(void)minishell;
+		// free(parse_tree);
+		// parse_tree = NULL;
+		// free(token); token = NULL;
+	} (void)minishell;
 	rl_clear_history();
 	return ;
 }

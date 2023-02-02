@@ -1,10 +1,11 @@
 #include "minishell.h"
 #include "exec.h"
 #include "lexer.h"
+#include "redirect.h"
 
 void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes, int fd[2])
 {
-	printf("in and node\n");
+	// printf("in and node\n");
 	if (pipe(fd) == ERR)
 		shell_exit(minishell, 1, "error");
 	lstadd_front(&pipes, lstnew(fd));
@@ -46,6 +47,14 @@ void	execute_pipe_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe 
 	pipes->right_flag = 1;
 	iterate_tree(minishell, parse_tree->right, pipes);
 }
+//리다이렉션 리스트 생성후 탐색
+// void	execute_redirect_node(t_minishell *minishell,t_parse_tree *parse_tree, t_pipe *pipes)
+// {
+// 	redir_lstadd_front(&minishell->redirect,
+// 		redir_lstnew(parse_tree->type, parse_tree->right->token->value));
+// 	if (parse_tree->left)
+// 		iterate_tree(minishell, parse_tree->left, pipes);
+// }
 
 void	handle_iteration(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
 {
@@ -71,4 +80,7 @@ void	handle_iteration(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *
 		execute_and_node(minishell, parse_tree, pipe, fd);
 	else if (parse_tree->type == LOGICAL_OR)
 		execute_or_node(minishell, parse_tree, pipe, fd);
+	// else if (parse_tree->type == INPUT || parse_tree->type == OUTPUT_OVER
+	// 	|| parse_tree->type ==  HERE_DOC || parse_tree->type ==  OUTPUT_APPEND)
+	// 	execute_redirect_node(minishell, parse_tree, pipe);
 }

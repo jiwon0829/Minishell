@@ -26,11 +26,4 @@ void	unset(t_minishell *minishell, char **arr)
             delete_envp(&(minishell->envp), arr[i]);
         ++i;
     }
-    printf("unset result(%d)\n", minishell->envp->cnt);//TODO
-	t_envp *node = minishell->envp;
-	while (node)
-	{
-		printf("%s=%s\n", node->key, node->value);
-		node = node->next;
-	}
 }

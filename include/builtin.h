@@ -2,6 +2,9 @@
 #include "minishell.h"
 #include "error_message.h"
 #include "types/t_cmd.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include "envp.h"
 
 #define AC_ZERO		200		//명령어 인자 개수가 0인 경우

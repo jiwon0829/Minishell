@@ -15,6 +15,8 @@ struct s_pipe
 {
 	int				fd[2];
 	struct s_pipe	*next;
+	int				left_flag;
+	int				right_flag;
 	// struct s_arg	*arg;
 	int				pid;
 	int				fdin;

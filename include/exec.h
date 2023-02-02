@@ -19,8 +19,8 @@
 #define REDIRERROR 139
 
 // command_list.c
-void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe);
-void	execute_or_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe);
+void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe, int fd[2]);
+void	execute_or_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe, int fd[2]);
 void	execute_pipe_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes, int fd[2]);
 void	handle_iteration(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe);
 

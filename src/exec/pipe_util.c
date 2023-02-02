@@ -81,7 +81,7 @@ char	*get_cmd_argv(char **path, char *cmd)
 void	get_cmd(t_minishell *minishell, t_arg *arg, t_parse_tree *parse_tree, char **envp)
 {
 	arg->path = get_path_envp(envp);
-	(void)parse_tree;
+	// (void)parse_tree;
 	// printf("%s\n",);
 	// arg->cmd_arg = ft_split(av, ' ');
 	arg->cmd_arg = make_cmd_arg(parse_tree);

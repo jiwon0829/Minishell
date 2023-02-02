@@ -2,20 +2,36 @@
 #include "exec.h"
 #include "lexer.h"
 
-void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
+void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes, int fd[2])
 {
-	// printf("in and node\n");
-	iterate_tree(minishell, parse_tree->left, pipe);
+	printf("in and node\n");
+	if (pipe(fd) == ERR)
+		shell_exit(minishell, 1, "error");
+	lstadd_front(&pipes, lstnew(fd));
+	pipes->left_flag = 1;
+
+	iterate_tree(minishell, parse_tree->left, pipes);
 	if (minishell->exit_status == 0)
-		iterate_tree(minishell, parse_tree->right, pipe);
+	{
+		pipes->right_flag = 1;
+		iterate_tree(minishell, parse_tree->right, pipes);
+	}
 }
 
-void	execute_or_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
+void	execute_or_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes, int fd[2])
 {
 	// printf("in or node\n");
-	iterate_tree(minishell, parse_tree->left, pipe);
+	if (pipe(fd) == ERR)
+		shell_exit(minishell, 1, "error");
+	lstadd_front(&pipes, lstnew(fd));
+	pipes->left_flag = 1;
+
+	iterate_tree(minishell, parse_tree->left, pipes);
 	if (minishell->exit_status != 0)
-		iterate_tree(minishell, parse_tree->right, pipe);
+	{
+		pipes->right_flag = 1;
+		iterate_tree(minishell, parse_tree->right, pipes);
+	}
 }
 
 void	execute_pipe_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes, int fd[2])
@@ -24,7 +40,10 @@ void	execute_pipe_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe 
 	if (pipe(fd) == ERR)
 		shell_exit(minishell, 1, "error");
 	lstadd_front(&pipes, lstnew(fd));
+	// printf("pipe: %d %d",pipes->fd[0],pipes->fd[1]);
+	pipes->left_flag = 1;
 	iterate_tree(minishell, parse_tree->left, pipes);
+	pipes->right_flag = 1;
 	iterate_tree(minishell, parse_tree->right, pipes);
 }
 
@@ -49,7 +68,7 @@ void	handle_iteration(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *
 		}
 	}
 	else if (parse_tree->type == LOGICAL_AND)
-		execute_and_node(minishell, parse_tree, pipe);
+		execute_and_node(minishell, parse_tree, pipe, fd);
 	else if (parse_tree->type == LOGICAL_OR)
-		execute_or_node(minishell, parse_tree, pipe);
+		execute_or_node(minishell, parse_tree, pipe, fd);
 }

@@ -1,8 +1,10 @@
 #include "minishell.h"
 #include "exec.h"
+#include "lexer.h"
 
 void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
 {
+	// printf("in and node\n");
 	iterate_tree(minishell, parse_tree->left, pipe);
 	if (minishell->exit_status == 0)
 		iterate_tree(minishell, parse_tree->right, pipe);
@@ -10,6 +12,7 @@ void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *
 
 void	execute_or_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
 {
+	// printf("in or node\n");
 	iterate_tree(minishell, parse_tree->left, pipe);
 	if (minishell->exit_status != 0)
 		iterate_tree(minishell, parse_tree->right, pipe);
@@ -17,6 +20,7 @@ void	execute_or_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *p
 
 void	execute_pipe_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes, int fd[2])
 {
+	// printf("in pipe node\n");
 	if (pipe(fd) == ERR)
 		shell_exit(minishell, 1, "error");
 	lstadd_front(&pipes, lstnew(fd));
@@ -40,12 +44,12 @@ void	handle_iteration(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *
 		else
 		{
 			minishell->exit_status = 1;
-			// exit_value_set(1);
+			exit_value_set(minishell, 1);
 			return ;
 		}
 	}
 	else if (parse_tree->type == LOGICAL_AND)
-		execute_or_node(minishell, parse_tree, pipe);
-	else if (parse_tree->type == LOGICAL_OR)
 		execute_and_node(minishell, parse_tree, pipe);
+	else if (parse_tree->type == LOGICAL_OR)
+		execute_or_node(minishell, parse_tree, pipe);
 }

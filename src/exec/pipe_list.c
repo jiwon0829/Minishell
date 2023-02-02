@@ -3,7 +3,7 @@
 
 t_pipe	*lstlast(t_pipe *lst)
 {
-	if (ft_lstsize(lst) == 0)
+	if (lstsize(lst) == 0)
 		return (NULL);
 	while (lst->next != NULL)
 		lst = lst->next;
@@ -16,7 +16,7 @@ void	lstadd_front(t_pipe **head, t_pipe *new)
 	*(head) = new;
 }
 
-t_pipe	*ft_lstnew(int *fd)
+t_pipe	*lstnew(int *fd)
 {
 	t_pipe	*lst;
 
@@ -27,4 +27,17 @@ t_pipe	*ft_lstnew(int *fd)
 	lst->fd[1] = fd[1];
 	lst->next = NULL;
 	return (lst);
+}
+
+int	lstsize(t_pipe *lst)
+{
+	int	counter;
+
+	counter = 0;
+	while (lst != NULL)
+	{
+		counter++;
+		lst = lst->next;
+	}
+	return (counter);
 }

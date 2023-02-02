@@ -42,9 +42,10 @@ t_pipe	*lstnew(int *fd);
 int	lstsize(t_pipe *lst);
  
 //pipe_util.c
+char	**make_cmd_arg(t_parse_tree *parse_tree);
 char	**get_path_envp(char *envp[]);
 char	*get_cmd_argv(char **path, char *cmd);
-void	get_cmd(t_minishell *minishell, t_arg *arg, char *av, char **envp);
+void	get_cmd(t_minishell *minishell, t_arg *arg, t_parse_tree *parse_tree, char **envp);
 
 //shell_exit.c
 void shell_err(t_minishell *minishell, int status, char *msg);

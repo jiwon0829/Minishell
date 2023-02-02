@@ -27,6 +27,8 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pip
 {
 	t_arg	arg;
 	
+	// printf("%s %s\n",parse_tree->token->value,parse_tree->token->next->value);
+
 	// printf("%s\n",parse_tree->token->next->value);
 	minishell->exit_status = 0;
 	char **envp;
@@ -34,7 +36,7 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pip
 	parse_tree->token->arg = &arg;
 	if (parse_tree->up != NULL)
 	{
-		get_cmd(minishell, parse_tree->token->arg, parse_tree->token->value, envp);
+		get_cmd(minishell, parse_tree->token->arg, parse_tree, envp);
 		close(pipe->fd[0]);
 		dup2(pipe->fd[1], STDOUT_FILENO);
 		close(pipe->fd[1]);
@@ -42,7 +44,7 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pip
 	}
 	else
 	{
-		get_cmd(minishell, parse_tree->token->arg, parse_tree->token->value, envp);
+		get_cmd(minishell, parse_tree->token->arg, parse_tree, envp);
 		run_program(parse_tree->token->arg, envp);
 	}
 	

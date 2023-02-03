@@ -22,14 +22,25 @@ void iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe
 
 void executor(t_minishell *minishell, t_parse_tree *parse_tree)
 {
-	t_pipe *pipe;
-	t_redirect *redir;
+	t_pipe			*pipe;
+	t_redirect		*redir;
 
+	// minishell->exit_status = 10;
 	pipe = NULL;
 	redir = NULL;
 	minishell->redirect = redir;
+
+	
+	// int stt[2];
+	// minishell->std_fdin = 0;
+	minishell->exit_fdin = dup(STDIN_FILENO);
+	minishell->exit_fdout = dup(STDOUT_FILENO);
+	// minishell->redirect->fd[0] = stt[0];
+	// minishell->stdfd[1] = stt[1];
+
+
 	//히어독,(히어독확장)
 	iterate_tree(minishell, parse_tree, pipe);
-
+	// printf("finish\n");
 	free(pipe);
 }

@@ -11,6 +11,8 @@ typedef struct s_cmd_tbl t_cmd_tbl;
 struct s_minishell
 {
 	int			exit_status;
+	int			exit_fdin;
+	int			exit_fdout;
 	t_envp		*envp;
 	t_cmd_tbl	*cmd_tbl;
 	t_redirect	*redirect;

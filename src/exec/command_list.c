@@ -12,6 +12,7 @@ void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *
 	pipes->left_flag = 1;
 
 	iterate_tree(minishell, parse_tree->left, pipes);
+	dup2(minishell->exit_fdin,STDIN_FILENO);
 	if (minishell->exit_status == 0)
 	{
 		pipes->right_flag = 1;
@@ -28,6 +29,7 @@ void	execute_or_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *p
 	pipes->left_flag = 1;
 
 	iterate_tree(minishell, parse_tree->left, pipes);
+	dup2(minishell->exit_fdin,STDIN_FILENO);
 	if (minishell->exit_status != 0)
 	{
 		pipes->right_flag = 1;

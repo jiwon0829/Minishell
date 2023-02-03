@@ -77,8 +77,8 @@ void main_loop(t_minishell *minishell)
 		token = lexer(token);
 		parse_tree = parser(token);
 		// printf("%s %s\n",parse_tree->token->value,parse_tree->token->next->value);
-		if (parse_tree)
-			executor(minishell, parse_tree);
+		if (parse_tree)print_parse_tree(parse_tree, 0);
+			//executor(minishell, parse_tree);
 		// print_parse_tree(parse_tree, 0);
 		/*free(parse_tree);
 		parse_tree = NULL;

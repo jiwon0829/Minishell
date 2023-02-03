@@ -13,20 +13,34 @@
 
 void iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
 {
-	// redirection(parse_tree);
-	// expander(parse_tree);
-	// setting_pipe(parse_tree);
+	// expander(parse_tree); -> 해야함
+	// redirection(parse_tree); -> handle_iteration에서했음
+	// setting_pipe(parse_tree); ->따로 할거없음
 	handle_iteration(minishell, parse_tree, pipe);
-	// exit_value_set(minishell, minishell->exit_status);
+	// exit_value_set(minishell, minishell->exit_status); ->내부에서 되고있음
 }
 
 void executor(t_minishell *minishell, t_parse_tree *parse_tree)
 {
-	t_pipe *pipe;
+	t_pipe			*pipe;
+	t_redirect		*redir;
+
+	// minishell->exit_status = 10;
 	pipe = NULL;
+	redir = NULL;
+	minishell->redirect = redir;
 
-	//히어독,
+	
+	// int stt[2];
+	// minishell->std_fdin = 0;
+	minishell->exit_fdin = dup(STDIN_FILENO);
+	minishell->exit_fdout = dup(STDOUT_FILENO);
+	// minishell->redirect->fd[0] = stt[0];
+	// minishell->stdfd[1] = stt[1];
+
+
+	//히어독,(히어독확장)
 	iterate_tree(minishell, parse_tree, pipe);
-
+	// printf("finish\n");
 	free(pipe);
 }

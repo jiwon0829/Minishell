@@ -81,8 +81,8 @@ void print_parse_tree(t_parse_tree *parse_tree, int level)
 {
 	printf("level%d root(%d)\t", level, parse_tree->type);
 	print_node(parse_tree->token);
-	if (parse_tree->left)
-		print_parse_tree(parse_tree->left, level + 1);
-	if (parse_tree->right)
-		print_parse_tree(parse_tree->right, level + 1);
+	if (parse_tree->left){printf("left>>");
+		print_parse_tree(parse_tree->left, level + 1);}
+	if (parse_tree->right){printf("right>>");
+		print_parse_tree(parse_tree->right, level + 1);}
 }

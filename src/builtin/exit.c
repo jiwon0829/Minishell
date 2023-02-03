@@ -1,20 +1,22 @@
 #include "builtin.h"
+#include "error_message.h"
 
 int is_valid_value(char **arr)
 {
+    int i;
+
     if (!arr[1])
         return (EXIT_NO);
-    //if (!ft_isalnum(arr[1]))
-    //    return (EXIT_NON_NUM);
     if (arr[2])
         return (EXIT_MANY);
-    return (ft_atoi(arr[1]));
-}
-
-void    exit_message(int status)
-{
-    printf("exit\n");
-    exit(status);
+    i = 0;
+    while (arr[1][i])
+        if (!ft_isdigit(arr[1][i++]))
+            return (EXIT_NON_NUM);
+    i = ft_atoi(arr[1]);
+    //if (i == 0)
+    //    return (EXIT_NON_NUM);
+    return (i);
 }
 
 void    ft_exit(t_minishell *minishell, char **arr)
@@ -22,15 +24,26 @@ void    ft_exit(t_minishell *minishell, char **arr)
     int state;
 
     state = is_valid_value(arr);
-    if (state == EXIT_NO)
-        exit_message(minishell->exit_status);
+    if(state == EXIT_MANY)
+    {
+        exit_argment_cnt_error();
+        minishell->exit_status = 255;
+        return ;
+    }
     else if (state == EXIT_NON_NUM)
     {
-        printf("non numberic\n");
-        exit(255);
+        exit_argment_error(arr[1]);
+        minishell->exit_status = 255;
     }
-    else if(state == EXIT_MANY)
-        exit_message(EXIT_MANY);
+    else if (state == EXIT_NO)
+    {
+        ft_putstr_fd("exit\n", 2);
+        minishell->exit_status = 0;
+    }
     else
-        exit_message(state);
+    {
+        ft_putstr_fd("exit\n", 2);
+        minishell->exit_status = state;
+    }
+    exit(minishell->exit_status);
 }

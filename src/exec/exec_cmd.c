@@ -6,23 +6,10 @@
 #include "stdio.h"
 #include "lexer.h"
 #include "redirect.h"
-
-// static int check_builtin(t_cmd_tbl *cmd_tbl, const char *cmd)
-// {
-// 	int	i;
-
-// 	i = -1;
-// 	while (++i < cmd_tbl->max_element)
-// 	{
-// 		if (ft_strncmp(get_cmd->cmd[i].cmd, cmd, ft_strlen(cmd)) == 0)
-// 			return (TRUE);
-// 	}
-// 	return (FALSE);
-// }
+#include "builtin.h"
 
 void	run_program(t_arg *arg, char **envp)
 {
-	
 		execve(arg->cmd, arg->cmd_arg, envp); //실패하면 리턴값 -1
 }
 
@@ -113,16 +100,18 @@ void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pi
 
 void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 {
-	int status;
-	// 빌트인함수일때
-	// if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
-	// {
-	// 	ft_execve(minishell, minishell->cmd_tbl, cmds);
-	// 	exit(1);
-	// }
+	char **cmds;
 
+	if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
+	{
+		cmds = make_cmd_arg(parse_tree);
+		ft_execve(minishell, minishell->cmd_tbl, cmds);
+		printf(">>>exit status (%d)<<<\n", minishell->exit_status);
+		while (*cmds)
+			free(*cmds++);
+	}
 	//명령어 2개 이상일때
-	if (pipes)
+	else if (pipes)
 	{
 		// printf("pipee\n");
 		pipes->pid = fork();

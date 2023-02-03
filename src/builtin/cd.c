@@ -101,12 +101,10 @@ void	go_to_new(t_envp *envp, char *path)
 
 void	cd(t_minishell *minishell, char **arr)
 {
-	printf(">>Before\nHOME=%s\nPWD=%s\nOLDPWD=%s\n", find_value(minishell->envp, "HOME")->value, find_value(minishell->envp, "PWD")->value, find_value(minishell->envp, "OLDPWD")->value);
 	if (!arr[1])
 		go_to_home(minishell->envp);
 	else if (!ft_strncmp(arr[1], "-", 1))
 		go_to_oldpwd(minishell->envp);
 	else
 		go_to_new(minishell->envp, arr[1]);
-	printf(">>After\nHOME=%s\nPWD=%s\nOLDPWD=%s\n", find_value(minishell->envp, "HOME")->value, find_value(minishell->envp, "PWD")->value, find_value(minishell->envp, "OLDPWD")->value);
 }

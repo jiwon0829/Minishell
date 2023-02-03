@@ -10,7 +10,8 @@ int  find_head_from_tail(t_token *tail, t_token **find, int type)
 			++parenthesis_cnt;
 		else if (tail->type == PRNTH_RIGHT)
 			--parenthesis_cnt;
-		if ((tail->type == type) && !parenthesis_cnt)
+		if (((type == LOGICAL && (tail->type == LOGICAL_AND || tail->type == LOGICAL_OR)) \
+			|| (tail->type == type)) && !parenthesis_cnt)
 		{
 			*find = tail;
 			return (TRUE);
@@ -69,7 +70,7 @@ void parse_token(t_parse_tree **parse_tree, t_token **tail, t_parse_tree *prev_t
 	t_token *find;
 	
 	check_parenthesis(parse_tree, tail);
-	if (find_head_from_tail(*tail, &find, LOGICAL_OR) == TRUE || find_head_from_tail(*tail, &find, LOGICAL_AND) == TRUE)
+	if (find_head_from_tail(*tail, &find, LOGICAL) ==TRUE)
 		insert_tree(parse_tree, find, prev_tree);
 	else if (find_head_from_tail(*tail, &find, PIPE) == TRUE)
 		insert_tree(parse_tree, find, prev_tree);

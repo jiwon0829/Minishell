@@ -20,7 +20,7 @@
 # define SEPAR_MORE 14
 # define SEPAR_LESS 15
 # define SEPAR_PIPE 16
-
+# define LOGICAL 17
 
 //lexer.c
 // t_token	*lexer(t_minishell *minishell, char *input);

@@ -1,5 +1,12 @@
 #include "parser.h"
 
+static int is_redir(int type)
+{
+	if (type >= 3 && type <= 6)
+		return (1);
+	return (0);
+}
+
 int  find_head_from_tail(t_token *tail, t_token **find, int type)
 {
 	int parenthesis_cnt = 0;
@@ -11,7 +18,7 @@ int  find_head_from_tail(t_token *tail, t_token **find, int type)
 		else if (tail->type == PRNTH_RIGHT)
 			--parenthesis_cnt;
 		if (((type == LOGICAL && (tail->type == LOGICAL_AND || tail->type == LOGICAL_OR)) \
-			|| (tail->type == type)) && !parenthesis_cnt)
+			|| (tail->type == type) || (type == REDIR && is_redir(tail->type))) && !parenthesis_cnt)
 		{
 			*find = tail;
 			return (TRUE);
@@ -76,9 +83,10 @@ void parse_token(t_parse_tree **parse_tree, t_token **tail, t_parse_tree *prev_t
 		insert_tree(parse_tree, find, prev_tree);
 	//else if (find_head_from_tail(*tail, &find, SEMC) == TRUE || find_head_from_tail(*tail, &find, DSEM) == TRUE)
 	//	insert_tree(parse_tree, find, prev_tree);
-	else if (find_head_from_head((get_head_token(*tail)), &find, INPUT) == TRUE || find_head_from_head((get_head_token(*tail)), &find, OUTPUT_OVER) == TRUE \
-			|| find_head_from_head((get_head_token(*tail)), &find, HERE_DOC) == TRUE || find_head_from_head((get_head_token(*tail)), &find, OUTPUT_APPEND) == TRUE)
+	else if (find_head_from_head((get_head_token(*tail)), &find, REDIR) == TRUE)
 		insert_tree(parse_tree, find, prev_tree);
+	//else if (find_head_from_head((get_head_token(*tail)), &find, INPUT) == TRUE || find_head_from_head((get_head_token(*tail)), &find, OUTPUT_OVER) == TRUE \
+	//		|| find_head_from_head((get_head_token(*tail)), &find, HERE_DOC) == TRUE || find_head_from_head((get_head_token(*tail)), &find, OUTPUT_APPEND) == TRUE)
 	else if (!(*parse_tree) && *tail)
 	{
 		*parse_tree = init_parse_tree();

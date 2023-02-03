@@ -101,6 +101,7 @@ void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pi
 void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 {
 	char **cmds;
+	int status;
 
 	if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
 	{

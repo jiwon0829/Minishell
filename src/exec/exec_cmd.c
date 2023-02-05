@@ -153,10 +153,10 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 		}
 		// 	parent_process(minishell, parse_tree, pipes);
 	}
-	if(pipes->right_flag == 1)
+	/*if(pipes->right_flag == 1)
 	{
 		pipes = pipes->next;
 		// printf("pipe move\n");
-	}
+	}*/
 		// printf("pipes!?: %d %d\n",pipes->fd[0],pipes->fd[1]);
 }

@@ -48,6 +48,7 @@ void    ft_exit(t_minishell *minishell, char **arr)
 	{
 		exit_argment_cnt_error();
 		minishell->exit_status = 255;
+		return ;
 	}
 	else if (!arr[1])
 	{

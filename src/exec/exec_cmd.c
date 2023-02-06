@@ -61,7 +61,7 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pip
 		close(pipe->fd[1]);
 		// handle_redirects(minishell);
 		redir_dup(minishell, minishell->redirect);
-		printf("exec_cmd go2\n");
+		printf("final fd(%d\t%d)\n",STDIN_FILENO , STDOUT_FILENO);
 
 		run_program(parse_tree->token->arg, envp);
 	}
@@ -113,6 +113,15 @@ void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pi
 
 }
 
+static void print_redir_list(t_redirect *head)
+{
+	while (head)
+	{
+		printf("(%d\t%d)\n", head->fd[0], head->fd[1]);
+		head = head->next;
+	}
+	printf("\n");
+}
 
 void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 {
@@ -120,6 +129,7 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 	int status;
 
 	set_redirect(minishell, parse_tree);
+	print_redir_list(minishell->redirect);
 	set_cmd(minishell, parse_tree);
 	if (minishell->redirect)
 		printf("exec_cmd redir str:%s\n", minishell->redirect->file_name);

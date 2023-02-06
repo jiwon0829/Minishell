@@ -3,6 +3,17 @@
 #include "lexer.h"
 #include "redirect.h"
 
+static void print_redir_list(t_redirect *head)
+{
+	while (head)
+	{
+		printf("(%d\t%d)\n", head->fd[0], head->fd[1]);
+		head = head->next;
+	}
+	printf("\n");
+}
+
+
 void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes, int fd[2])
 {
 	// printf("in and node\n");
@@ -13,6 +24,9 @@ void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *
 
 	iterate_tree(minishell, parse_tree->left, pipes);
 	dup2(minishell->exit_fdin,STDIN_FILENO);
+	printf("--------------\n");
+	print_redir_list(minishell->redirect);
+	printf("--------------\n");
 	if (minishell->exit_status == 0)
 	{
 		pipes->right_flag = 1;

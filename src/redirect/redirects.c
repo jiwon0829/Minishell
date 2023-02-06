@@ -127,7 +127,7 @@ void set_redirect(t_minishell *minishell, t_parse_tree *parse_tree)
 			else if (tmp_token->type == OUTPUT_APPEND) //6
 				handle_append_redirect(minishell, redirect);
 			// printf("fd : %d\n", redirect->fd[0]);
-			printf("here_fd: %d\n",minishell->heredoc->fd[0]);
+			// printf("here_fd: %d\n",minishell->heredoc->fd[0]);
 			// printf("fd : %d\n", redirect->fd[1]);
 			//redire (reset되었는지) 비어있는지 체크
 			if (minishell->redirect)

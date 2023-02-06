@@ -30,6 +30,7 @@ static t_redirect	*re_lstlast(t_redirect *lst)
 	return (lst);
 }
 
+
 void redir_dup(t_minishell *minishell, t_redirect *redirect)
 {
 	printf("in redir_dup\n");

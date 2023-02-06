@@ -95,8 +95,8 @@ void	get_cmd(t_minishell *minishell, t_arg *arg, t_parse_tree *parse_tree, char 
 	if (arg->cmd_arg == NULL)
 		shell_exit(minishell, 1, "error");
 	arg->cmd = get_cmd_argv(arg->path, arg->cmd_arg[0]);
-	if (arg->cmd == NULL )
-		shell_exit(minishell, 1, "error3");
+	// if (arg->cmd == NULL )
+	// 	shell_exit(minishell, 1, "error3");
 	// printf("%s\n",arg->cmd_arg[1]);
 	
 }

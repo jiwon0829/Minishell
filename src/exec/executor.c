@@ -1,5 +1,7 @@
 #include "minishell.h"
 #include "exec.h"
+#include "heredoc.h"
+#include "redirect.h"
 
 
 // t_pipe *setting_pipe(t_parse_tree *parse_tree)
@@ -40,6 +42,20 @@ void executor(t_minishell *minishell, t_parse_tree *parse_tree)
 
 
 	//히어독,(히어독확장)
+	// minishell->redirect = NULL;
+
+	minishell->heredoc = NULL;
+	//minishell->heredoc = init_heredoc(minishell);
+	// printf("parse %s\n",parse_tree->left->token->value);
+	// exit(0);
+	exec_heredoc(minishell, parse_tree);
+	// set_redirect(minishell, parse_tree);
+	// if (minishell->redirect)
+	// 	printf("fd : %d\n",minishell->redirect->fd[0]);
+
+	printf("after set_redir\n");
+	if (minishell->redirect)
+		printf("redir str:%s\n",minishell->redirect->file_name);
 	iterate_tree(minishell, parse_tree, pipe);
 	// printf("finish\n");
 	free(pipe);

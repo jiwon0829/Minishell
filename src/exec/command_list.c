@@ -63,6 +63,10 @@ void	handle_iteration(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *
 	int	fd[2];
 	parse_tree->token->fd_in = 0;
 	parse_tree->token->fd_out = 0;
+	//printf("token val :%s\n", parse_tree->token->value);
+	//printf("token type :%d\n", parse_tree->type);
+
+	//printf("after set_redir-iteration\n");
 
 	if (parse_tree->type == PIPE)
 		execute_pipe_node(minishell, parse_tree, pipe, fd);
@@ -74,6 +78,8 @@ void	handle_iteration(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *
 		else
 		{
 			minishell->exit_status = 1;
+	//printf("after set_redir-iteration2\n");
+
 			exit_value_set(minishell, 1);
 			return ;
 		}

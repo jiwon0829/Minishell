@@ -16,7 +16,8 @@ void	run_program(t_arg *arg, char **envp)
 void	child_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
 {
 	t_arg	arg;
-	
+	char **envp;
+	printf("in child proc\n");
 	// printf("%s %s\n",parse_tree->token->value,parse_tree->token->next->value);
 
 	// printf("%s\n",parse_tree->token->next->value);
@@ -25,13 +26,14 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pip
 	// printf("pipe_leftflag: %d pipe_rightflag : %d\n", pipe->left_flag, pipe->right_flag);
 	
 	minishell->exit_status = 0;
-	char **envp;
 	envp = envp_to_dptr(minishell->envp);
 	parse_tree->token->arg = &arg;
 	if (parse_tree->up != NULL)
 	{
 		// printf("inchild\n");
 		get_cmd(minishell, parse_tree->token->arg, parse_tree, envp);
+		if (parse_tree->token == NULL)
+			exit (0);
 		close(pipe->fd[0]);
 		//다음 파이프가 있고, pipe->right노드, pipe명령중일때
 		if((pipe->next != NULL && pipe->right_flag == 1) && parse_tree->up->type == PIPE)
@@ -58,16 +60,29 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pip
 		// }
 		close(pipe->fd[1]);
 		// handle_redirects(minishell);
+		redir_dup(minishell, minishell->redirect);
+		printf("exec_cmd go2\n");
+
 		run_program(parse_tree->token->arg, envp);
 	}
 	else
 	{
 		// printf("단일명령\n");
 		get_cmd(minishell, parse_tree->token->arg, parse_tree, envp);
+		// handle_redirects(minishell);
+	// if (minishell->redirect)
+	// {
+	// 	printf("fd : %d\n",minishell->redirect->fd[0]);
+	// 	printf("fd : %s\n",minishell->redirect->file_name);
+	// }
+		redir_dup(minishell, minishell->redirect);
+	printf("exec_cmd go3\n");
+
 		run_program(parse_tree->token->arg, envp);
 	}
 	
 	minishell->exit_status = 1;
+	printf("exec_cmd fail\n");
 	shell_exit(minishell, 1, "error2");
 }
 
@@ -92,6 +107,7 @@ void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pi
 		// printf("mini->fdstin : %d",minishell->exit_fdin);
 		dup2(minishell->exit_fdin,STDIN_FILENO);//이건 부모에서 해야하네 마지막명령에서
 	}
+	minishell->redirect = NULL;//free redirect
 	// else if((pipe->next == NULL && pipe->right_flag == 1))
 	//근데 리다이렉션있을때는 parse_tree->up->type 이 리다이렉션이네 해결해야함	
 
@@ -103,6 +119,22 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 	char **cmds;
 	int status;
 
+	set_redirect(minishell, parse_tree);
+	set_cmd(minishell, parse_tree);
+	if (minishell->redirect)
+		printf("exec_cmd redir str:%s\n", minishell->redirect->file_name);
+	// while (parse_tree->token)
+	// {
+	// 	printf("set_cmd: %s \n",parse_tree->token->value);
+	// 	parse_tree->token = parse_tree->token->next;
+	// }
+	printf("after set cmd\n");
+	if (parse_tree->token == NULL)
+	{
+		printf("token is NULL\n");
+		return ;
+	}
+	// printf("cmd : %s\n", parse_tree->token->value);
 	if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
 	{
 		cmds = make_cmd_arg(parse_tree);
@@ -112,6 +144,7 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 			free(*cmds++);
 	}
 	//명령어 2개 이상일때
+	// if (pipes)
 	else if (pipes)
 	{
 		// printf("pipee\n");
@@ -153,7 +186,7 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 		}
 		// 	parent_process(minishell, parse_tree, pipes);
 	}
-	if(pipes->right_flag == 1)
+	if(pipes && pipes->right_flag == 1)
 	{
 		pipes = pipes->next;
 		// printf("pipe move\n");

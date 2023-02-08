@@ -29,4 +29,5 @@ void	init(t_minishell *minishell, char *envp[])
 	setting_shlvl(minishell->envp);
 	minishell->redirect = NULL;
 	minishell->heredoc = NULL;
+	minishell->heredoc_cnt = 0;
 }

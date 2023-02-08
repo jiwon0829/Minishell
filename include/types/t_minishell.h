@@ -14,6 +14,7 @@ struct s_minishell
 	int			exit_status;
 	int			exit_fdin;
 	int			exit_fdout;
+	int			heredoc_cnt;
 	t_envp		*envp;
 	t_cmd_tbl	*cmd_tbl;
 	t_redirect	*redirect;

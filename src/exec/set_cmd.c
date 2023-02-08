@@ -27,7 +27,7 @@ void set_cmd(t_minishell *minishell, t_parse_tree *parse_tree)
 	// int		redir_flag;
 	t_token *tmp_token;
 
-	printf ("in set_cmd\n");
+	printf ("\n----in set_cmd----\n");
 	(void)minishell;
 	// redir_flag = 0;
 	if (parse_tree->token->type == WORD)
@@ -36,7 +36,7 @@ void set_cmd(t_minishell *minishell, t_parse_tree *parse_tree)
 	{
 		while(parse_tree->token )
 		{
-			printf ("in set_cmd4\n");
+			printf ("check token, move next\n");
 
 			if(parse_tree->token->type >= INPUT && parse_tree->token->type <= OUTPUT_APPEND)
 				parse_tree->token = parse_tree->token->next->next;
@@ -56,7 +56,7 @@ void set_cmd(t_minishell *minishell, t_parse_tree *parse_tree)
 	// 		parse_tree->token = parse_tree->token->next;
 	// 	}
 	// }
-	printf ("in set_cmd2\n");
+	// printf ("in set_cmd2\n");
 
 	while(parse_tree->token)
 	{
@@ -68,16 +68,20 @@ void set_cmd(t_minishell *minishell, t_parse_tree *parse_tree)
 		// else 
 		if (parse_tree->token->type >= INPUT && parse_tree->token->type <= OUTPUT_APPEND)
 		{
-			printf("while trr\n");
+			// printf("while trr\n");
 			parse_tree->token->prev->next = NULL;
-			printf("val:%s\n",parse_tree->token->value);
+			printf("del set value next token value: %s\n",parse_tree->token->prev->value);
 			break;
 		}
 		else
 			parse_tree->token = parse_tree->token->next;
 	}
-	printf ("in set_cmd3\n");
+	// printf ("in set_cmd3\n");
 	parse_tree->token = tmp_token;
+	if (parse_tree->token)
+		printf(" double check cur token value: %s\n",parse_tree->token->value);
+	printf ("\n----finish set_cmd----\n");
+
 	// while(parse_tree->token && parse_tree->token->prev)
 	// 	parse_tree->token = parse_tree->token->prev;
 

@@ -5,8 +5,12 @@
 #include "t_cmd.h"
 #include "stdio.h"
 #include "lexer.h"
-#include "error_message.h"
+#include "redirect.h"
+#include "builtin.h"
+#include "test_code.h"
 
+
+#include <errno.h>
 
 static int	re_lstsize(t_redirect *lst)
 {
@@ -33,7 +37,9 @@ static t_redirect	*re_lstlast(t_redirect *lst)
 
 void redir_dup(t_minishell *minishell, t_redirect *redirect)
 {
-	printf("in redir_dup\n");
+	printf("----in redir_dup----\n");
+		print_redir_list(minishell->redirect);
+
 	(void)minishell;
 	if (redirect == NULL)
 	{
@@ -42,31 +48,64 @@ void redir_dup(t_minishell *minishell, t_redirect *redirect)
 	}
 	while (redirect)
 	{
-		printf ("redirec while one\n");
+		printf ("\nredirec dup2 while 1\n");
 		printf("str :%s\n",redirect->file_name);
 		if (redirect->type == INPUT) //3
 		{
 			printf("fd< : %d\n", redirect->fd[0]);
-			dup2(redirect->fd[0], STDIN_FILENO);
+			// ret =dup2(minishell->exit_fdin, STDIN_FILENO);
+
+			int ret;
+			ret = dup2(redirect->fd[0], STDIN_FILENO);
+			if (ret == -1)
+			{
+				perror("dup2");
+				printf("errno : %d open failed : %s\n",errno, strerror(errno));
+
+			}
+			printf("!after dup2 fd[ret]: %d ,dup2 fd[0]: %d \n",ret,redirect->fd[0]);
+			printf("redir str : %s\n",redirect->file_name);
 			close(redirect->fd[0]);
+			// printf("close -> fd< : %d\n", redirect->fd[0]);
+			
+			// printf("close -> fd< :???\n");
+
+			printf("close -> fd< : %d\n", redirect->fd[0]);
+
+			// printf("test after dup2 msg fd : %d\n", STDIN_FILENO);
+			// write(STDOUT_FILENO, "hi", 2);
+
 		}
 		else if (redirect->type == OUTPUT_OVER)//4
 		{
 			printf("fd> : %d\n", redirect->fd[1]);
-			dup2(redirect->fd[1], STDOUT_FILENO);
+			int ret;
+			// dup2(minishell->exit_fdin, STDIN_FILENO);
+
+			ret = dup2(redirect->fd[1], STDOUT_FILENO);
+			printf("!?after dup2 fd[ret]: %d ,dup2 fd[0]: %d ",ret,redirect->fd[1]);
 			close(redirect->fd[1]);
+			// printf("test after dup2 msg fd : %d\n", STDIN_FILENO);
 		}
 		else if (redirect->type == HERE_DOC)    //5
 		{
 			printf("fd<< : %d\n", minishell->heredoc->fd[0]);
-			dup2(minishell->heredoc->fd[0], STDIN_FILENO);
+			int ret;
+			ret = dup2(minishell->heredoc->fd[0], STDIN_FILENO);
+			printf("!?after dup2(here) fd[ret]: %d ,dup2 fd[0]: %d ",ret,redirect->fd[1]);
+
 			close(minishell->heredoc->fd[0]);
 			minishell->heredoc = minishell->heredoc->next;
 		}
 		else if (redirect->type == OUTPUT_APPEND) //6
 		{
 			printf("fd>> : %d\n", redirect->fd[1]);
-			dup2(redirect->fd[1], STDOUT_FILENO);
+			int ret;
+			ret = dup2(redirect->fd[1], STDOUT_FILENO);
+			printf("!?after_append dup2 fd[ret]: %d ,dup2 fd[0]: %d ",ret,redirect->fd[1]);
+			
+			
+			// dup2(redirect->fd[1], STDOUT_FILENO);
 			close(redirect->fd[1]);
 		}
 		redirect = redirect->next;
@@ -79,6 +118,8 @@ void redir_dup(t_minishell *minishell, t_redirect *redirect)
 
 		// dup2(redirect->fd[1], STDOUT_FILENO);
 	// close(redirect->fd[1]);
+	printf("\n----finish redir_dup----\n");
+
 }
 
 void	redir_lstadd_back(t_redirect **head, t_redirect *new)

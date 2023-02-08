@@ -15,11 +15,37 @@
 
 void iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
 {
+	int	i;
+
+	i = 0;
 	// expander(parse_tree); -> 해야함
 	// redirection(parse_tree); -> handle_iteration에서했음
 	// setting_pipe(parse_tree); ->따로 할거없음
 	handle_iteration(minishell, parse_tree, pipe);
 	// exit_value_set(minishell, minishell->exit_status); ->내부에서 되고있음
+
+	//자식프로세스에서 사용한 heredoc 이동시켜서 최신화
+		// printf("2finish!@!@!@!@!@!@!@\n");
+
+	// while (parse_tree->token && parse_tree->token->prev)
+	// 	parse_tree->token=parse_tree->token->prev;
+	if (parse_tree->type == 0)
+	{
+		printf("heredoc_cnt : %d \n\n\n",minishell->heredoc_cnt);
+		while (i < minishell->heredoc_cnt)
+		{
+			// if (parse_tree->token->type == HERE_DOC)
+			// {
+				if (minishell->heredoc)
+					minishell->heredoc = minishell->heredoc->next;
+				printf("heredoc passing \n");
+			// }
+			// parse_tree->token = parse_tree->token->next;
+			i++;
+		}
+		if (minishell->heredoc)
+			printf("heredoc 재배치! fd[0] = %d \n", minishell->heredoc->fd[0]);
+	}
 }
 
 void executor(t_minishell *minishell, t_parse_tree *parse_tree)
@@ -53,10 +79,11 @@ void executor(t_minishell *minishell, t_parse_tree *parse_tree)
 	// if (minishell->redirect)
 	// 	printf("fd : %d\n",minishell->redirect->fd[0]);
 
-	printf("after set_redir\n");
-	if (minishell->redirect)
-		printf("redir str:%s\n",minishell->redirect->file_name);
+	// printf("after set_redir\n");
+	// if (minishell->redirect)
+	// 	printf("redir str:%s\n",minishell->redirect->file_name);
 	iterate_tree(minishell, parse_tree, pipe);
-	// printf("finish\n");
+
+	printf("finish!@!@!@!@!@!@!@\n");
 	free(pipe);
 }

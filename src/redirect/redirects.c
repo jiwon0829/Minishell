@@ -13,6 +13,14 @@ void	handle_input_redirect(t_minishell *minishell, t_redirect *redirect)
 {
 	printf("in_input_redir\n");
 	redirect->fd[0] = open(redirect->file_name, O_RDONLY);
+	// int ret = dup2(redirect->fd[0], 0);
+	// printf ("check dup2 ret : %d\n", ret);
+	// exit (0);
+	// printf("open 잘 되 었 나 ? ? redirect->fd[0] :%d \n",redirect->fd[0]);
+	// redirect->fd[0] = open(redirect->file_name, O_RDONLY);
+	// printf("open 잘 되 었 나 ? ? redirect->fd[0] :%d \n",redirect->fd[0]);
+
+
 	printf("fd : %d\n", redirect->fd[0]);
 	if (redirect->fd[0] == ERR)
 	{
@@ -29,7 +37,7 @@ void	handle_output_redirect(t_minishell *minishell, t_redirect *redirect)
 {
 	printf("in_output_redir\n");
 
-	redirect->fd[1] = open(redirect->file_name, O_RDWR | O_TRUNC | O_CREAT, 0777);
+	redirect->fd[1] = open(redirect->file_name, O_RDWR | O_TRUNC | O_CREAT, 0666);
 	printf("fd : %d\n", redirect->fd[1]);
 	
 	if (redirect->fd[1] == ERR)
@@ -61,7 +69,7 @@ void	handle_append_redirect(t_minishell *minishell, t_redirect *redirect)
 {
 	printf("in_append_redir\n");
 
-	redirect->fd[1] = open(redirect->file_name, O_RDWR | O_APPEND | O_CREAT, 0777);
+	redirect->fd[1] = open(redirect->file_name, O_RDWR | O_APPEND | O_CREAT, 0666);
 	if (redirect->fd[1] == ERR)
 	{
 		err_massage(minishell, 1, redirect->file_name); //메세지 비교후 수정
@@ -74,12 +82,14 @@ void	handle_append_redirect(t_minishell *minishell, t_redirect *redirect)
 void	handle_redirects(t_minishell *minishell)
 {
 	// t_redirect	*redirect;
-	printf("in_handle_redir\n");
+	printf("----in_handle_redir----\n");
 	// redirect = redir_lstnew(token->type, token->next->value);
 	if(minishell->redirect)
 	{
+		printf("-----지금 리다이렉션 리스트있으면-----");
 		printf("str:%s type:%d\n",minishell->redirect->file_name,minishell->redirect->type);
 		printf("fd: %d fd:%d \n",minishell->redirect->fd[0],minishell->redirect->fd[1]);
+		printf("---------------------");
 	}
 	while (minishell->redirect)
 	{
@@ -96,6 +106,8 @@ void	handle_redirects(t_minishell *minishell)
 		else if (minishell->redirect->type == OUTPUT_APPEND) //6
 			handle_append_redirect(minishell, minishell->redirect);
 		minishell->redirect = minishell->redirect->next;
+	printf("----finish_handle_redir----\n");
+
 	}
 }
 
@@ -103,7 +115,13 @@ void set_redirect(t_minishell *minishell, t_parse_tree *parse_tree)
 {
 	t_token	 *tmp_token;
 	t_redirect *redirect;
-	printf ("in_set_redir\n");
+
+	minishell->heredoc_cnt = 0;
+	printf ("---in_set_redir----\n");
+	if (!minishell->redirect)
+		printf("minishell->redirect is NULL\n");
+	else
+		printf("minishell->redirect is exis\n");
 	// t_redirect	*redirect;
 
 	// redirect = redir_lstnew(tmp_token->type, tmp_token->next->value);
@@ -123,28 +141,28 @@ void set_redirect(t_minishell *minishell, t_parse_tree *parse_tree)
 			else if (tmp_token->type == OUTPUT_OVER)//4
 				handle_output_redirect(minishell, redirect);
 			else if (tmp_token->type == HERE_DOC)    //5
-				;
+				minishell->heredoc_cnt++;
 			else if (tmp_token->type == OUTPUT_APPEND) //6
 				handle_append_redirect(minishell, redirect);
 			// printf("fd : %d\n", redirect->fd[0]);
 			// printf("here_fd: %d\n",minishell->heredoc->fd[0]);
 			// printf("fd : %d\n", redirect->fd[1]);
 			//redire (reset되었는지) 비어있는지 체크
+			redir_lstadd_back(&(minishell->redirect), redirect);
 			if (minishell->redirect)
-				printf("before str%s\n",minishell->redirect->file_name);
+				printf("fitst redir str %s\n",minishell->redirect->file_name);
 			else
 				printf("redire empty\n");
-			redir_lstadd_back(&(minishell->redirect), redirect);
 			//printf("lstadd fd: %d\n",minishell->redirect->fd[0]);
 			tmp_token = tmp_token->next->next;
 		}
 		else
 		{
-			printf("set redir else\n");
+			printf("cur token is not redir\n");
 			tmp_token = tmp_token->next;
 		}
 	}
-	printf("ff\n");
+	printf("----finish set_redir----\n");
 	// while(minishell->redirect)
 	// {
 	// 	// printf("redir type :%d\n", minishell->redirect->type);

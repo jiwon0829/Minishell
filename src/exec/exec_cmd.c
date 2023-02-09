@@ -150,4 +150,5 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 	{
 		pipes = pipes->next;
 	}
+
 }

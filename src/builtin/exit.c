@@ -1,49 +1,69 @@
 #include "builtin.h"
 #include "error_message.h"
 
-int is_valid_value(char **arr)
+static long long ft_atoll(char *num)
 {
-    int i;
+	int         i;
+	int			check;
+	long long   ret;
+	long long	val;
 
-    if (!arr[1])
-        return (EXIT_NO);
-    if (arr[2])
-        return (EXIT_MANY);
-    i = 0;
-    while (arr[1][i])
-        if (!ft_isdigit(arr[1][i++]))
-            return (EXIT_NON_NUM);
-    i = ft_atoi(arr[1]);
-    //if (i == 0)
-    //    return (EXIT_NON_NUM);
-    return (i);
+	ret = 0;
+	i = 0;
+	check = 1;
+	if (num[i] == '-')
+	{
+		i = 1;
+		check = -1;
+	}
+	while (num[i])
+	{
+		val = ret;
+		ret = ret * 10 + (num[i++] - '0');
+		if (val > ret)
+		{
+			exit_argment_error(num);
+			exit (255);
+		}
+	}
+	return (ret * check);
+}
+
+static int is_valid_value(char *arr)
+{
+	int i;
+
+	i = 0;
+	if (arr[i] == '-')
+		++i;
+	while (arr[i])
+		if (!ft_isdigit(arr[i++]))
+			return (0);
+	return (1);
 }
 
 void    ft_exit(t_minishell *minishell, char **arr)
 {
-    int state;
-
-    state = is_valid_value(arr);
-    if(state == EXIT_MANY)
-    {
-        exit_argment_cnt_error();
-        minishell->exit_status = 255;
-        return ;
-    }
-    else if (state == EXIT_NON_NUM)
-    {
-        exit_argment_error(arr[1]);
-        minishell->exit_status = 255;
-    }
-    else if (state == EXIT_NO)
-    {
-        ft_putstr_fd("exit\n", 2);
-        minishell->exit_status = 0;
-    }
-    else
-    {
-        ft_putstr_fd("exit\n", 2);
-        minishell->exit_status = state;
-    }
-    exit(minishell->exit_status);
+	if(arr[2])
+	{
+		exit_argment_cnt_error();
+		minishell->exit_status = 255;
+		return ;
+	}
+	else if (!arr[1])
+	{
+		ft_putstr_fd("exit\n", 2);
+		minishell->exit_status = 0;
+	}
+	else if (!is_valid_value(arr[1]))
+	{
+		exit_argment_error(arr[1]);
+		minishell->exit_status = 255;
+	}
+	else
+	{
+		minishell->exit_status = (int)(ft_atoll(arr[1]) % 256);
+		ft_putstr_fd("exit\n", 2);
+	}
+	exit(minishell->exit_status);
 }

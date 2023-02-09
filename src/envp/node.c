@@ -48,3 +48,26 @@ void    delete_envp(t_envp **node, const char *key)
         head->cnt--;
     }
 }
+
+t_envp	*find_envp(t_envp *head, char *key)
+{
+	while (head && ft_strncmp(head->key, key, ft_strlen(key) + 1))
+		head = head->next;
+	return (head);
+}
+
+char    *find_envp_value(t_envp *head, char *key)
+{
+    while (head && ft_strncmp(head->key, key, ft_strlen(key) + 1))
+		head = head->next;
+    if (!head)
+        return (NULL); 
+	return (head->value);
+}
+
+void    update_envp(t_envp *head, char *key, char *new)
+{
+    while (head && ft_strncmp(head->key, key, ft_strlen(key) + 1))
+		head = head->next;
+    head->value = new;
+}

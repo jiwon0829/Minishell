@@ -55,19 +55,11 @@ void open_heredoc(t_minishell *minishell, t_token *token)
 	else if (WIFSIGNALED(status))	//이 매크로가 참이면 자식프로세스가 비정상종료
 		minishell->exit_status = WTERMSIG(status); // WIFESIGNALED가 참일경우 종료코드 확인가능
 	heredoc->fd[0] = here_pipe[0];
-	printf("heredoc fd = %d ,%d \n",heredoc->fd[0],heredoc->fd[1]);
-
-	// printf("%s\n", heredoc->limit);
-	// exit(0);
-	//if (minishell->heredoc == NULL)
-	//	minishell->heredoc = heredoc;
 	heredoc_add_back(&(minishell->heredoc), heredoc);
 }
 
 void check_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 {
-	// if (!parse_tree->token)
-	// 	rerutn ;
 	t_token *tmp_token;
 
 	tmp_token = parse_tree->token;
@@ -97,22 +89,14 @@ void exec_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 {
 	t_parse_tree *tmp;
 
-	// printf("parse %s, type %d\n",parse_tree->left->token->value, parse_tree->left->token->type);
-	// exit(0);
-	// 		printf("left x\n");
 	tmp = parse_tree;
 	if(tmp && tmp->type == WORD)
 	{
 		check_heredoc(minishell, tmp);
-		// dup2 (minishell->heredoc->fd[0], STDOUT_FILENO);
 	}
 	else
 	{
 		if (tmp && tmp->left)
-		// {
-		// 	printf("left o\n");
-		// 	exit (0);
-		// }
 			exec_heredoc(minishell, tmp->left);
 		if (tmp && tmp->right)
 			exec_heredoc(minishell, tmp->right);

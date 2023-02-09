@@ -22,7 +22,6 @@ t_heredoc *init_heredoc(t_minishell *minishell)
 	heredoc->next = NULL;
 	heredoc->limit = NULL;
 	heredoc->pid = 0;
-	printf("init heredoc\n");
 	return (heredoc);
 
 }
@@ -41,11 +40,4 @@ void	heredoc_add_back(t_heredoc **head, t_heredoc *new)
 	while (node->next)
 		node = node->next;
 	node->next = new;
-
-	// new->next = *(head);
-	// *(head) = new;
-	// printf("%d\n",new->fd[0]);
-	// exit (0);
-	// (*head)->next = new;
-	// new->next = NULL;
 }

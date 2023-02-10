@@ -8,6 +8,7 @@
 #include "t_heredoc.h"
 #include "error_message.h"
 #include "heredoc.h"
+#include "term_signal.h"
 
 ///static void print_heredoc_list(t_heredoc *head);
 
@@ -19,9 +20,10 @@ void heredoc_child(t_minishell *minishell, t_heredoc *heredoc, t_token *token)
 	heredoc->limit = token->next->value;
 	while (1)
 	{
-		line = readline(">");
-		if (ft_strlen(line) && !ft_strncmp(line, heredoc->limit, ft_strlen(line)))
-		{
+		line = readline("> ");
+		if (!line || !ft_strncmp(line, heredoc->limit, ft_strlen(line)) \
+			|| minishell->is_signal)
+		{printf("heredoc signal exit\n");
 			free(line);
 			exit(0);
 		}
@@ -48,6 +50,11 @@ void open_heredoc(t_minishell *minishell, t_token *token)
 		return (err_massage(minishell, 1, "fork_error"));//메세지수정
 	if (pid == 0)
 		heredoc_child(minishell, heredoc, token);
+	if (minishell->is_signal)
+	{
+		minishell->is_signal = 0;
+		signal(SIGINT, prompt_handler);
+	}
 	close(here_pipe[1]);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))	//0이 아닌값 리턴하면 자식프로세스가 정상종료
@@ -101,5 +108,10 @@ void exec_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 		if (tmp && tmp->right)
 			exec_heredoc(minishell, tmp->right);
 	}
-	
+	if (minishell->is_signal)
+	{
+		minishell->is_signal = 0;
+		signal(SIGINT, prompt_handler);
+		return ;
+	}signal(SIGINT, prompt_handler);
 }

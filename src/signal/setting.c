@@ -1,33 +1,44 @@
-#include "minishell.h"
-#include "signal.h"
+#include "term_signal.h"
 
-void	handler(int sig)
+void	prompt_handler(int sig)
 {
-	if (sig == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		if (rl_on_new_line() == -1)
-			exit (1);
-		rl_replace_line("", 1);
-		rl_redisplay();
-	}
-	if (sig == SIGTERM)
-	{
-		write(STDOUT_FILENO, "exit\n", 1);sleep(10);
-		exit (-1);
-	}
-	else
-		return ;
+	write(STDOUT_FILENO, "\n", 1);
+	if (rl_on_new_line() == -1)
+		exit (1);
+	rl_replace_line("", 0);
+	rl_redisplay();
+	(void)sig;
+}
+
+void	heredoc_handler(int sig)
+{
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	(void)sig;
+}
+
+void	parent_handler(int sig)
+{
+	write(STDIN_FILENO, "\n", 1);
+	if (rl_on_new_line() == -1)
+		exit (1);
+	rl_replace_line("", 0);
+	rl_redisplay();
+	(void)sig;
 }
 
 void	setting_signal(void)
 {
-	struct termios	term;
-
-	tcgetattr(STDIN_FILENO, &term);
-	term.c_lflag &= ~(ECHOCTL);
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-	signal(SIGINT, handler);	// CTRL + C
-	signal(SIGTERM, SIG_IGN);	// CTRL + D
+	signal(SIGINT, prompt_handler);	// CTRL + C
 	signal(SIGQUIT, SIG_IGN);	// CTRL + /
+}
+
+void	setting_term(t_minishell *minishell)
+{
+	tcgetattr(STDIN_FILENO, &(minishell->prev_term));
+	tcgetattr(STDIN_FILENO, &(minishell->term));
+	minishell->term.c_cflag &= ~ECHOCTL;
+	minishell->term.c_cc[VQUIT] = 0;
+	tcsetattr(STDIN_FILENO, TCSANOW, &(minishell->term));
 }

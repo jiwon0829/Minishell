@@ -11,8 +11,8 @@ void iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe
 	i = 0;
 	// expander(parse_tree); -> 해야함
 	// expander(minisehll, parse_tree); //확장처리
+	signal(SIGINT, prompt_handler);
 	handle_iteration(minishell, parse_tree, pipe);
-	
 	//사용한 heredoc 리스트이동
 	if (parse_tree->type == 0)
 	{
@@ -42,7 +42,6 @@ void executor(t_minishell *minishell, t_parse_tree *parse_tree)
 		minishell->exit_status = 1;
 		return ;
 	}
-	signal(SIGINT, prompt_handler);
 	iterate_tree(minishell, parse_tree, pipe);
 	free(pipe);
 }

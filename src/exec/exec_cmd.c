@@ -158,6 +158,7 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 		pipe(fd);
 		pipes = lstnew(fd);
 		pipes->pid = fork();
+		setting_child();
 		if (pipes->pid < 0)
 			shell_err(minishell, 1, "error");
 		if (pipes->pid == 0)
@@ -177,5 +178,4 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 	{
 		pipes = pipes->next;
 	}
-	signal(SIGINT, prompt_handler);
 }

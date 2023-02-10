@@ -24,3 +24,20 @@ void	setting_signal(void)
 	signal(SIGINT, prompt_handler);	// CTRL + C
 	signal(SIGQUIT, SIG_IGN);	// CTRL + /
 }
+
+static void sigint_handler(int sig)
+{
+	if (sig == SIGINT)
+		write(STDOUT_FILENO, "\n", 1);
+}
+
+static void sigquit_handler(int sig)
+{
+	if (sig == SIGQUIT)
+		ft_putendl_fd("Quit: 3", 2);
+}
+void	setting_child(void)
+{
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigquit_handler);
+}

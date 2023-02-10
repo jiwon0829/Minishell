@@ -53,11 +53,7 @@ void open_heredoc(t_minishell *minishell, t_token *token)
 		signal(SIGQUIT, SIG_IGN);
 	}
 	if (pid == 0)
-	{
-		signal(SIGINT, heredoc_handler);
-		signal(SIGQUIT, SIG_IGN);
 		heredoc_child(minishell, heredoc, token);
-	}
 	close(here_pipe[1]);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))	//0이 아닌값 리턴하면 자식프로세스가 정상종료
@@ -103,8 +99,8 @@ void exec_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 	if(tmp && tmp->type == WORD)
 	{
 		signal(SIGINT, heredoc_handler);
-		minishell->is_signal = 1;
 		check_heredoc(minishell, tmp);
+		setting_signal();
 	}
 	else
 	{

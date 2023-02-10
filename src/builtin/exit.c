@@ -44,13 +44,13 @@ static int is_valid_value(char *arr)
 
 void    ft_exit(t_minishell *minishell, char **arr)
 {
-	// if(arr[2])
-	// {
-	// 	exit_argment_cnt_error();
-	// 	minishell->exit_status = 255;
-	// 	return ;
-	// }
-if (!arr[1])
+	if(arr[1] && arr[2])
+	{
+		exit_argment_cnt_error();
+		minishell->exit_status = 255;
+		return ;
+	}
+	else if (!arr[1])
 	{
 		ft_putstr_fd("exit\n", 2);
 		minishell->exit_status = 0;
@@ -65,6 +65,5 @@ if (!arr[1])
 		minishell->exit_status = (int)(ft_atoll(arr[1]) % 256);
 		ft_putstr_fd("exit\n", 2);
 	}
-	tcsetattr(STDIN_FILENO, TCSANOW, &(minishell->prev_term));
 	exit(minishell->exit_status);
 }

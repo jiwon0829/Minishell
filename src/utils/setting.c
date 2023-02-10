@@ -23,8 +23,6 @@ static void setting_shlvl(t_envp *envp)
 void	init(t_minishell *minishell, char *envp[])
 {
 	setting_signal();
-	setting_term(minishell);
-	minishell->is_signal = 0;
 	minishell->exit_status = 0;
 	init_envp(&(minishell->envp), envp);
 	minishell->cmd_tbl = init_cmd_tbl();

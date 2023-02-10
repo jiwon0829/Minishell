@@ -8,7 +8,7 @@
 #include "types/t_minishell.h"
 
 void	setting_signal(void);
-void	setting_term(t_minishell *minishell);
+void	setting_child(void);
 void	prompt_handler(int sig);
 void	heredoc_handler(int sig);
 void	parent_handler(int sig);

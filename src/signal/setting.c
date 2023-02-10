@@ -33,14 +33,15 @@ void	setting_signal(void)
 static void sigint_handler(int sig)
 {
 	if (sig == SIGINT)
-		write(STDOUT_FILENO, "\n", 1);
+		ft_putendl_fd("^C", 1);
 }
 
 static void sigquit_handler(int sig)
 {
 	if (sig == SIGQUIT)
-		ft_putendl_fd("Quit: 3", 2);
+		ft_putendl_fd("^\\Quit: 3", 2);
 }
+
 void	setting_child(void)
 {
 	signal(SIGINT, sigint_handler);

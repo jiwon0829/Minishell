@@ -2,6 +2,7 @@
 #include "exec.h"
 #include "lexer.h"
 #include "redirect.h"
+#include "term_signal.h"
 #include "test_code.h"
 
 void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes, int fd[2])

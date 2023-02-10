@@ -2,30 +2,21 @@
 
 void	prompt_handler(int sig)
 {
-	write(STDOUT_FILENO, "\n", 1);
-	if (rl_on_new_line() == -1)
-		exit (1);
-	rl_replace_line("", 0);
-	rl_redisplay();
-	(void)sig;
+	if (sig == SIGINT)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		if (rl_on_new_line() == -1)
+			exit (1);
+		rl_replace_line("", 1);
+		rl_redisplay();
+
+	}
 }
 
 void	heredoc_handler(int sig)
-{
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	(void)sig;
-}
-
-void	parent_handler(int sig)
-{
-	write(STDIN_FILENO, "\n", 1);
-	if (rl_on_new_line() == -1)
-		exit (1);
-	rl_replace_line("", 0);
-	rl_redisplay();
-	(void)sig;
+{(void)sig;
+	write(2, "\n", 1);
+	exit(128 + SIGINT);
 }
 
 void	setting_signal(void)

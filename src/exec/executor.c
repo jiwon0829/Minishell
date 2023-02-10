@@ -9,8 +9,6 @@ void iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe
 	int	i;
 
 	i = 0;
-	tcsetattr(STDIN_FILENO, TCSANOW, &(minishell->term));
-	signal(SIGINT, prompt_handler);
 	// expander(parse_tree); -> 해야함
 	// expander(minisehll, parse_tree); //확장처리
 	handle_iteration(minishell, parse_tree, pipe);
@@ -38,8 +36,6 @@ void executor(t_minishell *minishell, t_parse_tree *parse_tree)
 	minishell->exit_fdin = dup(STDIN_FILENO);
 	minishell->exit_fdout = dup(STDOUT_FILENO);
 	minishell->redirect = redir;
-	signal(SIGINT, heredoc_handler);
-	minishell->is_signal = 1;
 	exec_heredoc(minishell, parse_tree);
 	signal(SIGINT, prompt_handler);
 	iterate_tree(minishell, parse_tree, pipe);

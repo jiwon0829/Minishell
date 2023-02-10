@@ -21,9 +21,8 @@ void heredoc_child(t_minishell *minishell, t_heredoc *heredoc, t_token *token)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || !ft_strncmp(line, heredoc->limit, ft_strlen(line)) \
-			|| minishell->is_signal)
-		{printf("heredoc signal exit\n");
+		if (!line || !ft_strncmp(line, heredoc->limit, ft_strlen(line)))
+		{
 			free(line);
 			exit(0);
 		}
@@ -48,12 +47,16 @@ void open_heredoc(t_minishell *minishell, t_token *token)
 	pid = fork();
 	if (pid == -1)
 		return (err_massage(minishell, 1, "fork_error"));//메세지수정
-	if (pid == 0)
-		heredoc_child(minishell, heredoc, token);
-	if (minishell->is_signal)
+	if (pid)
 	{
-		minishell->is_signal = 0;
-		signal(SIGINT, prompt_handler);
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	if (pid == 0)
+	{
+		signal(SIGINT, heredoc_handler);
+		signal(SIGQUIT, SIG_IGN);
+		heredoc_child(minishell, heredoc, token);
 	}
 	close(here_pipe[1]);
 	waitpid(pid, &status, 0);
@@ -99,6 +102,8 @@ void exec_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 	tmp = parse_tree;
 	if(tmp && tmp->type == WORD)
 	{
+		signal(SIGINT, heredoc_handler);
+		minishell->is_signal = 1;
 		check_heredoc(minishell, tmp);
 	}
 	else
@@ -108,10 +113,5 @@ void exec_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 		if (tmp && tmp->right)
 			exec_heredoc(minishell, tmp->right);
 	}
-	if (minishell->is_signal)
-	{
-		minishell->is_signal = 0;
-		signal(SIGINT, prompt_handler);
-		return ;
-	}signal(SIGINT, prompt_handler);
+	
 }

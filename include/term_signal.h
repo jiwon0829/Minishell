@@ -1,0 +1,16 @@
+#ifndef TERM_SIGNAL_H
+# define TERM_SIGNAL_H
+
+#include <termios.h>
+#include <term.h>
+#include <signal.h>
+#include <sys/ioctl.h>
+#include "types/t_minishell.h"
+
+void	setting_signal(void);
+void	setting_term(t_minishell *minishell);
+void	prompt_handler(int sig);
+void	heredoc_handler(int sig);
+void	parent_handler(int sig);
+
+#endif

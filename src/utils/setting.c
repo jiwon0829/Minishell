@@ -1,6 +1,7 @@
 #include "minishell.h"
 #include "envp.h"
 #include "builtin.h"
+#include "term_signal.h"
 
 static void setting_shlvl(t_envp *envp)
 {
@@ -21,8 +22,9 @@ static void setting_shlvl(t_envp *envp)
 #include "test_code.h"	//TODO
 void	init(t_minishell *minishell, char *envp[])
 {
-	// minishell = (t_minishell *)malloc(sizeof(*minishell));
 	setting_signal();
+	setting_term(minishell);
+	minishell->is_signal = 0;
 	minishell->exit_status = 0;
 	init_envp(&(minishell->envp), envp);
 	minishell->cmd_tbl = init_cmd_tbl();

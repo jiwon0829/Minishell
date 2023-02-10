@@ -7,6 +7,7 @@
 #include "lexer.h"
 #include "redirect.h"
 #include "builtin.h"
+#include "term_signal.h"
 #include "test_code.h"
 
 static void exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree)
@@ -176,5 +177,5 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 	{
 		pipes = pipes->next;
 	}
-
+	signal(SIGINT, prompt_handler);
 }

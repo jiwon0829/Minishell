@@ -70,9 +70,17 @@ void main_loop(t_minishell *minishell)
 	// if (1)
 	while (read_line(&line))
 	{
+		// line = "ls | ls";
+		// line = "echo a && echo b | echo c && ls | ls";
+		// line = "echo a && echo b || echo c && echo dd";
+		if (!line)
+			continue ;
 		add_history(line);
 		if (!check_line(&line))
+		{
+			free(line);
 			continue ;
+		}
 		token = tokenizer(line);
 		free(line);line = NULL;
 		token = lexer(token);

@@ -173,6 +173,7 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 			else if (WIFSIGNALED(status))	//이 매크로가 참이면 자식프로세스가 비정상종료
 				minishell->exit_status = WTERMSIG(status); // WIFESIGNALED가 참일경우 종료코드 확인가능
 		}
+		setting_signal();
 	}
 	if(pipes && pipes->right_flag == 1)
 	{

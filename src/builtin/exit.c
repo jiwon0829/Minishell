@@ -44,7 +44,7 @@ static int is_valid_value(char *arr)
 
 void    ft_exit(t_minishell *minishell, char **arr)
 {
-	if(arr[2])
+	if(arr[1] && arr[2])
 	{
 		exit_argment_cnt_error();
 		minishell->exit_status = 255;

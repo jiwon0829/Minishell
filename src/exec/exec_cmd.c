@@ -9,6 +9,21 @@
 #include "builtin.h"
 #include "test_code.h"
 
+static void exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree)
+{
+	char **cmds;
+
+	if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
+	{
+		redir_dup(minishell, minishell->redirect);
+		cmds = make_cmd_arg(parse_tree);
+		ft_execve(minishell, minishell->cmd_tbl, cmds);
+		printf(">>>exit status (%d)<<<\n", minishell->exit_status);
+		while (*cmds)
+			free(*cmds++);
+	}
+}
+
 void	run_program(t_arg *arg, char **envp)
 {
 	execve(arg->cmd, arg->cmd_arg, envp); //실패하면 리턴값 -1
@@ -46,7 +61,13 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pip
 			close(pipe->fd[1]);
 		}
 		redir_dup(minishell, minishell->redirect);
-		run_program(parse_tree->token->arg, envp);
+		if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
+		{
+			exec_builtin(minishell, parse_tree);
+			exit(minishell->exit_status);
+		}
+		else
+			run_program(parse_tree->token->arg, envp);
 	}
 	// printf("단일명령\n");
 	else
@@ -55,10 +76,17 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pip
 		if (parse_tree->token == NULL)
 			exit (0);	
 		redir_dup(minishell, minishell->redirect);//redirect 반영
-		run_program(parse_tree->token->arg, envp);
+		if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
+		{
+			exec_builtin(minishell, parse_tree);
+			exit(minishell->exit_status);
+		}
+		else
+			run_program(parse_tree->token->arg, envp);
 	}
 	minishell->exit_status = 1;
-	shell_exit(minishell, 1, "error2");
+	shell_exit(minishell, 1, "error23");
+	
 }
 
 void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
@@ -97,19 +125,17 @@ void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pi
 
 void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 {
-	char **cmds;
+	// char **cmds;
 	int status;
 
 	set_redirect(minishell, parse_tree);//리다이렉션 체크후 리스트만생성
 	set_cmd(minishell, parse_tree);//리다이렉션 제거된 토큰으로 주소이동
-	// 빌트인함수일때
-	if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
+	// 빌트인함수,단일명령 일때
+	if (parse_tree->up == NULL && check_builtin(minishell->cmd_tbl, parse_tree->token->value))
 	{
-		cmds = make_cmd_arg(parse_tree);
-		ft_execve(minishell, minishell->cmd_tbl, cmds);
-		printf(">>>exit status (%d)<<<\n", minishell->exit_status);
-		while (*cmds)
-			free(*cmds++);
+		exec_builtin(minishell, parse_tree);
+		dup2(minishell->exit_fdin, STDIN_FILENO);//변경되었는지 체크후 실행하는거로 수정
+		dup2(minishell->exit_fdout, STDOUT_FILENO);
 	}
 	//명령어 2개 이상일때
 	else if (pipes)

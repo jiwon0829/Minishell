@@ -24,12 +24,3 @@ void	setting_signal(void)
 	signal(SIGINT, prompt_handler);	// CTRL + C
 	signal(SIGQUIT, SIG_IGN);	// CTRL + /
 }
-
-void	setting_term(t_minishell *minishell)
-{
-	tcgetattr(STDIN_FILENO, &(minishell->prev_term));
-	tcgetattr(STDIN_FILENO, &(minishell->term));
-	minishell->term.c_cflag &= ~ECHOCTL;
-	minishell->term.c_cc[VQUIT] = 0;
-	tcsetattr(STDIN_FILENO, TCSANOW, &(minishell->term));
-}

@@ -65,6 +65,5 @@ void    ft_exit(t_minishell *minishell, char **arr)
 		minishell->exit_status = (int)(ft_atoll(arr[1]) % 256);
 		ft_putstr_fd("exit\n", 2);
 	}
-	tcsetattr(STDIN_FILENO, TCSANOW, &(minishell->prev_term));
 	exit(minishell->exit_status);
 }

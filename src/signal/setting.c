@@ -21,6 +21,11 @@ void	heredoc_handler(int sig)
 
 void	setting_signal(void)
 {
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	signal(SIGINT, prompt_handler);	// CTRL + C
 	signal(SIGQUIT, SIG_IGN);	// CTRL + /
 }

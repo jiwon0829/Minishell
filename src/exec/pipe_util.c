@@ -75,28 +75,11 @@ char	*get_cmd_argv(char **path, char *cmd)
 	return (NULL);
 }
 
-
-
-//t_minishell 자리가 없어서 exit status 전역변수 하나 하는게 어떨지 -> 수정하다가 자리생겼음
 void	get_cmd(t_minishell *minishell, t_arg *arg, t_parse_tree *parse_tree, char **envp)
 {
 	arg->path = get_path_envp(envp);
-	// (void)parse_tree;
-	// printf("%s\n",);
-	// arg->cmd_arg = ft_split(av, ' ');
 	arg->cmd_arg = make_cmd_arg(parse_tree);
-	// arg->cmd_arg[0] = ft_substr(parse_tree->token->value, 0,  ft_strlen(parse_tree->token->value));
-	// arg->cmd_arg[1] = ft_substr(parse_tree->token->next->value, 0, ft_strlen(parse_tree->token->next->value));
-
-	// arg->cmd_arg[0] = "ls";
-	// arg->cmd_arg[1] = "-a";
-
-	// exit(0);
 	if (arg->cmd_arg == NULL)
 		shell_exit(minishell, 1, "error");
 	arg->cmd = get_cmd_argv(arg->path, arg->cmd_arg[0]);
-	if (arg->cmd == NULL )
-		shell_exit(minishell, 1, "error3");
-	// printf("%s\n",arg->cmd_arg[1]);
-	
 }

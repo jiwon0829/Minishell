@@ -21,9 +21,13 @@ static void setting_shlvl(t_envp *envp)
 #include "test_code.h"	//TODO
 void	init(t_minishell *minishell, char *envp[])
 {
+	// minishell = (t_minishell *)malloc(sizeof(*minishell));
 	setting_signal();
 	minishell->exit_status = 0;
 	init_envp(&(minishell->envp), envp);
 	minishell->cmd_tbl = init_cmd_tbl();
 	setting_shlvl(minishell->envp);
+	minishell->redirect = NULL;
+	minishell->heredoc = NULL;
+	minishell->heredoc_cnt = 0;
 }

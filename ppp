@@ -1,0 +1,35 @@
+!?after dup2 fd[ret]: 1 ,dup2 fd[0]: 21 
+----finish redir_dup----
+-----cur redir_list----
+(0	21)
+----------
+--------
+>>>>>last set redir fd<<<<<
+0 21
+------------------------------
+---in runprogram---
+----in redir_dup----
+-----cur redir_list----
+(0	0)
+(0	0)
+----------
+--------
+redirec dup2 while 1
+str :c
+fd<< : 19
+!?after dup2(here) fd[ret]: 0 ,dup2 fd[0]: 0 
+redirec dup2 while 1
+str :d
+fd<< : 20
+!?after dup2(here) fd[ret]: 0 ,dup2 fd[0]: 0 
+----finish redir_dup----
+-----cur redir_list----
+(0	0)
+(0	0)
+----------
+--------
+>>>>>last set redir fd<<<<<
+0 0
+------------------------------
+---in runprogram---
+dd

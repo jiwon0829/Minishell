@@ -39,7 +39,9 @@ SRCS = src/test_code.c \
 		src/parser/check_syntax.c src/parser/near_token_error.c \
 		src/parser/match_error.c \
 		src/exec/command_list.c src/exec/exec_cmd.c src/exec/executor.c src/exec/pipe_list.c \
-		src/exec/pipe_util.c src/exec/shell_exit.c
+		src/exec/pipe_util.c src/exec/shell_exit.c src/exec/set_cmd.c \
+		src/heredoc/heredoc_util.c src/heredoc/heredoc.c \
+		src/redirect/redirect_list.c src/redirect/redirects.c
 
 OBJS = $(SRCS:.c=.o)
 

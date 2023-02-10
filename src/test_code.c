@@ -86,3 +86,15 @@ void print_parse_tree(t_parse_tree *parse_tree, int level)
 	if (parse_tree->right){printf("right>>");
 		print_parse_tree(parse_tree->right, level + 1);}
 }
+
+void print_redir_list(t_redirect *head)
+{
+		printf("-----cur redir_list----\n");
+	while (head)
+	{
+		printf("(%d\t%d)\n", head->fd[0], head->fd[1]);
+		head = head->next;
+	}
+	printf("----------\n--------");
+}
+

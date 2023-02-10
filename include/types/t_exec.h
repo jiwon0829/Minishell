@@ -21,6 +21,8 @@ struct s_pipe
 	int				pid;
 	int				fdin;
 	int				fdout;
+	// t_redirect	*redir;
+	// t_heredoc *hedoc;
 };
 
 #endif

@@ -86,8 +86,10 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pip
 			run_program(parse_tree->token->arg, envp);
 	}
 	minishell->exit_status = 1;
-	shell_exit(minishell, 1, "error23");
-	
+
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(parse_tree->token->value, 2);
+	shell_exit(minishell, 1, ": command not found");
 }
 
 void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)

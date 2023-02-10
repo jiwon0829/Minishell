@@ -37,6 +37,11 @@ void executor(t_minishell *minishell, t_parse_tree *parse_tree)
 	minishell->exit_fdout = dup(STDOUT_FILENO);
 	minishell->redirect = redir;
 	exec_heredoc(minishell, parse_tree);
+	if (minishell->exit_status == 128 + SIGINT)
+	{
+		minishell->exit_status = 1;
+		return ;
+	}
 	signal(SIGINT, prompt_handler);
 	iterate_tree(minishell, parse_tree, pipe);
 	free(pipe);

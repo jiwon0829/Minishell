@@ -24,6 +24,5 @@ int main(int ac, char *av[], char *envp[])
 	check_arg(ac, av);
 	init(&minishell, envp);
 	main_loop(&minishell);
-	tcsetattr(STDIN_FILENO, TCSANOW, &(minishell.prev_term));
 	return (minishell.exit_status);
 }

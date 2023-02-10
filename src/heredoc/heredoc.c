@@ -103,7 +103,6 @@ void exec_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 	if(tmp && tmp->type == WORD)
 	{
 		signal(SIGINT, heredoc_handler);
-		minishell->is_signal = 1;
 		check_heredoc(minishell, tmp);
 	}
 	else

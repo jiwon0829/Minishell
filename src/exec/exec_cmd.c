@@ -142,6 +142,7 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 	else if (pipes)
 	{
 		pipes->pid = fork();
+		setting_child();
 		if (pipes->pid < 0)
 			shell_err(minishell, 1, "error");
 		if (pipes->pid == 0)
@@ -150,6 +151,7 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 		}
 		else
 			parent_process(minishell, parse_tree, pipes);
+		setting_signal();
 	}
 	//명령어 단일로 들어왔을때
 	else
@@ -158,6 +160,7 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 		pipe(fd);
 		pipes = lstnew(fd);
 		pipes->pid = fork();
+		setting_child();
 		if (pipes->pid < 0)
 			shell_err(minishell, 1, "error");
 		if (pipes->pid == 0)
@@ -172,10 +175,10 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 			else if (WIFSIGNALED(status))	//이 매크로가 참이면 자식프로세스가 비정상종료
 				minishell->exit_status = WTERMSIG(status); // WIFESIGNALED가 참일경우 종료코드 확인가능
 		}
+		setting_signal();
 	}
 	if(pipes && pipes->right_flag == 1)
 	{
 		pipes = pipes->next;
 	}
-	signal(SIGINT, prompt_handler);
 }

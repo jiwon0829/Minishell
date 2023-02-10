@@ -20,9 +20,6 @@ struct s_minishell
 	t_cmd_tbl	*cmd_tbl;
 	t_redirect	*redirect;
 	t_heredoc	*heredoc;
-	struct termios	prev_term;
-	struct termios	term;
-	int				is_signal;
 };
 
 

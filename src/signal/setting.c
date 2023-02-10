@@ -21,15 +21,29 @@ void	heredoc_handler(int sig)
 
 void	setting_signal(void)
 {
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	signal(SIGINT, prompt_handler);	// CTRL + C
 	signal(SIGQUIT, SIG_IGN);	// CTRL + /
 }
 
-void	setting_term(t_minishell *minishell)
+static void sigint_handler(int sig)
 {
-	tcgetattr(STDIN_FILENO, &(minishell->prev_term));
-	tcgetattr(STDIN_FILENO, &(minishell->term));
-	minishell->term.c_cflag &= ~ECHOCTL;
-	minishell->term.c_cc[VQUIT] = 0;
-	tcsetattr(STDIN_FILENO, TCSANOW, &(minishell->term));
+	if (sig == SIGINT)
+		ft_putendl_fd("^C", 1);
+}
+
+static void sigquit_handler(int sig)
+{
+	if (sig == SIGQUIT)
+		ft_putendl_fd("^\\Quit: 3", 2);
+}
+
+void	setting_child(void)
+{
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigquit_handler);
 }

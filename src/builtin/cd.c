@@ -1,50 +1,51 @@
 #include "builtin.h"
+#include "envp.h"
 
-t_envp	*find_value(t_envp *head, char *key)
+int	update_path(t_envp *head)
 {
-	while (head && ft_strncmp(head->key, key, ft_strlen(key) + 1))
-		head = head->next;
-	return (head);
-}
+	char	*oldpwd;
+	char	*pwd;
 
-void	update_path(t_envp **head, char *key, char *value)
-{
-	while (*head && ft_strncmp((*head)->key, key, ft_strlen(key) + 1))
-		head = &((*head)->next);
-	if (*head)
-	{
-		free((*head)->value);
-		(*head)->value = ft_strdup(value);
-	}
-}
-
-void	go_to_home(t_envp *envp)
-{
-	t_envp	*home;
-	char	*currentpwd;
-
-	home = find_value(envp, "HOME");
-	if (!home)
-		return ;
-	currentpwd = getcwd(NULL, 0);
-	update_path(&envp, "OLDPWD", currentpwd);
-	update_path(&envp, "PWD", home->value);
-	free(currentpwd);
-}
-
-void	go_to_oldpwd(t_envp *envp)
-{
-	t_envp	*oldpwd;
-	char	*currentpwd;
-
-	oldpwd = find_value(envp, "OLDPWD");
+	if (!find_envp(head, "OLDPWD"))
+		insert_envp(&head, "OLDPWD", NULL);
+	oldpwd = find_envp_value(head, "PWD");
 	if (!oldpwd)
-		return ;
-	currentpwd = getcwd(NULL, 0);
-	update_path(&envp, "OLDPWD", currentpwd);
-	update_path(&envp, "PWD", oldpwd->value);
-	free(currentpwd);
+		update_envp(head, "OLDPWD", NULL);
+	else
+		update_envp(head, "OLDPWD", oldpwd);
+	if (find_envp(head, "PWD"))
+	{
+		pwd = getcwd(NULL, 0);
+		if (!pwd)
+			return (1);
+		update_envp(head, "PWD", pwd);
+		free(pwd);
+	}
+	return (0);
+}
 
+int	go_to_home(t_envp *envp)
+{
+	char	*home;
+
+	home = find_envp_value(envp, "HOME");
+	if (!home)
+		return (1);
+	if (chdir(home))
+		return (1);
+	return (update_path(envp));
+}
+
+int	go_to_oldpwd(t_envp *envp)
+{
+	char	*oldpwd;
+
+	oldpwd = find_envp_value(envp, "OLDPWD");
+	if (!oldpwd)
+		return (1);
+	if (chdir(oldpwd))
+		return (1);
+	return (update_path(envp));
 }
 
 char    *find_cdpath(char ***cdpath, const char *path)
@@ -73,38 +74,33 @@ char    *find_cdpath(char ***cdpath, const char *path)
     free(cdpath);
     return (NULL);
 }
-void	go_to_new(t_envp *envp, char *path)
+
+int	go_to_new(t_envp *envp, char *path)
 {
     char    **cdpath;
-	char	*currentpwd;
 	char	*new_path;
 
     cdpath = NULL;
-    if (find_value(envp, "CDPATH"))
-        cdpath = ft_split(find_value(envp, "CDPATH")->value, ':');
-	currentpwd = getcwd(NULL, 0);
+    if (find_envp(envp, "CDPATH"))
+        cdpath = ft_split(find_envp(envp, "CDPATH")->value, ':');
 	new_path = find_cdpath(&cdpath, path);
 	if (!new_path)
 		new_path = ft_strdup(path);
-	if (chdir(new_path) == -1)
+	if (chdir(new_path))
 	{
 		printf("cd error\n");
-		free(currentpwd);
 		free(path);
-		return ;
+		return (1);
 	}
-	update_path(&envp, "OLDPWD", currentpwd);
-	update_path(&envp, "PWD", new_path);
-	free(currentpwd);
-	free(new_path);
+	return (update_path(envp));
 }
 
 void	cd(t_minishell *minishell, char **arr)
 {
-	if (!arr[1])
-		go_to_home(minishell->envp);
+	if (!arr[1] || !ft_strncmp(arr[1], "~", 1))
+		minishell->exit_status = go_to_home(minishell->envp);
 	else if (!ft_strncmp(arr[1], "-", 1))
-		go_to_oldpwd(minishell->envp);
+		minishell->exit_status = go_to_oldpwd(minishell->envp);
 	else
-		go_to_new(minishell->envp, arr[1]);
+		minishell->exit_status = go_to_new(minishell->envp, arr[1]);
 }

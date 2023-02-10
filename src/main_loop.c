@@ -70,9 +70,6 @@ void main_loop(t_minishell *minishell)
 	// if (1)
 	while (read_line(&line))
 	{
-		// line = "ls | ls";
-		// line = "echo a && echo b | echo c && ls | ls";
-		// line = "echo a && echo b || echo c && echo dd";
 		add_history(line);
 		if (!check_line(&line))
 			continue ;

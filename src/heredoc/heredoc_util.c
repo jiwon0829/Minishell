@@ -22,6 +22,7 @@ t_heredoc *init_heredoc(t_minishell *minishell)
 	heredoc->next = NULL;
 	heredoc->limit = NULL;
 	heredoc->pid = 0;
+	heredoc->quote_flag = 0;
 	return (heredoc);
 
 }

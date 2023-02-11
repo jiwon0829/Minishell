@@ -12,6 +12,7 @@ struct s_heredoc
 {
 	int			fd[2];
 	int			pid;
+	int			quote_flag;
 	char		*limit;
 	t_heredoc	*next;
 	// struct s_arg	*arg;

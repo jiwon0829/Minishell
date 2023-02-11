@@ -53,13 +53,22 @@ void open_heredoc(t_minishell *minishell, t_token *token)
 		signal(SIGQUIT, SIG_IGN);
 	}
 	if (pid == 0)
+	{
+		signal(SIGINT, heredoc_handler);
 		heredoc_child(minishell, heredoc, token);
-	close(here_pipe[1]);	
+	}
+	close(here_pipe[1]);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))	//0이 아닌값 리턴하면 자식프로세스가 정상종료
 		minishell->exit_status = WEXITSTATUS(status); //WIFEXITED 정상종료되면 여기서 종료코드 확인가능
 	else if (WIFSIGNALED(status))	//이 매크로가 참이면 자식프로세스가 비정상종료
 		minishell->exit_status = WTERMSIG(status); // WIFESIGNALED가 참일경우 종료코드 확인가능
+	if (minishell->exit_status == 128 + SIGINT)
+	{
+		//minishell->exit_status = 1;
+		free(heredoc);
+		return ;
+	}
 	heredoc->fd[0] = here_pipe[0];
 	heredoc_add_back(&(minishell->heredoc), heredoc);
 }
@@ -73,7 +82,10 @@ void check_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 	{
 		if (tmp_token->type == HERE_DOC)
 		{
+			//signal(SIGINT, heredoc_handler);
 			open_heredoc(minishell, tmp_token);
+			if (minishell->exit_status == 130)
+				return ;
 			tmp_token = tmp_token->next->next;
 		}
 		else
@@ -96,9 +108,10 @@ void exec_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 	t_parse_tree *tmp;
 
 	tmp = parse_tree;
+	if (minishell->exit_status == 130)
+		return ;
 	if(tmp && tmp->type == WORD)
 	{
-		signal(SIGINT, heredoc_handler);
 		check_heredoc(minishell, tmp);
 		setting_signal();
 	}

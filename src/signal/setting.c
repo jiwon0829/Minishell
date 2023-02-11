@@ -14,9 +14,12 @@ void	prompt_handler(int sig)
 }
 
 void	heredoc_handler(int sig)
-{(void)sig;
+{
+	if (sig == SIGINT)
+	{
 	write(2, "\n", 1);
 	exit(128 + SIGINT);
+	}
 }
 
 void	setting_signal(void)

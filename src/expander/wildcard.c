@@ -2,6 +2,7 @@
 #include "lexer.h"
 #include "parser.h"
 #include <dirent.h>
+#include "test_code.h"
 
 static int is_valid_value(char *dname, char *str)
 {
@@ -31,24 +32,7 @@ static int is_valid_value(char *dname, char *str)
 	return (0);
 }
 
-static t_parse_tree	*link_tree(t_parse_tree *node, t_token *new)
-{
-	t_parse_tree *ret;
-
-	ret = init_parse_tree();
-	ret->token = new;
-	if (!ret)
-		return (NULL);
-	ret->left = node->left;
-	if (node->left)
-		node->left->up = ret;
-	if (node)
-		node->left = ret;
-	ret->up = node;
-	return (ret);
-}
-
-static int add_wildcard_tree(t_parse_tree **parse_tree, t_token *token, char *dname, int *cnt)
+static int add_wildcard_token(t_token *token, char *dname, int *cnt)
 {
 	char *str;
 	t_token *new;
@@ -64,10 +48,11 @@ static int add_wildcard_tree(t_parse_tree **parse_tree, t_token *token, char *dn
 	else
 	{
 		new = create_token(ft_strlen(dname), dname, WORD);
+		new->prev = token->prev;
+		token->prev->next = new;
+		new->next = token;
+		token->prev = new;
 		if (!new)
-			return (0);
-		*parse_tree = link_tree(*parse_tree, new);
-		if (!(*parse_tree))
 			return (0);
 	}
 	(*cnt)++;
@@ -85,7 +70,7 @@ static void re_wildcard(char *str)
 	}
 }
 
-static int is_valid_wildcard(t_parse_tree *parse_tree, t_token *token, char *str)
+static int is_valid_wildcard(t_token *token, char *str)
 {
 	DIR	*dir;
 	struct dirent *dirent;
@@ -97,7 +82,7 @@ static int is_valid_wildcard(t_parse_tree *parse_tree, t_token *token, char *str
 		return (0);
 	while ((dirent = readdir(dir)))	//디렉토리의 처음부터 파일 또는 디렉토리명을 순서대로 한 개씩 읽는다
 	{
-		if (is_valid_value(dirent->d_name, str) && !add_wildcard_tree(&parse_tree, token, dirent->d_name, &cnt))
+		if (is_valid_value(dirent->d_name, str) && !add_wildcard_token(token, dirent->d_name, &cnt))
 		{
 			closedir(dir);
 			return (0);
@@ -123,7 +108,7 @@ void    is_wildcard(t_minishell *minishell, t_parse_tree *parse_tree)
 		if (token->type == WORD && ft_strchr(token->value, '*'))
 		{
 			str = ft_strdup(token->value);
-			if (!str || !is_valid_wildcard(parse_tree, token, str))
+			if (!str || !is_valid_wildcard(token, str))
 			{
 				free(str);
 				minishell->exit_status = 1;

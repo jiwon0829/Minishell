@@ -119,14 +119,12 @@ static char *set_wildcard(char *value)
 	return (ret);
 }
 
-void    is_wildcard(t_minishell *minishell, t_parse_tree *parse_tree)
+void    is_wildcard(t_token *token)
 {
-	t_token *token;
 	char *str;
 
-	if (!parse_tree || minishell->exit_status == 1)
+	if (!token)
 		return ;
-	token = parse_tree->token;
 	while (token)
 	{
 		if (token->type == WORD && ft_strchr(token->value, '*'))
@@ -135,7 +133,6 @@ void    is_wildcard(t_minishell *minishell, t_parse_tree *parse_tree)
 			if (!str || !is_valid_wildcard(token, str))
 			{
 				free(str);
-				minishell->exit_status = 1;
 				return ;
 			}
 			free(str);
@@ -143,9 +140,4 @@ void    is_wildcard(t_minishell *minishell, t_parse_tree *parse_tree)
 		}
 		token = token->next;
 	}
-	free(token);
-	if (parse_tree->left)
-		is_wildcard(minishell, parse_tree->left);
-	if (parse_tree->right)
-		is_wildcard(minishell, parse_tree->right);
 }

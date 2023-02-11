@@ -54,7 +54,7 @@ void open_heredoc(t_minishell *minishell, t_token *token)
 	}
 	if (pid == 0)
 		heredoc_child(minishell, heredoc, token);
-	close(here_pipe[1]);
+	close(here_pipe[1]);	
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))	//0이 아닌값 리턴하면 자식프로세스가 정상종료
 		minishell->exit_status = WEXITSTATUS(status); //WIFEXITED 정상종료되면 여기서 종료코드 확인가능

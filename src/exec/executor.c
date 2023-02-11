@@ -3,13 +3,14 @@
 #include "heredoc.h"
 #include "redirect.h"
 #include "term_signal.h"
+#include "expander.h"
 
 void iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
 {
 	int	i;
 
 	i = 0;
-	// expander(parse_tree); -> 해야함
+	expander(minishell, parse_tree);// -> 해야함
 	// expander(minisehll, parse_tree); //확장처리
 	setting_signal();
 	handle_iteration(minishell, parse_tree, pipe);

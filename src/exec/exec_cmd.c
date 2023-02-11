@@ -86,8 +86,10 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pip
 			run_program(parse_tree->token->arg, envp);
 	}
 	minishell->exit_status = 1;
-	shell_exit(minishell, 1, "error23");
-	
+
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(parse_tree->token->value, 2);
+	shell_exit(minishell, 1, ": command not found");
 }
 
 void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
@@ -132,7 +134,8 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 	set_redirect(minishell, parse_tree);//리다이렉션 체크후 리스트만생성
 	set_cmd(minishell, parse_tree);//리다이렉션 제거된 토큰으로 주소이동
 	// 빌트인함수,단일명령 일때
-	if (parse_tree->up == NULL && check_builtin(minishell->cmd_tbl, parse_tree->token->value))
+	if ((parse_tree->up == NULL && check_builtin(minishell->cmd_tbl, parse_tree->token->value)) 
+		|| (pipes && parse_tree->up->type != PIPE))
 	{
 		exec_builtin(minishell, parse_tree);
 		dup2(minishell->exit_fdin, STDIN_FILENO);//변경되었는지 체크후 실행하는거로 수정

@@ -42,7 +42,7 @@ SRCS = src/test_code.c \
 		src/exec/pipe_util.c src/exec/shell_exit.c src/exec/set_cmd.c \
 		src/heredoc/heredoc_util.c src/heredoc/heredoc.c \
 		src/redirect/redirect_list.c src/redirect/redirects.c \
-		src/expender/expender.c
+		src/expander/expander.c
 
 OBJS = $(SRCS:.c=.o)
 

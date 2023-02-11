@@ -54,9 +54,12 @@ char	*get_cmd_argv(char **path, char *cmd)
 	int		fd;
 	char	*path_cmd;
 	char	*tmp;
-
+	//지금 받은 명령어가 실행가능한 파일인지 먼저 검사후 가능하면 그대로 리턴
+	fd = access(cmd, X_OK);
+	if (fd != -1)
+		return (cmd);
 	path_cmd = ft_strjoin("/", cmd);
-	fd = 0;
+	// fd = 0; //0초기화 안해도되는지 확인 norm25줄//0초기화해야하면 위에 변수 구조체로 만들기
 	i = 0;
 	while (path[i])
 	{

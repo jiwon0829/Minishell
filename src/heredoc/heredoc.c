@@ -8,16 +8,34 @@
 #include "t_heredoc.h"
 #include "error_message.h"
 #include "heredoc.h"
+#include "expander.h"
 #include "term_signal.h"
 
 ///static void print_heredoc_list(t_heredoc *head);
+
+void check_limit(t_minishell *minishell, t_heredoc *heredoc, t_token *token)
+{
+	// int	i;
+
+	// i = 0;
+	// remove_dquotes(minishell, parse_tree, &i);
+	
+	
+	// printf("here lim before:%s\n",token->next->value);
+	heredoc->limit = heredoc_expander(minishell, heredoc, token->next->value);
+
+	// printf("here lim after:%s\n",heredoc->limit);
+
+}
 
 void heredoc_child(t_minishell *minishell, t_heredoc *heredoc, t_token *token)
 {
 	char	*line;
 
 	(void)minishell;
-	heredoc->limit = token->next->value;
+	// heredoc->limit = token->next->value;
+	// (void)token;
+	check_limit(minishell, heredoc, token);
 	while (1)
 	{
 		line = readline("> ");
@@ -26,6 +44,8 @@ void heredoc_child(t_minishell *minishell, t_heredoc *heredoc, t_token *token)
 			free(line);
 			exit(0);
 		}
+		if (heredoc->quote_flag == 0)
+			heredoc_dollor_expander(minishell, heredoc, &line);
 		write(heredoc->fd[1], line, ft_strlen(line));
 		write(heredoc->fd[1], "\n", 1);
 		free(line);

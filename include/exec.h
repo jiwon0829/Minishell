@@ -34,6 +34,7 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe);
 t_pipe *setting_pipe(t_parse_tree *parse_tree);
 void iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe);
 void executor(t_minishell *minishell, t_parse_tree *parse_tree);
+void    is_wildcard(t_minishell *minishell, t_parse_tree *parse_tree);
 
 // pipe_list.c
 t_pipe	*lstlast(t_pipe *lst);

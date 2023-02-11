@@ -225,7 +225,9 @@ void expander(t_minishell *minishell, t_parse_tree *parse_tree)
 	t_token			*tmp_token;
 
 	// tmp_parse_tree = parse_tree;
-	// is_wildcard();//여기서 와일드카드처리
+	is_wildcard(minishell, parse_tree);//여기서 와일드카드처리
+	if (minishell->exit_status == 1)
+		return ;	//error message??
 	// i = 0;
 	// printf("remove dquote : %s\n", parse_tree->token->value);
 	

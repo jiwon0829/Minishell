@@ -95,6 +95,30 @@ static int is_valid_wildcard(t_token *token, char *str)
 	return (1);
 }
 
+static char *set_wildcard(char *value)
+{
+	char *ret;
+	char prev = '\0';
+	
+	while (*value)
+	{
+		if (prev == 0)
+		{
+			prev = *value;
+			ret = ft_strdup(&prev);
+		}
+		else if (*value == '*' && prev == '*')
+		;
+		else
+		{
+			prev = *value;
+			ret = ft_strjoin(ret, &prev);
+		}
+			value++;
+	}
+	return (ret);
+}
+
 void    is_wildcard(t_minishell *minishell, t_parse_tree *parse_tree)
 {
 	t_token *token;
@@ -107,7 +131,7 @@ void    is_wildcard(t_minishell *minishell, t_parse_tree *parse_tree)
 	{
 		if (token->type == WORD && ft_strchr(token->value, '*'))
 		{
-			str = ft_strdup(token->value);
+			str = set_wildcard(token->value);
 			if (!str || !is_valid_wildcard(token, str))
 			{
 				free(str);

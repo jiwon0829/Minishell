@@ -24,7 +24,8 @@ static int is_valid_value(char *dname, char *str)
 		d_i = 0;
 		while (i + d_i <= dname_len)
 		{
-			if (is_valid_value(str + 1 + i, dname + d_i + i))
+			//if (is_valid_value(str + 1 + i, dname + d_i + i))
+			if (is_valid_value(dname + d_i + i, str + 1 + i))
 				return (1);
 			++d_i;
 		}
@@ -60,7 +61,7 @@ static int add_wildcard_token(t_token *token, char *dname, int *cnt)
 
 }
 
-static void re_wildcard(char *str)
+/*static void re_wildcard(char *str)
 {
 	while (*str)
 	{
@@ -68,7 +69,7 @@ static void re_wildcard(char *str)
 			*str *= -1;
 		++str;
 	}
-}
+}*/
 
 static int is_valid_wildcard(t_token *token, char *str)
 {
@@ -87,8 +88,8 @@ static int is_valid_wildcard(t_token *token, char *str)
 			return (0);
 		}
 	}
-	if (!cnt)
-		re_wildcard(token->value);
+	//if (!cnt)
+	//	re_wildcard(token->value);
 	if (closedir(dir) == -1)
 		return (0);
 	return (1);
@@ -133,7 +134,6 @@ void    is_wildcard(t_token *token)
 		if (token->type == WORD && ft_strchr(token->value, '*'))
 		{
 			str = set_wildcard(token->value);
-			printf(">>str: %s<<\n", str);
 			if (!str || !is_valid_wildcard(token, str))
 			{
 				free(str);

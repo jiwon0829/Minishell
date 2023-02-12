@@ -69,5 +69,7 @@ void    update_envp(t_envp *head, char *key, char *new)
 {
     while (head && ft_strncmp(head->key, key, ft_strlen(key) + 1))
 		head = head->next;
-    head->value = new;
+    free(head->value);
+    head->value = NULL;
+    head->value = ft_strdup(new);
 }

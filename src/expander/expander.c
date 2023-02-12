@@ -169,7 +169,7 @@ void expander(t_minishell *minishell, t_parse_tree *parse_tree)
 		while (parse_tree->token->value[i])
 		{
 			if (parse_tree->token->value[i] == '$')
-				remove_dollor(minishell, parse_tree, &i);
+					remove_dollor(minishell, parse_tree, &i);
 				// printf("remove dollor : %s\n", parse_tree->token->value);
 			if (parse_tree->token->value[i] == '\'')
 				remove_squotes(minishell, parse_tree, &i);

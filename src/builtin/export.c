@@ -30,7 +30,7 @@ void    split_key_value(t_envp *envp, char *str)
 		key = ft_strdup(str);
 		value = NULL;
 	}
-	insert_envp(&envp, key, value);
+	insert_envp(&envp, key, value, 1);
 	free(key);
 	free(value);
 }

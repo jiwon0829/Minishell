@@ -11,12 +11,12 @@ static void setting_shlvl(t_envp *envp)
 	shlvl_node = get_envpNode(envp, "SHLVL");
 	if (!shlvl_node)
 	{
-		insert_envp(&envp, "SHLVL", "1");
+		insert_envp(&envp, "SHLVL", "1", 0);
 		return ;
 	}
 	shlvl = ft_atoi(shlvl_node->value);
 	++shlvl;
-	insert_envp(&envp, "SHLVL", ft_itoa(shlvl));
+	insert_envp(&envp, "SHLVL", ft_itoa(shlvl), 0);
 }
 
 #include "test_code.h"	//TODO

@@ -82,8 +82,6 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 		return ;
 	if (((parse_tree->up == NULL && check_builtin(minishell->cmd_tbl, parse_tree->token->value))) 
 		|| ((pipes && parse_tree->up->type != PIPE) && check_builtin(minishell->cmd_tbl, parse_tree->token->value)))
-	if (((parse_tree->up == NULL && check_builtin(minishell->cmd_tbl, parse_tree->token->value))) 
-		|| ((pipes && parse_tree->up->type != PIPE) && check_builtin(minishell->cmd_tbl, parse_tree->token->value)))
 	{
 		exec_builtin_scmd(minishell, parse_tree);
 

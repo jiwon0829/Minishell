@@ -7,7 +7,7 @@ int	update_path(t_envp *head)
 	char	*pwd;
 
 	if (!find_envp(head, "OLDPWD"))
-		insert_envp(&head, "OLDPWD", NULL);
+		insert_envp(&head, "OLDPWD", NULL, 0);
 	oldpwd = find_envp_value(head, "PWD");
 	if (!oldpwd)
 		update_envp(head, "OLDPWD", NULL);

@@ -7,6 +7,7 @@ struct s_envp
 {
 	char	*key;
 	char	*value;
+	int		is_shell;
 	t_envp	*next;
 	int		cnt;
 };

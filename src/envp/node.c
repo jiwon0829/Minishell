@@ -1,7 +1,7 @@
 #include "envp.h"
 #include "../../libft/libft.h"
 
-void    insert_envp(t_envp **node, const char *key, const char *value)
+void    insert_envp(t_envp **node, const char *key, const char *value, int is_shell)
 {
     t_envp  *new;
     t_envp  *head;
@@ -25,6 +25,7 @@ void    insert_envp(t_envp **node, const char *key, const char *value)
         new->value = ft_strdup(value);
     else
         new->value = NULL;
+    new->is_shell = is_shell;
     new->next = NULL;
     *node = new;
     head->cnt += 1;

@@ -29,6 +29,7 @@ void    init_envp(t_envp **node, char **envp)
 	while (envp[i])
 	{
 		*node = malloc(sizeof(t_envp));
+        (*node)->is_shell = 0;
 		(*node)->next = NULL;
 		get_key(*node, envp[i]);
 		get_value(*node, envp[i]);

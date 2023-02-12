@@ -216,7 +216,7 @@ void remove_dquotes(t_minishell *minishell, t_parse_tree *parse_tree, int *i)
 
 	// i + 1 ~ j - 1
 }
-
+#include "test_code.h"
 void expander(t_minishell *minishell, t_parse_tree *parse_tree)
 {
 	// char	*new_str;
@@ -225,7 +225,10 @@ void expander(t_minishell *minishell, t_parse_tree *parse_tree)
 	t_token			*tmp_token;
 
 	// tmp_parse_tree = parse_tree;
-	// is_wildcard();//여기서 와일드카드처리
+	if (parse_tree->type == WORD)
+		is_wildcard(parse_tree->token);//여기서 와일드카드처리
+	//if (minishell->exit_status == 1)
+	//	return ;	//error message??
 	// i = 0;
 	// printf("remove dquote : %s\n", parse_tree->token->value);
 	

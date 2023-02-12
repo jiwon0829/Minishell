@@ -15,7 +15,7 @@ static int is_valid_value(char *dname, char *str)
 	dname_len = ft_strlen(dname);
 	str_len = ft_strlen(str);
 	i = 0;
-	while (i < dname_len && i < dname_len && (dname[i] == str[i]))
+	while (i < dname_len && i < str_len && (dname[i] == str[i]))
 		++i;
 	if (str_len == i)	//str=k, dname=k -> return (TRUE)
 		return(dname_len == i);
@@ -42,7 +42,7 @@ static int add_wildcard_token(t_token *token, char *dname, int *cnt)
 		str = ft_strdup(dname);
 		if (!str)
 			return (0);
-		free(token->value);
+		free(token->value);token->value = NULL;
 		token->value = str;
 	}
 	else
@@ -75,14 +75,13 @@ static int is_valid_wildcard(t_token *token, char *str)
 	DIR	*dir;
 	struct dirent *dirent;
 	int	cnt;
-
 	cnt = 0;
 	dir = opendir(".");	//지정한 디렉토리 열기(파일처럼 연다.)즉, 특정 디렉토리 안에 있는 파일과 디렉토리 검색을 위해 사용
 	if (!dir)
 		return (0);
 	while ((dirent = readdir(dir)))	//디렉토리의 처음부터 파일 또는 디렉토리명을 순서대로 한 개씩 읽는다
 	{
-		if (is_valid_value(dirent->d_name, str) && !add_wildcard_token(token, dirent->d_name, &cnt))
+		if (is_valid_value(dirent->d_name, str) && !(add_wildcard_token(token, dirent->d_name, &cnt)))
 		{
 			closedir(dir);
 			return (0);
@@ -108,7 +107,7 @@ static char *set_wildcard(char *value)
 	{
 		if (i == 0)
 			ret_len++;
-		else if (value[i] == '*' && tmp[ret_len - 1] != '*')
+		else if (value[i] != '*' || (value[i] == '*' && tmp[ret_len - 1] != '*'))
 		{
 			tmp[ret_len] = value[i];
 			ret_len++;
@@ -134,6 +133,7 @@ void    is_wildcard(t_token *token)
 		if (token->type == WORD && ft_strchr(token->value, '*'))
 		{
 			str = set_wildcard(token->value);
+			printf(">>str: %s<<\n", str);
 			if (!str || !is_valid_wildcard(token, str))
 			{
 				free(str);

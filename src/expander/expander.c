@@ -155,12 +155,13 @@ void remove_dquotes(t_minishell *minishell, t_parse_tree *parse_tree, int *i)
 	// printf("tok-val :!%s! i:!%d!\n", parse_tree->token->value, *i);
 	// i + 1 ~ j - 1
 }
-
+#include "test_code.h"
 void expander(t_minishell *minishell, t_parse_tree *parse_tree)
 {
 	t_token	*tmp_token;
 	int		i;
-	
+	if (parse_tree->type == WORD)
+		is_wildcard(parse_tree->token);//여기서 와일드카드처리
 	tmp_token = parse_tree->token;
 	while (parse_tree->token)
 	{

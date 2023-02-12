@@ -31,9 +31,10 @@ void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pi
 void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe);
 
 // executor.c
-t_pipe	 *setting_pipe(t_parse_tree *parse_tree);
-void	 iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe);
-void	 executor(t_minishell *minishell, t_parse_tree *parse_tree);
+t_pipe *setting_pipe(t_parse_tree *parse_tree);
+void iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe);
+void executor(t_minishell *minishell, t_parse_tree *parse_tree);
+void    is_wildcard(t_token *token);
 
 // pipe_list.c
 t_pipe	*lstlast(t_pipe *lst);

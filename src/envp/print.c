@@ -85,7 +85,8 @@ void    print_envp(t_minishell *minishell)
 	envp = minishell->envp;
 	while (envp)
 	{
-		printf("%s=%s\n",envp->key,envp->value);
+		if (envp->value)
+			printf("%s=%s\n",envp->key,envp->value);
 		envp = envp->next;
 	}
 }

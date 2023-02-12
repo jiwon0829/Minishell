@@ -50,39 +50,39 @@ int	go_to_oldpwd(t_envp *envp)
 
 char    *find_cdpath(char ***cdpath, const char *path)
 {
-    int     i;
-    char    *ret;
-    char    *tmp;
-    struct stat stat;
+	int     i;
+	char    *ret;
+	char    *tmp;
+	struct stat stat;
 
-    if (!*cdpath)
-        return (NULL);
-    ret = ft_strjoin("/", path);
-    i = 0;
-    while ((*cdpath)[i])
-    {
-        tmp = ft_strjoin((*cdpath)[i], ret);
-        free(ret);
-        ret = tmp;
-        if (!lstat(ret, &stat))
-        {
-            free(cdpath);
-            return (ret);
-        }
-        ++i;
-    }
-    free(cdpath);
-    return (NULL);
+	if (!*cdpath)
+		return (NULL);
+	ret = ft_strjoin("/", path);
+	i = 0;
+	while ((*cdpath)[i])
+	{
+		tmp = ft_strjoin((*cdpath)[i], ret);
+		free(ret);
+		ret = tmp;
+		if (!lstat(ret, &stat))
+		{
+			free(cdpath);
+			return (ret);
+		}
+		++i;
+	}
+	free(cdpath);
+	return (NULL);
 }
 
 int	go_to_new(t_envp *envp, char *path)
 {
-    char    **cdpath;
+	char    **cdpath;
 	char	*new_path;
 
-    cdpath = NULL;
-    if (find_envp(envp, "CDPATH"))
-        cdpath = ft_split(find_envp(envp, "CDPATH")->value, ':');
+	cdpath = NULL;
+	if (find_envp(envp, "CDPATH"))
+		cdpath = ft_split(find_envp(envp, "CDPATH")->value, ':');
 	new_path = find_cdpath(&cdpath, path);
 	if (!new_path)
 		new_path = ft_strdup(path);

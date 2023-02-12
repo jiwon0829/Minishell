@@ -19,7 +19,6 @@ void exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree)
 		redir_dup(minishell);
 		cmds = make_cmd_arg(parse_tree);
 		ft_execve(minishell, minishell->cmd_tbl, cmds);
-		printf(">>>exit status (%d)<<<\n", minishell->exit_status);
 		while (*cmds)
 			free(*cmds++);
 	}

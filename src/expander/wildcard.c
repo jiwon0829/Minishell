@@ -98,24 +98,27 @@ static int is_valid_wildcard(t_token *token, char *str)
 static char *set_wildcard(char *value)
 {
 	char *ret;
-	char prev = '\0';
-	
-	while (*value)
+	int ret_len;
+	int i=0;
+	char *tmp;
+
+	tmp = ft_strdup(value);
+	ret_len = 0;
+	while (value[i])
 	{
-		if (prev == 0)
+		if (i == 0)
+			ret_len++;
+		else if (value[i] == '*' && tmp[ret_len - 1] != '*')
 		{
-			prev = *value;
-			ret = ft_strdup(&prev);
+			tmp[ret_len] = value[i];
+			ret_len++;
 		}
-		else if (*value == '*' && prev == '*')
-		;
-		else
-		{
-			prev = *value;
-			ret = ft_strjoin(ret, &prev);
-		}
-			value++;
+		++i;
 	}
+	tmp[ret_len] = '\0';
+	ret = ft_strdup(tmp);
+	free(tmp);
+	tmp = NULL;
 	return (ret);
 }
 
@@ -125,6 +128,7 @@ void    is_wildcard(t_token *token)
 
 	if (!token)
 		return ;
+	str = NULL;
 	while (token)
 	{
 		if (token->type == WORD && ft_strchr(token->value, '*'))

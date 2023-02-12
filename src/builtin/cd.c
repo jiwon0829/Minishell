@@ -30,9 +30,17 @@ int	go_to_home(t_envp *envp)
 
 	home = find_envp_value(envp, "HOME");
 	if (!home)
+	{
+		ft_putendl_fd("minishell: cd: HOME not set", 2);
 		return (1);
+	}
 	if (chdir(home))
+	{
+		ft_putstr_fd("minishell: cd: ",2);
+		ft_putstr_fd(home,2);
+		ft_putendl_fd(": No such file or directory",2);
 		return (1);
+	}
 	return (update_path(envp));
 }
 
@@ -42,54 +50,27 @@ int	go_to_oldpwd(t_envp *envp)
 
 	oldpwd = find_envp_value(envp, "OLDPWD");
 	if (!oldpwd)
+	{
+		ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
 		return (1);
+	}
 	if (chdir(oldpwd))
+	{
+		ft_putstr_fd("minishell: cd: ",2);
+		ft_putstr_fd(oldpwd,2);
+		ft_putendl_fd(": No such file or directory",2);
 		return (1);
+	}
 	return (update_path(envp));
 }
 
-char    *find_cdpath(char ***cdpath, const char *path)
+int go_to_new(t_envp *envp, char *path)
 {
-	int     i;
-	char    *ret;
-	char    *tmp;
-	struct stat stat;
-
-	if (!*cdpath)
-		return (NULL);
-	ret = ft_strjoin("/", path);
-	i = 0;
-	while ((*cdpath)[i])
+	if (chdir(path))
 	{
-		tmp = ft_strjoin((*cdpath)[i], ret);
-		free(ret);
-		ret = tmp;
-		if (!lstat(ret, &stat))
-		{
-			free(cdpath);
-			return (ret);
-		}
-		++i;
-	}
-	free(cdpath);
-	return (NULL);
-}
-
-int	go_to_new(t_envp *envp, char *path)
-{
-	char    **cdpath;
-	char	*new_path;
-
-	cdpath = NULL;
-	if (find_envp(envp, "CDPATH"))
-		cdpath = ft_split(find_envp(envp, "CDPATH")->value, ':');
-	new_path = find_cdpath(&cdpath, path);
-	if (!new_path)
-		new_path = ft_strdup(path);
-	if (chdir(new_path))
-	{
-		printf("cd error\n");
-		free(path);
+		ft_putstr_fd("minishell: cd: ",2);
+		ft_putstr_fd(path,2);
+		ft_putendl_fd(": No such file or directory",2);
 		return (1);
 	}
 	return (update_path(envp));

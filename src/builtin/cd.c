@@ -61,6 +61,8 @@ int	go_to_oldpwd(t_envp *envp)
 		ft_putendl_fd(": No such file or directory",2);
 		return (1);
 	}
+	else
+		ft_putendl_fd(oldpwd, 1);
 	return (update_path(envp));
 }
 

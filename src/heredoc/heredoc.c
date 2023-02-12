@@ -15,17 +15,9 @@
 
 void check_limit(t_minishell *minishell, t_heredoc *heredoc, t_token *token)
 {
-	// int	i;
-
-	// i = 0;
-	// remove_dquotes(minishell, parse_tree, &i);
-	
-	
 	// printf("here lim before:%s\n",token->next->value);
 	heredoc->limit = heredoc_expander(minishell, heredoc, token->next->value);
-
 	// printf("here lim after:%s\n",heredoc->limit);
-
 }
 
 void heredoc_child(t_minishell *minishell, t_heredoc *heredoc, t_token *token)
@@ -33,8 +25,6 @@ void heredoc_child(t_minishell *minishell, t_heredoc *heredoc, t_token *token)
 	char	*line;
 
 	(void)minishell;
-	// heredoc->limit = token->next->value;
-	// (void)token;
 	check_limit(minishell, heredoc, token);
 	while (1)
 	{
@@ -112,16 +102,6 @@ void check_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 			tmp_token = tmp_token->next;
 	}
 }
-
-/*static void print_heredoc_list(t_heredoc *head)
-{
-	while (head)
-	{
-		printf("(%d\t%d)\n", head->fd[0], head->fd[1]);
-		head = head->next;
-	}
-	printf("\n");
-}*/
 
 void exec_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 {

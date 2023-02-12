@@ -8,132 +8,82 @@
 #include "t_heredoc.h"
 #include "error_message.h"
 #include "expander.h"
+#include "t_expander.h"
 
-static char	*expand_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*ptr;
-	size_t	i;
+// static char	*expand_substr(char const *s, unsigned int start, size_t len)
+// {
+// 	char	*ptr;
+// 	size_t	i;
 
-	if (!s)
-		return (0);
-	if (start >= ft_strlen(s))
-		return (ft_strdup(NULL));
-	if (len > ft_strlen(s))
-	{
-		len = ft_strlen(s);
-		ptr = (char *)malloc(sizeof(char) * (len - start + 1));
-	}
-	else
-		ptr = (char *) malloc(sizeof(char) * (len + 1));
-	if (!ptr)
-		return (0);
-	i = 0;
-	while (i < len && s[start + i])
-	{
-		ptr[i] = s[start + i];
-		++i;
-	}
-	ptr[i] = '\0';
-	return (ptr);
-}
+// 	if (!s)
+// 		return (0);
+// 	if (start >= ft_strlen(s))
+// 		return (ft_strdup(NULL));
+// 	if (len > ft_strlen(s))
+// 	{
+// 		len = ft_strlen(s);
+// 		ptr = (char *)malloc(sizeof(char) * (len - start + 1));
+// 	}
+// 	else
+// 		ptr = (char *) malloc(sizeof(char) * (len + 1));
+// 	if (!ptr)
+// 		return (0);
+// 	i = 0;
+// 	while (i < len && s[start + i])
+// 	{
+// 		ptr[i] = s[start + i];
+// 		++i;
+// 	}
+// 	ptr[i] = '\0';
+// 	return (ptr);
+// }
 
-static char	*expen_strjoin(char *s1, char *s2)
-{
-	char	*ptr;
-	size_t	s1_len;
-	size_t	s2_len;
+// static char	*expen_strjoin(char *s1, char *s2)
+// {
+// 	char	*ptr;
+// 	size_t	s1_len;
+// 	size_t	s2_len;
 
-	if (!s1)
-		return (s2);
-	else if (!s2)
-		return (s1);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	ptr = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
-	if (!ptr)
-		return (0);
-	ft_strlcpy(ptr, s1, s1_len + 1);
-	ft_strlcpy(&ptr[s1_len], s2, s2_len + 1);
-	return (ptr);
-}
+// 	if (!s1)
+// 		return (s2);
+// 	else if (!s2)
+// 		return (s1);
+// 	s1_len = ft_strlen(s1);
+// 	s2_len = ft_strlen(s2);
+// 	ptr = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
+// 	if (!ptr)
+// 		return (0);
+// 	ft_strlcpy(ptr, s1, s1_len + 1);
+// 	ft_strlcpy(&ptr[s1_len], s2, s2_len + 1);
+// 	return (ptr);
+// }
 
 int remove_dollor(t_minishell *minishell, t_parse_tree *parse_tree, int *i)
 {
-	int ret;
-	int	j;
-	int	k;
-	int exit_flag;
-	char	*first_str;
-	char	*middle_str;
-	char	*change_str;
-	char	*last_str;
-	char	*return_str;
+	t_expander expander;
 
-	ret = 0;
-	exit_flag = 0;
-	// printf("cur val:%s\n",parse_tree->token->value);
+	init_expander(&expander);
 	(void)minishell;
-	j = *i + 1; // j = 7
+	expander.j = *i + 1; // j = 7
 	// printf("first_str :%s\n", first_str);
-	while (parse_tree->token->value[j])
+	while (parse_tree->token->value[expander.j])
 	{ 
-		if (parse_tree->token->value[j] == '?')
+		if (parse_tree->token->value[expander.j] == '?')
 		{
-			expand_exit_status(minishell, parse_tree, i, j);
-			exit_flag = 1;
+			expand_exit_status(minishell, parse_tree, i, expander.j);
+			expander.exit_flag = 1;
 			break;
 		}
-		if  (parse_tree->token->value[j] == '$'	|| parse_tree->token->value[j] == '\''
-			|| parse_tree->token->value[j] == '"' || parse_tree->token->value[j] == ' ')
+		if  (parse_tree->token->value[expander.j] == '$'	|| parse_tree->token->value[expander.j] == '\''
+			|| parse_tree->token->value[expander.j] == '"' || parse_tree->token->value[expander.j] == ' ')
 			break;
-		j++; // j = 9
+		expander.j++; // expander.j = 9
 	}
-	if (exit_flag == 0)
+	if (expander.exit_flag == 0)
 	{
-		first_str = expand_substr(parse_tree->token->value, 0, *i);
-		k = j;
-		while (parse_tree->token->value[k])
-			k++;
-		middle_str = ft_substr(parse_tree->token->value, *i + 1, j - *i - 1);
-		// printf("middle_str :%s\n", middle_str);
-		last_str = expand_substr(parse_tree->token->value, j, k - j + 1);
-		// printf("last_str :%s\n", last_str);
-
-		free(parse_tree->token->value);
-
-
-		// printf("middle_str :%s\n", middle_str);
-		if (get_envpNode(minishell->envp, middle_str))
-		{
-		// printf("ger_envpnode :%s\n", middle_str);
-
-			change_str = get_envpNode(minishell->envp, middle_str)->value;
-			return_str = expen_strjoin(first_str, change_str);
-			parse_tree->token->value = expen_strjoin(return_str, last_str);
-			*i = strlen(return_str) - 1 ;
-		}
-		else
-		{
-			// printf("else :%s\n", middle_str);
-			// last_str = ft_substr(parse_tree->token->value, j, k - j + 1);
-			parse_tree->token->value = expen_strjoin(first_str, last_str);
-			if (!first_str)
-				*i = 0;
-			else
-				*i = strlen(first_str);
-			ret = 1;
-			// *i = 0;
-		}
-		// printf("change val :%s\n", change_str);
-		// printf("last_str :%s\n", last_str);
-		// printf("out :%s\n", parse_tree->token->value);
-		// char *test = NULL;
-		// printf("NULLstr :%s\n",test);
-
-		// printf("last_str :!%s! i:!%d!\n", last_str, *i);
-		// free(parse_tree->token->value);
+		expand_dollor(minishell, &expander, parse_tree, i);
 	}
-		return (ret);
+		return (expander.ret);
 
 }
 
@@ -152,9 +102,7 @@ void remove_squotes(t_minishell *minishell, t_parse_tree *parse_tree, int *i)
 	first_str = ft_substr(parse_tree->token->value, 0, *i);
 	// printf("first_str :%s\n", first_str);
 	while (parse_tree->token->value[j] != '\'')
-	{
 		j++; // j = 9
-	}
 	k = j + 1;
 	while (parse_tree->token->value[k])
 		k++;
@@ -165,75 +113,55 @@ void remove_squotes(t_minishell *minishell, t_parse_tree *parse_tree, int *i)
 	last_str = ft_substr(parse_tree->token->value, j + 1, k - j + 1);
 	// printf("last_str :%s\n", last_str);
 	// printf("last_str :!%s! i:!%d!\n", last_str, *i);
-
-
 	free(parse_tree->token->value);
 	parse_tree->token->value = expen_strjoin(return_str, last_str);
-
 	// i + 1 ~ j - 1
 }
 
 void remove_dquotes(t_minishell *minishell, t_parse_tree *parse_tree, int *i)
 {
-	int j;
-	int	k;
-	char	*first_str;
-	char	*middle_str;
-	char	*last_str;
-	char	*return_str;
+	t_expander expander;
 
+	init_expander(&expander);
 	// printf("cur val:%s\n",parse_tree->token->value);
 	(void)minishell;
-	j = *i + 1; // j = 7
-	first_str = ft_substr(parse_tree->token->value, 0, *i);
+	expander.j = *i + 1; // j = 7
+	expander.first_str = ft_substr(parse_tree->token->value, 0, *i);
 	// printf("first_str :!%s!, i:%d\n", first_str, *i);
-	while (parse_tree->token->value[j] != '"')
+	while (parse_tree->token->value[expander.j] != '"')
 	{
-		if (parse_tree->token->value[j] == '$')
+		if (parse_tree->token->value[expander.j] == '$')
 		{
-				if (remove_dollor(minishell, parse_tree, &j) == 1)
-					j--;
+				if (remove_dollor(minishell, parse_tree, &(expander.j)) == 1)
+					expander.j--;
 		}
-		j++; // j = 9
+		expander.j++; // j = 9
 	}
 	// printf("DD j = %d\n",j);
-	k = j + 1;
-	while (parse_tree->token->value[k])
-		k++;
+	expander.k = expander.j + 1;
+	while (parse_tree->token->value[expander.k])
+		expander.k++;
 	// printf("DD k = %d\n",k);
 
-	middle_str = ft_substr(parse_tree->token->value, *i + 1, j - *i - 1);
+	expander.middle_str = ft_substr(parse_tree->token->value, *i + 1, expander.j - *i - 1);
 	// printf("middle_str :!%s!\n", middle_str);
-	return_str = expen_strjoin(first_str, middle_str);
-	*i = strlen(return_str) - 1;
-	last_str = ft_substr(parse_tree->token->value, j + 1, k - j + 1);
+	expander.return_str = expen_strjoin(expander.first_str, expander.middle_str);
+	*i = strlen(expander.return_str) - 1;
+	expander.last_str = ft_substr(parse_tree->token->value, expander.j + 1, expander.k - expander.j + 1);
 	// printf("last_str :!%s! i:!%d!\n", last_str, *i);
 
 	free(parse_tree->token->value);
-	parse_tree->token->value = expen_strjoin(return_str, last_str);
+	parse_tree->token->value = expen_strjoin(expander.return_str, expander.last_str);
 	// printf("tok-val :!%s! i:!%d!\n", parse_tree->token->value, *i);
-
-
 	// i + 1 ~ j - 1
 }
 #include "test_code.h"
 void expander(t_minishell *minishell, t_parse_tree *parse_tree)
 {
-	// char	*new_str;
+	t_token	*tmp_token;
 	int		i;
-	// t_parse_tree	*tmp_parse_tree;
-	t_token			*tmp_token;
-
-	// tmp_parse_tree = parse_tree;
 	if (parse_tree->type == WORD)
 		is_wildcard(parse_tree->token);//여기서 와일드카드처리
-	//if (minishell->exit_status == 1)
-	//	return ;	//error message??
-	// i = 0;
-	// printf("remove dquote : %s\n", parse_tree->token->value);
-	
-	// printf("term val :%s\n",get_envpNode(minishell->envp, "USER")->value);
-	// exit (0);
 	tmp_token = parse_tree->token;
 	while (parse_tree->token)
 	{
@@ -241,20 +169,14 @@ void expander(t_minishell *minishell, t_parse_tree *parse_tree)
 		while (parse_tree->token->value[i])
 		{
 			if (parse_tree->token->value[i] == '$')
-			{
 				remove_dollor(minishell, parse_tree, &i);
 				// printf("remove dollor : %s\n", parse_tree->token->value);
-			}
 			if (parse_tree->token->value[i] == '\'')
-			{
 				remove_squotes(minishell, parse_tree, &i);
 				// printf("remove squote : %s\n", parse_tree->token->value);
-			}
 			else if (parse_tree->token->value[i] == '"')
-			{
 				remove_dquotes(minishell, parse_tree, &i);
 				// printf("remove dquote : %s\n", parse_tree->token->value);
-			}
 			if (i >= 0 && !parse_tree->token->value[i])
 				break;
 			i = i + 1;
@@ -262,6 +184,4 @@ void expander(t_minishell *minishell, t_parse_tree *parse_tree)
 			parse_tree->token = parse_tree->token->next;
 	}
 	parse_tree->token = tmp_token;
-	// parse_tree = tmp_parse_tree;
-				// exit (0);
 }

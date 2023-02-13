@@ -8,7 +8,7 @@ static void setting_shlvl(t_envp *envp)
 	t_envp *shlvl_node;
 	int shlvl;
 
-	shlvl_node = get_envpNode(envp, "SHLVL");
+	shlvl_node = get_envpnode(envp, "SHLVL");
 	if (!shlvl_node)
 	{
 		insert_envp(&envp, "SHLVL", "1");

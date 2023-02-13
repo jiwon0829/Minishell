@@ -1,9 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 09:49:38 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/13 09:49:54 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	a()
-{
-	system("leaks minishell");
-}
+#include "minishell.h"
 
 static void	check_arg(int ac, char *av[])
 {
@@ -16,9 +23,8 @@ static void	check_arg(int ac, char *av[])
 	}
 }
 
-int main(int ac, char *av[], char *envp[])
+int	main(int ac, char *av[], char *envp[])
 {
-	//atexit(a);
 	t_minishell	minishell;
 
 	check_arg(ac, av);

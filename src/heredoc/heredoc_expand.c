@@ -108,11 +108,11 @@ int heredoc_remove_dollor(t_minishell *minishell, char **value, int *i)
 
 
 		// printf("middle_str :%s\n", middle_str);
-		if (get_envpNode(minishell->envp, middle_str))
+		if (get_envpnode(minishell->envp, middle_str))
 		{
 		// printf("ger_envpnode :%s\n", middle_str);
 
-			change_str = get_envpNode(minishell->envp, middle_str)->value;
+			change_str = get_envpnode(minishell->envp, middle_str)->value;
 			return_str = expen_strjoin(first_str, change_str);
 			*value = expen_strjoin(return_str, last_str);
 			*i = strlen(return_str) - 1 ;

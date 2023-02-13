@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_loop.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 09:50:03 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/13 09:57:08 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "signal.h"
 #include "lexer.h"
@@ -5,7 +17,7 @@
 #include "exec.h"
 #include "test_code.h"
 
-static char *read_line(char **line)
+static char	*read_line(char **line)
 {
 	*line = readline("minishell$ ");
 	return (*line);
@@ -13,15 +25,16 @@ static char *read_line(char **line)
 
 static char	check_quote(char *line)
 {
-	int	i = -1;
-	char quote = 0;
+	int		i;
+	char	quote;
 
-	if (!line)
-		return (0);
+	i = -1;
+	quote = 0;
 	while (line[++i])
 	{
-		if ((line[i] == '\\' && ((int)(ft_strlen(line)) - 1 != i + 1) && line[i + 1] == '\'') || \
-			(line[i] == '\\' && ((int)(ft_strlen(line)) - 1 != i + 1) && line[i + 1] == '\"'))
+		if ((line[i] == '\\' && ((int)(ft_strlen(line)) - 1 != i + 1) \
+		&& line[i + 1] == '\'') || (line[i] == '\\' && \
+		((int)(ft_strlen(line)) - 1 != i + 1) && line[i + 1] == '\"'))
 		{
 			++i;
 			continue ;
@@ -30,27 +43,25 @@ static char	check_quote(char *line)
 		{
 			if (quote == 0)
 				quote = line[i];
-			else if (quote == '\'' && line[i] == '\'')
+			else if ((quote == '\'' && line[i] == '\'') || \
+			(quote == '"' && line[i] == '"'))
 				quote = 0;
-			else if (quote == '"' && line[i] == '"')
-				quote = 0;
-			else if (quote == '\'' && line[i] == '"')
-				continue ;
-			else if (quote == '"' && line[i] == '\'')
-				continue ;
 		}
 	}
 	return (quote);
 }
 
-static int check_line(char **line)
+static int	check_line(char **line)
 {
-	int i = -1;
-	size_t blank_cnt = 0;
-	char quote = check_quote(*line);
+	int		i;
+	size_t	blank_cnt ;
+	char	quote;
 
+	i = -1;
+	blank_cnt = 0;
 	if (ft_strlen(*line) == 0)
 		return (0);
+	quote = check_quote(*line);
 	while ((*line)[++i])
 	{
 		if ((*line)[i] == ' ')
@@ -61,18 +72,14 @@ static int check_line(char **line)
 	return (1);
 }
 
-void main_loop(t_minishell *minishell)
+void	main_loop(t_minishell *minishell)
 {
 	char			*line;
 	t_token			*token;
 	t_parse_tree	*parse_tree;
 
-	// if (1)
 	while (read_line(&line))
 	{
-		// line = "ls | ls";
-		// line = "echo a && echo b | echo c && ls | ls";
-		// line = "echo a && echo b || echo c && echo dd";
 		if (!line)
 			continue ;
 		add_history(line);
@@ -82,16 +89,13 @@ void main_loop(t_minishell *minishell)
 			continue ;
 		}
 		token = tokenizer(line);
-		free(line);line = NULL;
+		free(line);
+		line = NULL;
 		token = lexer(token);
 		parse_tree = parser(token);
-		if (parse_tree)/*print_parse_tree(parse_tree, 0);*/
+		if (parse_tree)
 			executor(minishell, parse_tree);
-		// print_parse_tree(parse_tree, 0);
-		/*free(parse_tree);
-		parse_tree = NULL;
-		free(token); token = NULL;*/
-	}(void)minishell;
+	}
 	rl_clear_history();
 	return ;
 }

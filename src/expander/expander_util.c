@@ -84,10 +84,10 @@ void expand_dollor(t_minishell *minishell, t_expander *expander, t_parse_tree *p
 	// printf("last_str :%s\n", last_str);
 	free(parse_tree->token->value);
 	// printf("middle_str :%s\n", middle_str);
-	if (get_envpNode(minishell->envp, expander->middle_str))
+	if (get_envpnode(minishell->envp, expander->middle_str))
 	{
 	// printf("ger_envpnode :%s\n", middle_str);
-		expander->change_str = get_envpNode(minishell->envp, expander->middle_str)->value;
+		expander->change_str = get_envpnode(minishell->envp, expander->middle_str)->value;
 		expander->return_str = expen_strjoin(expander->first_str, expander->change_str);
 		parse_tree->token->value = expen_strjoin(expander->return_str, expander->last_str);
 		*i = strlen(expander->return_str) - 1 ;

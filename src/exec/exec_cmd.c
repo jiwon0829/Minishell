@@ -7,7 +7,7 @@
 #include "lexer.h"
 #include "redirect.h"
 #include "builtin.h"
-#include "term_signal.h"
+#include "signals.h"
 #include "test_code.h"
 
 void	run_program(t_arg *arg, char **envp)
@@ -25,7 +25,7 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pip
 	parse_tree->token->arg = &arg;
 	// 파이프나 and or 이 있을때
 	if (parse_tree->up != NULL)
-	{
+	{set_signal(DEFAULT, DEFAULT);
 		exec_child_logical(minishell, parse_tree, pipe, envp);
 	}
 	// printf("단일명령\n");

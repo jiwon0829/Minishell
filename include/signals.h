@@ -1,17 +1,20 @@
-#ifndef TERM_SIGNAL_H
-# define TERM_SIGNAL_H
+#ifndef SIGNALS_H
+# define SIGNALS_H
 
-#include <termios.h>
-#include <term.h>
 #include <signal.h>
 #include <sys/ioctl.h>
 #include "types/t_minishell.h"
 
-void	setting_signal(void);
-void	setting_child(void);
+enum e_signum
+{
+	DEFAULT,
+	CATCH,
+	IGNORE
+};
+
+void	set_signal(int sigint, int sigquit);
 void	prompt_handler(int sig);
 void	heredoc_handler(int sig);
-void	sigint_handler(int sig);
 void	sigquit_handler(int sig);
 
 #endif

@@ -9,7 +9,7 @@
 #include "error_message.h"
 #include "heredoc.h"
 #include "expander.h"
-#include "term_signal.h"
+#include "signals.h"
 
 // static char	*expand_substr(char const *s, unsigned int start, size_t len)
 // {

@@ -16,7 +16,6 @@
 #define FALSE 0
 #define TRUE 1
 
-void	setting_signal(void);
 void 	main_loop(t_minishell *minishell);
 void	init(t_minishell *minishell, char *envp[]);
 void    init_envp(t_envp **node, char **envp);

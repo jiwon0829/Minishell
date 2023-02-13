@@ -2,7 +2,7 @@
 #include "exec.h"
 #include "heredoc.h"
 #include "redirect.h"
-#include "term_signal.h"
+#include "signals.h"
 #include "expander.h"
 
 void iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
@@ -12,7 +12,6 @@ void iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe
 	i = 0;
 	expander(minishell, parse_tree);// -> 해야함
 	// expander(minisehll, parse_tree); //확장처리
-	setting_signal();
 	handle_iteration(minishell, parse_tree, pipe);
 	//사용한 heredoc 리스트이동
 	if (parse_tree->type == 0)

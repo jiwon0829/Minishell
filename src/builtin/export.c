@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 09:34:46 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/13 09:35:02 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtin.h"
 
-static int check_variable_name(const char *name)
+static int	check_variable_name(const char *name)
 {
 	if (!ft_isalpha(*name) && *name != '_')
 		return (FALSE);
@@ -13,11 +25,11 @@ static int check_variable_name(const char *name)
 	return (TRUE);
 }
 
-void    split_key_value(t_envp *envp, char *str)
+void	split_key_value(t_envp *envp, char *str)
 {
-	char    *key;
-	char    *value;
-	char    *sign;
+	char	*key;
+	char	*value;
+	char	*sign;
 
 	sign = ft_strchr(str, '=');
 	if (sign)
@@ -37,7 +49,7 @@ void    split_key_value(t_envp *envp, char *str)
 
 void	export(t_minishell *minishell, char **arr)
 {
-	int    i;
+	int	i;
 
 	i = 1;
 	if (!arr[1])

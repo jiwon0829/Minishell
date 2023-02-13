@@ -11,6 +11,7 @@ void	setting_signal(void);
 void	setting_child(void);
 void	prompt_handler(int sig);
 void	heredoc_handler(int sig);
-void	parent_handler(int sig);
+void	sigint_handler(int sig);
+void	sigquit_handler(int sig);
 
 #endif

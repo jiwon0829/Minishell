@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 18:19:55 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/13 18:20:18 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "unistd.h"
 #include "lexer.h"
@@ -6,7 +18,7 @@ t_token	*create_token(int length, char *start, int type)
 {
 	t_token	*token;
 
-	if (!length && !(type == DQUOT || type == SQUOT)) 
+	if (!length && !(type == DQUOT || type == SQUOT))
 		return (NULL);
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
@@ -15,7 +27,6 @@ t_token	*create_token(int length, char *start, int type)
 	token->next = NULL;
 	token->prev = NULL;
 	token->value = ft_substr(start, 0, length);
-
 	token->type = type;
 	return (token);
 }

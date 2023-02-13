@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 18:19:38 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/13 18:19:53 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "lexer.h"
 #include "test_code.h"
@@ -40,10 +52,9 @@ int	set_token_types(t_token **token)
 	return (1);
 }
 
-t_token *lexer(t_token *token)
+t_token	*lexer(t_token *token)
 {
 	if (set_token_types(&token) == -1)
-        return (free_tokens(token));
-	//print_lexer_token(token);	//TODO
-    return (token);
+		return (free_tokens(token));
+	return (token);
 }

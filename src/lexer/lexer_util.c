@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_util.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 18:17:44 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/13 18:19:25 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "lexer.h"
 
@@ -27,15 +39,10 @@ void	init_index(int *index)
 	index[8] = LOGICAL_OR;
 }
 
-
-int get_type(char input)
+int	get_type(char input)
 {
-    if (input == ' ' || (input >= 9 && input <= 13))
-        return (BLANK);
-    // if (input == '\'')
-    //     return (SQUOT);
-    // if (input == '\"')
-	// 	return (DQUOT);
+	if (input == ' ' || (input >= 9 && input <= 13))
+		return (BLANK);
 	if (input == '|')
 		return (SEPAR_PIPE);
 	if (input == '>')
@@ -48,7 +55,7 @@ int get_type(char input)
 		return (PRNTH_LEFT);
 	if (input == ')')
 		return (PRNTH_RIGHT);
-	return (WORD);   
+	return (WORD);
 }
 
 int	init_quot_token(t_token **token, char *input, char **start, int *type)
@@ -57,24 +64,16 @@ int	init_quot_token(t_token **token, char *input, char **start, int *type)
 
 	i = 1;
 	while (input[0] != input[i])
-	{
-		// if (input[i] == '\0')
-		// {
-		// 	perror("quotes are not closed");
-		// 	return (-1);
-		// }
 		i++;
-	}
 	(void)token ;
 	(void)start ;
 	(void)type;
 	return (i);
 }
 
-void    init_common_token(t_token **token, char *input, char **start, int *type)
+void	init_common_token(t_token **token, char *input, char **start, int *type)
 {
-	
 	add_token(token, create_token((int)(input - *start), *start, *type));
-    *start = input;
-    *type = get_type(*input);
+	*start = input;
+	*type = get_type(*input);
 }

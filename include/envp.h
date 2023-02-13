@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   envp.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 18:17:57 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/13 18:18:04 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef ENVP_H
 # define ENVP_H
 
-#include <stdlib.h>
-#include "types/t_minishell.h"
-#include "types/t_envp.h"
+# include <stdlib.h>
+# include "types/t_minishell.h"
+# include "types/t_envp.h"
 
 //void    init_envp(t_envp **node, char **envp);
 void    get_key(t_envp *node, const char *envp);

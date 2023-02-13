@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:44:38 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/13 14:48:12 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/13 18:12:05 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,16 @@ char	**envp_to_dptr(t_envp *head)
 	i = 0;
 	while (head)
 	{
+		if (head->value)
+		{
 		ret[i] = ft_strjoin(head->key, "=");
 		str = ft_strjoin(ret[i], head->value);
 		free(ret[i]);ret[i] = NULL;
 		ret[i] = ft_strdup(str);
-		head = head->next;
 		++i;
+			
+		}
+		head = head->next;
 	}
 	ret[i] = NULL;
 	return (ret);

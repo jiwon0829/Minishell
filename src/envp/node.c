@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:41:34 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/13 09:48:01 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/13 18:09:52 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	insert_envp(t_envp **node, const char *key, const char *value)
 			(*node)->value = ft_strdup(value);
 		else
 			(*node)->value = NULL;
+		return ;
 	}
 	new = malloc(sizeof(t_envp));
 	if (!new)

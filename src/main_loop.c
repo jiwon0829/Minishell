@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:50:03 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/13 14:21:29 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/13 18:30:13 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,18 @@ static int	check_line(char **line)
 	return (1);
 }
 
+static void	is_eof(t_minishell *minishell)
+{
+	char	*arr[2];
+
+	arr[0] = "exit";
+	arr[1] = 0;
+	ft_exit(minishell, arr);
+}
+
 void	main_loop(t_minishell *minishell)
 {
 	char			*line;
-	char			*exit_str[2];
 	t_token			*token;
 	t_parse_tree	*parse_tree;
 
@@ -96,8 +104,6 @@ void	main_loop(t_minishell *minishell)
 			executor(minishell, parse_tree);
 	}
 	rl_clear_history();
-	exit_str[0] =  ft_strdup("exit");
-	exit_str[1] = 0;
-	ft_exit(minishell, exit_str);
+	is_eof(minishell);
 	return ;
 }

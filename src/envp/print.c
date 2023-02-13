@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:43:39 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/13 09:48:44 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/13 16:38:23 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,10 @@ void	print_sort_envp(t_minishell *minishell)
 	sorted_head = sorted_envp;
 	while (sorted_envp)
 	{
-		printf("%s=%s\n", sorted_envp->key, sorted_envp->value);
+		if (sorted_envp->value)
+			printf("%s=%s\n", sorted_envp->key, sorted_envp->value);
+		else
+			printf("%s\n", sorted_envp->key);
 		sorted_envp = sorted_envp->next;
 	}
 	(void)sorted_head;

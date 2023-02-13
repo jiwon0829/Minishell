@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 18:19:55 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/13 18:20:18 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/13 18:26:40 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_token	*create_token(int length, char *start, int type)
 		return (NULL);
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
-		return (NULL);//널가드추가
+		return (NULL);
 	token->len = length;
 	token->next = NULL;
 	token->prev = NULL;

@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 18:20:28 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/13 18:22:19 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/13 18:26:16 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,14 @@ int	tokenize_and_pipe(int *type, char *input_i, char **start, t_token **tokens)
 	if (*type == SEPAR_PIPE)
 	{
 		if (get_type(input_i[1]) == SEPAR_PIPE)
-		{
-			init_common_token(tokens, &input_i[2], start, type);
 			temp = 1;
-		}
-		else
-			init_common_token(tokens, &input_i[1], start, type);
+		init_common_token(tokens, &input_i[1 + temp], start, type);
 	}
 	else if (*type == LOGICAL_AND)
 	{
 		if (get_type(input_i[1]) == LOGICAL_AND)
-		{
-			init_common_token(tokens, &input_i[2], start, type);
 			temp = 1;
-		}
-		else
-			init_common_token(tokens, &input_i[1], start, type);
+		init_common_token(tokens, &input_i[1 + temp], start, type);
 	}
 	else if (get_type(*input_i) == BLANK)
 	{
@@ -54,22 +46,14 @@ int	tokenize_less_more(int *type, char *input_i, char **start, t_token **tokens)
 	if (*type == SEPAR_LESS)
 	{
 		if (get_type(input_i[1]) == SEPAR_LESS)
-		{
-			init_common_token(tokens, &input_i[2], start, type);
 			temp = 1;
-		}
-		else
-			init_common_token(tokens, &input_i[1], start, type);
+		init_common_token(tokens, &input_i[1 + temp], start, type);
 	}
 	else if (*type == SEPAR_MORE)
 	{
 		if (get_type(input_i[1]) == SEPAR_MORE)
-		{
-			init_common_token(tokens, &input_i[2], start, type);
 			temp = 1;
-		}
-		else
-			init_common_token(tokens, &input_i[1], start, type);
+		init_common_token(tokens, &input_i[1 + temp], start, type);
 	}
 	else if (get_type(*input_i) == BLANK)
 	{

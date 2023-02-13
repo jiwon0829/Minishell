@@ -36,8 +36,7 @@ void exec_multi_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pi
 		pipes->pid = fork();
 		if (pipes->pid < 0)
 			shell_err(minishell, 1, "error");
-		if (pipes->pid)
-			set_signal(IGNORE, IGNORE);
+		set_signal(IGNORE, IGNORE);
 		if (pipes->pid == 0)
 		{
 			child_process(minishell, parse_tree, pipes);
@@ -57,11 +56,10 @@ void exec_scmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 		pipes->pid = fork();
 		if (pipes->pid < 0)
 			shell_err(minishell, 1, "error");
-		if (pipes->pid)
-			set_signal(IGNORE, IGNORE);
+		set_signal(IGNORE, IGNORE);
 		if (pipes->pid == 0)
 		{
-			set_signal(DEFAULT, CATCH);
+			
 			child_process(minishell, parse_tree, pipes);
 		}
 		else
@@ -72,5 +70,9 @@ void exec_scmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 			else if (WIFSIGNALED(status))	//이 매크로가 참이면 자식프로세스가 비정상종료
 				minishell->exit_status = WTERMSIG(status); // WIFESIGNALED가 참일경우 종료코드 확인가능
 		}
+		if (WTERMSIG(status) == SIGINT)
+			write(1, "\n", 1);
+		else if (WTERMSIG(status) == SIGQUIT)
+			ft_putendl_fd("Quit: 3", 1);
 		set_signal(CATCH, IGNORE);
 }

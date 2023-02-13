@@ -58,10 +58,7 @@ void open_heredoc(t_minishell *minishell, t_token *token)
 	if (pid == -1)
 		return (err_massage(minishell, 1, "fork_error"));//메세지수정
 	if (pid)
-	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
-	}
+		set_signal(IGNORE, IGNORE);
 	if (pid == 0)
 	{
 		signal(SIGINT, heredoc_handler);
@@ -79,7 +76,7 @@ void open_heredoc(t_minishell *minishell, t_token *token)
 		free(heredoc);
 		return ;
 	}
-	//set_signal(CATCH, IGNORE);//TODO dkdkdkdk
+	set_signal(CATCH, IGNORE);
 	heredoc->fd[0] = here_pipe[0];
 	heredoc_add_back(&(minishell->heredoc), heredoc);
 }
@@ -113,7 +110,6 @@ void exec_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 	if(tmp && tmp->type == WORD)
 	{
 		check_heredoc(minishell, tmp);
-		set_signal(CATCH, IGNORE);
 	}
 	else
 	{

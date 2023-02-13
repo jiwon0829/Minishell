@@ -19,13 +19,14 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pip
 {
 	t_arg	arg;
 	char **envp;
-
+	
+	set_signal(CATCH, DEFAULT);
 	minishell->exit_status = 0;
 	envp = envp_to_dptr(minishell->envp);
 	parse_tree->token->arg = &arg;
 	// 파이프나 and or 이 있을때
 	if (parse_tree->up != NULL)
-	{set_signal(DEFAULT, DEFAULT);
+	{
 		exec_child_logical(minishell, parse_tree, pipe, envp);
 	}
 	// printf("단일명령\n");
@@ -34,7 +35,6 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pip
 		exec_child_scmd(minishell, parse_tree, pipe, envp);
 	}
 	minishell->exit_status = 1;
-
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(parse_tree->token->value, 2);
 	shell_exit(minishell, 1, ": command not found");
@@ -46,9 +46,17 @@ void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pi
 
 	waitpid(pipe->pid, &status, 0);//이건 병렬적 실행을해야해서 변경예정
 	if (WIFEXITED(status))	//0이 아닌값 리턴하면 자식프로세스가 정상종료
+	{
 		minishell->exit_status = WEXITSTATUS(status); //WIFEXITED 정상종료되면 여기서 종료코드 확인가능
+	}
 	else if (WIFSIGNALED(status))	//이 매크로가 참이면 자식프로세스가 비정상종료
-		minishell->exit_status = WTERMSIG(status); // WIFESIGNALED가 참일경우 종료코드 확인가능
+	{
+		minishell->exit_status = WTERMSIG(status) + 128; // WIFESIGNALED가 참일경우 종료코드 확인가능
+		if (WTERMSIG(status) == SIGINT)
+			write(1, "\n", 1);
+		else if (WTERMSIG(status) == SIGQUIT)
+			ft_putendl_fd("Quit: 3", 1);
+	}
 	// 다음 파이프가 있어서 다음파이프로 stdin재설정
 	if (parse_tree->up && parse_tree->up->up 
 		&& parse_tree->up->up->type == PIPE && pipe->right_flag == 1)
@@ -96,6 +104,7 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes)
 	{
 		exec_scmd(minishell, parse_tree, pipes);
 	}
+	set_signal(CATCH, IGNORE);
 	if(pipes && pipes->right_flag == 1)
 	{
 		pipes = pipes->next;

@@ -124,6 +124,8 @@ void expand_exit_status(t_minishell *minishell, t_parse_tree *parse_tree, int *i
 	// printf("last_str :%s\n", last_str);
 	free(parse_tree->token->value);
 	// printf("middle_str :%s\n", middle_str);
+	if (minishell->exit_status == 2)
+		minishell->exit_status = 130;
 	change_str = ft_itoa(minishell->exit_status); //free
 	return_str = expen_strjoin(first_str, change_str);
 	parse_tree->token->value = expen_strjoin(return_str, last_str);

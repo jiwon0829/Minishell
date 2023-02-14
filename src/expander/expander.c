@@ -10,57 +10,30 @@
 #include "expander.h"
 #include "t_expander.h"
 
-// static char	*expand_substr(char const *s, unsigned int start, size_t len)
-// {
-// 	char	*ptr;
-// 	size_t	i;
-
-// 	if (!s)
-// 		return (0);
-// 	if (start >= ft_strlen(s))
-// 		return (ft_strdup(NULL));
-// 	if (len > ft_strlen(s))
-// 	{
-// 		len = ft_strlen(s);
-// 		ptr = (char *)malloc(sizeof(char) * (len - start + 1));
-// 	}
-// 	else
-// 		ptr = (char *) malloc(sizeof(char) * (len + 1));
-// 	if (!ptr)
-// 		return (0);
-// 	i = 0;
-// 	while (i < len && s[start + i])
-// 	{
-// 		ptr[i] = s[start + i];
-// 		++i;
-// 	}
-// 	ptr[i] = '\0';
-// 	return (ptr);
-// }
-
-// static char	*expen_strjoin(char *s1, char *s2)
-// {
-// 	char	*ptr;
-// 	size_t	s1_len;
-// 	size_t	s2_len;
-
-// 	if (!s1)
-// 		return (s2);
-// 	else if (!s2)
-// 		return (s1);
-// 	s1_len = ft_strlen(s1);
-// 	s2_len = ft_strlen(s2);
-// 	ptr = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
-// 	if (!ptr)
-// 		return (0);
-// 	ft_strlcpy(ptr, s1, s1_len + 1);
-// 	ft_strlcpy(&ptr[s1_len], s2, s2_len + 1);
-// 	return (ptr);
-// }
-
-int remove_dollor(t_minishell *minishell, t_parse_tree *parse_tree, int *i)
+static void	is_split_token(t_parse_tree *parse_tree, int start, int *end)
 {
-	t_expander expander;
+	char *tmp = ft_substr(parse_tree->token->value, start, *end - start + 1);
+	
+	if (!tmp)
+		return ;
+	if (ft_strchr(tmp, ' '))
+	{
+		char **arr;
+		arr = ft_split(tmp, ' ');
+		int k = 0;
+		while (arr[k])
+		{
+			insert_token(&parse_tree->token, create_token(ft_strlen(arr[k]), arr[k], WORD));
+			k++;
+		}
+	}
+	del_token(&(parse_tree->token));
+	*end = 0;
+}
+
+int remove_dollor(t_minishell *minishell, t_parse_tree *parse_tree, int *i, int check)
+{
+	t_expander expander;int init = *i;
 
 	init_expander(&expander);
 	(void)minishell;
@@ -83,7 +56,9 @@ int remove_dollor(t_minishell *minishell, t_parse_tree *parse_tree, int *i)
 	{
 		expand_dollor(minishell, &expander, parse_tree, i);
 	}
-		return (expander.ret);
+	if (check)
+		is_split_token(parse_tree, init, i);
+	return (expander.ret);
 
 }
 
@@ -132,7 +107,7 @@ void remove_dquotes(t_minishell *minishell, t_parse_tree *parse_tree, int *i)
 	{
 		if (parse_tree->token->value[expander.j] == '$')
 		{
-				if (remove_dollor(minishell, parse_tree, &(expander.j)) == 1)
+				if (remove_dollor(minishell, parse_tree, &(expander.j), 0) == 1)
 					expander.j--;
 		}
 		expander.j++; // j = 9
@@ -169,7 +144,11 @@ void expander(t_minishell *minishell, t_parse_tree *parse_tree)
 		while (parse_tree->token->value[i])
 		{
 			if (parse_tree->token->value[i] == '$')
-				remove_dollor(minishell, parse_tree, &i);
+			{
+				remove_dollor(minishell, parse_tree, &i, 1);
+				if (!parse_tree->token)
+					break;
+			}
 				// printf("remove dollor : %s\n", parse_tree->token->value);
 			if (parse_tree->token->value[i] == '\'')
 				remove_squotes(minishell, parse_tree, &i);
@@ -181,6 +160,7 @@ void expander(t_minishell *minishell, t_parse_tree *parse_tree)
 				break;
 			i = i + 1;
 		}
+		if (parse_tree->token)
 			parse_tree->token = parse_tree->token->next;
 	}
 	parse_tree->token = tmp_token;

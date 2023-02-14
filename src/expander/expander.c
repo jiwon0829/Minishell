@@ -13,22 +13,29 @@
 static void	is_split_token(t_parse_tree *parse_tree, int start, int *end)
 {
 	char *tmp = ft_substr(parse_tree->token->value, start, *end - start + 1);
-	
+	int	link = 1;
+
 	if (!tmp)
 		return ;
+	if (tmp[0] == ' ')
+		link = 0;
 	if (ft_strchr(tmp, ' '))
 	{
 		char **arr;
 		arr = ft_split(tmp, ' ');
 		int k = 0;
+		
 		while (arr[k])
 		{
+			if (k == 0 && start && link && parse_tree->token->value[start])
+				arr[k] = ft_strjoin(ft_substr(parse_tree->token->value, 0, start), arr[k]);
 			insert_token(&parse_tree->token, create_token(ft_strlen(arr[k]), arr[k], WORD));
 			k++;
 		}
 	}
-	del_token(&(parse_tree->token));
-	*end = 0;
+	if (parse_tree->token->value[*end + 1] == 0){
+		del_token(&(parse_tree->token));
+		*end = 0;}
 }
 
 int remove_dollor(t_minishell *minishell, t_parse_tree *parse_tree, int *i, int check)

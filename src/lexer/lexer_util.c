@@ -48,7 +48,7 @@ int get_type(char input)
 		return (PRNTH_LEFT);
 	if (input == ')')
 		return (PRNTH_RIGHT);
-	return (WORD);   
+	return (WORD);
 }
 
 int	init_quot_token(t_token **token, char *input, char **start, int *type)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 15:16:30 by inosong           #+#    #+#             */
+/*   Updated: 2023/02/13 15:18:11 by inosong          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "lexer.h"
 #include "test_code.h"
@@ -22,24 +34,19 @@ int	sub_lexer_quotes(int *type, char *input_i, \
 					check_quot(*input_i) == SQUOT)
 	{
 		ret = init_quot_token(tokens, input_i, start, type);
-		// if (ret == -1)
-		// {
-		// 	free_tokens(*tokens);
-		// 	return (-1);
-		// }
 	}
 	return (ret);
 }
 
 t_token	*tokenizer(char *input)
 {
+	t_token	*tokens;
 	int		i;
 	int		type;
 	int		temp;
 	char	*start;
-    t_token *tokens;
-	
-    if (!ft_strlen(input))
+
+	if (!ft_strlen(input))
 		return (NULL);
 	i = 0;
 	tokens = NULL;
@@ -53,7 +60,6 @@ t_token	*tokenizer(char *input)
 		temp = tokenize_special(&type, &input[i], &start, &tokens);
 		i += temp + 1;
 	}
-	add_token(&tokens, create_token((int)(&input[i] - start), start, type));  
-	//print_tokenizer_token(tokens);	//TODO
+	add_token(&tokens, create_token((int)(&input[i] - start), start, type));
 	return (tokens);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander_util.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 11:27:57 by inosong           #+#    #+#             */
+/*   Updated: 2023/02/13 11:31:43 by inosong          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "exec.h"
 #include "envp.h"
@@ -10,9 +22,8 @@
 #include "expander.h"
 #include "t_expander.h"
 
-void init_expander(t_expander *expander)
+void	init_expander(t_expander *expander)
 {
-	// expander = (t_expander *)malloc(sizeof(expander));
 	expander->ret = 0;
 	expander->j = 0;
 	expander->k = 0;
@@ -72,59 +83,52 @@ char	*expen_strjoin(char *s1, char *s2)
 	return (ptr);
 }
 
-void expand_dollor(t_minishell *minishell, t_expander *expander, t_parse_tree *parse_tree, int *i)
+void	expand_dollor(t_minishell *minishell, t_expander *ex,
+	t_parse_tree *parse_tree, int *i)
 {
-	expander->first_str = expand_substr(parse_tree->token->value, 0, *i);
-	expander->k = expander->j;
-	while (parse_tree->token->value[expander->k])
-		expander->k++;
-	expander->middle_str = ft_substr(parse_tree->token->value, *i + 1, expander->j - *i - 1);
-	// printf("middle_str :%s\n", middle_str);
-	expander->last_str = expand_substr(parse_tree->token->value, expander->j, expander->k - expander->j + 1);
-	// printf("last_str :%s\n", last_str);
+	ex->first_str = expand_substr(parse_tree->token->value, 0, *i);
+	ex->k = ex->j;
+	while (parse_tree->token->value[ex->k])
+		ex->k++;
+	ex->middle_str = ft_substr(parse_tree->token->value,
+			*i + 1, ex->j - *i - 1);
+	ex->last_str = expand_substr(parse_tree->token->value,
+			ex->j, ex->k - ex->j + 1);
 	free(parse_tree->token->value);
-	// printf("middle_str :%s\n", middle_str);
-	if (get_envpNode(minishell->envp, expander->middle_str))
+	if (get_envpNode(minishell->envp, ex->middle_str))
 	{
-	// printf("ger_envpnode :%s\n", middle_str);
-		expander->change_str = get_envpNode(minishell->envp, expander->middle_str)->value;
-		expander->return_str = expen_strjoin(expander->first_str, expander->change_str);
-		parse_tree->token->value = expen_strjoin(expander->return_str, expander->last_str);
-		*i = strlen(expander->return_str) - 1 ;
+		ex->change_str = get_envpNode(minishell->envp, ex->middle_str)->value;
+		ex->return_str = expen_strjoin(ex->first_str, ex->change_str);
+		parse_tree->token->value = expen_strjoin(ex->return_str, ex->last_str);
+		*i = strlen(ex->return_str) - 1 ;
 	}
 	else
 	{
-		// printf("else :%s\n", middle_str);
-		// last_str = ft_substr(parse_tree->token->value, j, k - j + 1);
-		parse_tree->token->value = expen_strjoin(expander->first_str, expander->last_str);
-		if (!(expander->first_str))
+		parse_tree->token->value = expen_strjoin(ex->first_str, ex->last_str);
+		if (!(ex->first_str))
 			*i = 0;
 		else
-			*i = strlen(expander->first_str);
-		expander->ret = 1;
-		// *i = 0;
+			*i = strlen(ex->first_str);
+		ex->ret = 1;
 	}
 }
-void expand_exit_status(t_minishell *minishell, t_parse_tree *parse_tree, int *i, int j)
+
+void	expand_exit_status(t_minishell *minishell, t_parse_tree *parse_tree,
+	int *i, int j)
 {
-	int k;
-	char *first_str;
-	// char *middle_str;
-	char *last_str;
-	char *change_str;
-	char *return_str;
+	int		k;
+	char	*first_str;
+	char	*last_str;
+	char	*change_str;
+	char	*return_str;
 
 	first_str = expand_substr(parse_tree->token->value, 0, *i);
 	k = j;
 	while (parse_tree->token->value[k])
 		k++;
-	// middle_str = ft_substr(parse_tree->token->value, *i + 1, j - *i - 1);
-	// printf("middle_str :%s\n", middle_str);
 	last_str = expand_substr(parse_tree->token->value, j + 1, k - j + 1);
-	// printf("last_str :%s\n", last_str);
 	free(parse_tree->token->value);
-	// printf("middle_str :%s\n", middle_str);
-	change_str = ft_itoa(minishell->exit_status); //free
+	change_str = ft_itoa(minishell->exit_status);
 	return_str = expen_strjoin(first_str, change_str);
 	parse_tree->token->value = expen_strjoin(return_str, last_str);
 	*i = strlen(return_str) - 1;

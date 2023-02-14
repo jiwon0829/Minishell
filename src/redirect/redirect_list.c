@@ -9,7 +9,6 @@
 #include "builtin.h"
 #include "test_code.h"
 
-
 // #include <errno.h>
 
 static int	re_lstsize(t_redirect *lst)

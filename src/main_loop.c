@@ -82,6 +82,7 @@ void main_loop(t_minishell *minishell)
 			continue ;
 		}
 		token = tokenizer(line);
+		// print_tokenizer_token(token);
 		free(line);line = NULL;
 		token = lexer(token);
 		parse_tree = parser(token);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_util.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 14:23:41 by inosong           #+#    #+#             */
+/*   Updated: 2023/02/13 14:23:52 by inosong          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "exec.h"
 #include "envp.h"
@@ -9,8 +21,12 @@
 #include "error_message.h"
 #include "heredoc.h"
 
+void	check_limit(t_minishell *minishell, t_heredoc *heredoc, t_token *token)
+{
+	heredoc->limit = heredoc_expander(minishell, heredoc, token->next->value);
+}
 
-t_heredoc *init_heredoc(t_minishell *minishell)
+t_heredoc	*init_heredoc(t_minishell *minishell)
 {
 	t_heredoc	*heredoc;
 
@@ -24,7 +40,6 @@ t_heredoc *init_heredoc(t_minishell *minishell)
 	heredoc->pid = 0;
 	heredoc->quote_flag = 0;
 	return (heredoc);
-
 }
 
 void	heredoc_add_back(t_heredoc **head, t_heredoc *new)

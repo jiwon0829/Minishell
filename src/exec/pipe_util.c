@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe_util.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 11:25:07 by inosong           #+#    #+#             */
+/*   Updated: 2023/02/13 11:25:25 by inosong          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "exec.h"
 
-static int arr_size(t_token *token)
+static int	arr_size(t_token *token)
 {
 	int	size;
 
@@ -22,7 +34,6 @@ char	**make_cmd_arg(t_parse_tree *parse_tree)
 	t_token	*temp;
 
 	temp = parse_tree->token;
-
 	i = 0;
 	size = arr_size(parse_tree->token);
 	cmd_arg = (char **)malloc(sizeof(char *) * (size + 1));
@@ -36,7 +47,6 @@ char	**make_cmd_arg(t_parse_tree *parse_tree)
 	parse_tree->token = temp;
 	return (cmd_arg);
 }
-
 
 char	**get_path_envp(char *envp[])
 {
@@ -54,12 +64,11 @@ char	*get_cmd_argv(char **path, char *cmd)
 	int		fd;
 	char	*path_cmd;
 	char	*tmp;
-	//지금 받은 명령어가 실행가능한 파일인지 먼저 검사후 가능하면 그대로 리턴
+
 	fd = access(cmd, X_OK);
 	if (fd != -1)
 		return (cmd);
 	path_cmd = ft_strjoin("/", cmd);
-	// fd = 0; //0초기화 안해도되는지 확인 norm25줄//0초기화해야하면 위에 변수 구조체로 만들기
 	i = 0;
 	while (path[i])
 	{
@@ -78,7 +87,8 @@ char	*get_cmd_argv(char **path, char *cmd)
 	return (NULL);
 }
 
-void	get_cmd(t_minishell *minishell, t_arg *arg, t_parse_tree *parse_tree, char **envp)
+void	get_cmd(t_minishell *minishell, t_arg *arg, t_parse_tree *parse_tree,
+	char **envp)
 {
 	arg->path = get_path_envp(envp);
 	arg->cmd_arg = make_cmd_arg(parse_tree);

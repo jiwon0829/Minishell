@@ -27,7 +27,10 @@ void	init(t_minishell *minishell, char *envp[])
 	init_envp(&(minishell->envp), envp);
 	minishell->cmd_tbl = init_cmd_tbl();
 	setting_shlvl(minishell->envp);
+	minishell->pipe_cnt = 0;
+	minishell->heredoc_cnt = 0;
 	minishell->redirect = NULL;
 	minishell->heredoc = NULL;
 	minishell->heredoc_cnt = 0;
+	minishell->scmd_builtin = 0;
 }

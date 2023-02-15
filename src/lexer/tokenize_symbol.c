@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_symbol.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 18:20:28 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/13 18:26:16 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/15 09:48:12 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:44:38 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/13 18:12:05 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/15 10:26:24 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ char	**envp_to_dptr(t_envp *head)
 	{
 		if (head->value)
 		{
-		ret[i] = ft_strjoin(head->key, "=");
-		str = ft_strjoin(ret[i], head->value);
-		free(ret[i]);ret[i] = NULL;
-		ret[i] = ft_strdup(str);
-		++i;
-			
+			ret[i] = ft_strjoin(head->key, "=");
+			str = ft_strjoin(ret[i], head->value);
+			free (ret[i]);
+			ret[i] = NULL;
+			ret[i] = ft_strdup(str);
+			++i;
 		}
 		head = head->next;
 	}

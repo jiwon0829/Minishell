@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 14:12:42 by inosong           #+#    #+#             */
+/*   Updated: 2023/02/15 09:54:05 by inosong          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "exec.h"
 #include "envp.h"
@@ -11,16 +23,24 @@
 #include "expander.h"
 #include "signals.h"
 
-///static void print_heredoc_list(t_heredoc *head);
-
-void check_limit(t_minishell *minishell, t_heredoc *heredoc, t_token *token)
+static void	heredoc_waitpid(t_minishell *minishell, t_heredoc **heredoc,
+	int *status, int pid)
 {
-	// printf("here lim before:%s\n",token->next->value);
-	heredoc->limit = heredoc_expander(minishell, heredoc, token->next->value);
-	// printf("here lim after:%s\n",heredoc->limit);
+	waitpid(pid, status, 0);
+	if (WIFEXITED(status))
+		minishell->exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		minishell->exit_status = WTERMSIG(status);
+	if (minishell->exit_status == 128 + SIGINT)
+	{
+		free(*heredoc);
+		return ;
+	}
+	set_signal(CATCH, IGNORE);
 }
 
-void heredoc_child(t_minishell *minishell, t_heredoc *heredoc, t_token *token)
+void	heredoc_child(t_minishell *minishell,
+		t_heredoc *heredoc, t_token *token)
 {
 	char	*line;
 
@@ -42,48 +62,35 @@ void heredoc_child(t_minishell *minishell, t_heredoc *heredoc, t_token *token)
 	}
 }
 
-void open_heredoc(t_minishell *minishell, t_token *token)
+void	open_heredoc(t_minishell *minishell, t_token *token)
 {
 	t_heredoc	*heredoc;
 	int			here_pipe[2];
 	int			status;
-	int			pid;
 
-	// heredoc = NULL;
 	heredoc = init_heredoc(minishell);
 	if (pipe(here_pipe) == -1)
-		return (err_massage(minishell, 1, "pipe_error"));//메세지수정
+		return (err_massage(minishell, 1, "pipe_error"));
 	heredoc->fd[1] = here_pipe[1];
-	pid = fork();
-	if (pid == -1)
-		return (err_massage(minishell, 1, "fork_error"));//메세지수정
-	if (pid)
+	heredoc->pid = fork();
+	if (heredoc->pid == -1)
+		return (err_massage(minishell, 1, "fork_error"));
+	if (heredoc->pid)
 		set_signal(IGNORE, IGNORE);
-	if (pid == 0)
+	if (heredoc->pid == 0)
 	{
 		signal(SIGINT, heredoc_handler);
 		heredoc_child(minishell, heredoc, token);
 	}
 	close(here_pipe[1]);
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))	//0이 아닌값 리턴하면 자식프로세스가 정상종료
-		minishell->exit_status = WEXITSTATUS(status); //WIFEXITED 정상종료되면 여기서 종료코드 확인가능
-	else if (WIFSIGNALED(status))	//이 매크로가 참이면 자식프로세스가 비정상종료
-		minishell->exit_status = WTERMSIG(status); // WIFESIGNALED가 참일경우 종료코드 확인가능
-	if (minishell->exit_status == 128 + SIGINT)
-	{
-		//minishell->exit_status = 1;
-		free(heredoc);
-		return ;
-	}
-	set_signal(CATCH, IGNORE);
+	heredoc_waitpid(minishell, &heredoc, &status, heredoc->pid);
 	heredoc->fd[0] = here_pipe[0];
 	heredoc_add_back(&(minishell->heredoc), heredoc);
 }
 
-void check_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
+void	check_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 {
-	t_token *tmp_token;
+	t_token	*tmp_token;
 
 	tmp_token = parse_tree->token;
 	while (tmp_token)
@@ -100,14 +107,14 @@ void check_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 	}
 }
 
-void exec_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
+void	exec_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 {
-	t_parse_tree *tmp;
+	t_parse_tree	*tmp;
 
 	tmp = parse_tree;
 	if (minishell->exit_status == 130)
 		return ;
-	if(tmp && tmp->type == WORD)
+	if (tmp && tmp->type == WORD)
 	{
 		check_heredoc(minishell, tmp);
 	}
@@ -118,5 +125,4 @@ void exec_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 		if (tmp && tmp->right)
 			exec_heredoc(minishell, tmp->right);
 	}
-	
 }

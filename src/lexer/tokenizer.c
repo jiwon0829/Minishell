@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 18:21:24 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/13 18:21:51 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/15 10:06:58 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ int	sub_lexer_quotes(int *type, char *input_i, \
 
 t_token	*tokenizer(char *input)
 {
+	t_token	*tokens;
 	int		i;
 	int		type;
 	int		temp;
 	char	*start;
-	t_token	*tokens;
 
 	if (!ft_strlen(input))
 		return (NULL);

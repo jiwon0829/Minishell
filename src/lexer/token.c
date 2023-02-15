@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 18:19:55 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/13 18:26:40 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/15 10:44:10 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,36 @@ void	add_token(t_token **first, t_token *to_add)
 		temp = temp->next;
 	temp->next = to_add;
 	to_add->prev = temp;
+}
+
+void	insert_token(t_token **tail, t_token *to_add)
+{
+	if (!to_add)
+		return ;
+	if (!(*tail)->prev)
+	{
+		(*tail)->prev = to_add;
+		to_add->next = (*tail);
+		return ;
+	}
+	(*tail)->prev->next = to_add;
+	to_add->prev = (*tail)->prev;
+	(*tail)->prev = to_add;
+	to_add->next = (*tail);
+}
+
+void	del_token(t_token **target)
+{
+	t_token	*del;
+	t_token	*next;
+
+	del = *target;
+	next = (*target)->next;
+	if (del->prev)
+		(*target)->prev->next = (*target)->next;
+	if (del->next)
+		(*target)->next->prev = (*target)->prev;
+	free(del->value);
+	free(del);
+	*target = next;
 }

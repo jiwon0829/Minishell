@@ -12,9 +12,9 @@
 #include "../libft/libft.h"
 #include "types/t_minishell.h"
 
-
 #define FALSE 0
 #define TRUE 1
+#define FAILURE -1
 
 void 	main_loop(t_minishell *minishell);
 void	init(t_minishell *minishell, char *envp[]);

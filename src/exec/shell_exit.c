@@ -1,15 +1,67 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell_exit.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 11:27:31 by inosong           #+#    #+#             */
+/*   Updated: 2023/02/15 09:33:18 by inosong          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "exec.h"
 #include "error_message.h"
 
-void shell_err(t_minishell *minishell, int status, char *msg)
+// char *make_err_msg(t_minishell *minishell,
+//	char *str1, char *str2, char *str3)
+// {
+// 	char	*ret_str;
+// 	int		len;
+// 	int		i;
+// 	// int		j;
+
+// 	ret_str = NULL;
+// 	if (str1)
+// 	{
+// 		i = 0;
+// 		while (str1)
+// 		{
+// 			ret_str[i] = str1[i];
+// 			i++;
+// 		}
+// 	}
+// 	if (str2)
+// 	{
+// 		len = ft_strlen(ret_str);
+// 		i = 0;
+// 		while (str2)
+// 		{
+// 			ret_str[len + i] = str2[i];
+// 			i++;
+// 		}
+// 	}
+// 	if (str3)
+// 	{
+// 		len = ft_strlen(ret_str);
+// 		i = 0;
+// 		while (str3)
+// 		{
+// 			ret_str[len + i] = str3[i];
+// 			i++;
+// 		}
+// 	}
+// 	return (ret_str);
+// }
+
+void	shell_err(t_minishell *minishell, int status, char *msg)
 {
 	minishell->exit_status = status;
 	err_massage(minishell, status, msg);
-	
 }
 
-void shell_exit(t_minishell *minishell, int status, char *msg)
+void	shell_exit(t_minishell *minishell, int status, char *msg)
 {
 	minishell->exit_status = status;
 	exit_err_massage(minishell, status, msg);

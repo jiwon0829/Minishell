@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 11:24:05 by inosong           #+#    #+#             */
+/*   Updated: 2023/02/15 10:35:39 by inosong          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "exec.h"
 #include "heredoc.h"
@@ -5,27 +17,26 @@
 #include "signals.h"
 #include "expander.h"
 
-void iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
+void	iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree,
+	t_pipe *pipe)
 {
 	int	i;
 
 	i = 0;
-	expander(minishell, parse_tree);// -> 해야함
-	// expander(minisehll, parse_tree); //확장처리
+	expander(minishell, parse_tree);
 	handle_iteration(minishell, parse_tree, pipe);
-	//사용한 heredoc 리스트이동
 	if (parse_tree->type == 0)
 	{
 		while (i < minishell->heredoc_cnt)
 		{
-				if (minishell->heredoc)
-					minishell->heredoc = minishell->heredoc->next;
+			if (minishell->heredoc)
+				minishell->heredoc = minishell->heredoc->next;
 			i++;
 		}
 	}
 }
 
-void executor(t_minishell *minishell, t_parse_tree *parse_tree)
+void	executor(t_minishell *minishell, t_parse_tree *parse_tree)
 {
 	t_pipe			*pipe;
 	t_redirect		*redir;

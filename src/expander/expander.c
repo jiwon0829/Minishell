@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:31:51 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 13:14:51 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 13:50:59 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	remove_dollor(t_minishell *minishell,
 {
 	t_expander	expander;
 	int			init;
-
+	(void)check;
 	init = *i;
 	init_expander(&expander);
 	(void)minishell;
@@ -52,8 +52,8 @@ int	remove_dollor(t_minishell *minishell,
 	{
 		expand_dollor(minishell, &expander, parse_tree, i);
 	}
-	if (check)
-		is_split_token(parse_tree, init, i);
+	// if (check)
+	// 	is_split_token(parse_tree, init, i);
 	return (expander.ret);
 }
 

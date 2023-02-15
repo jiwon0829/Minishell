@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_dollor_util.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:46:34 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 11:01:23 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 15:41:56 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,14 @@ static void split_n_make_token(int link, int start,
 				0, start), arr[k]);
 		insert_token(&parse_tree->token, create_token(ft_strlen(arr[k]),
 				arr[k], WORD));
+	free(arr[k]);
 		k++;
 	}
+	free(arr);
 }
 
 void	is_split_token(t_parse_tree *parse_tree, int start, int *end)
 {
-	// char	**arr;
 	char	*tmp;
 	int		link;
 	int		k;
@@ -56,20 +57,11 @@ void	is_split_token(t_parse_tree *parse_tree, int start, int *end)
 	if (tmp[0] == ' ')
 		link = 0;
 	if (ft_strchr(tmp, ' '))
-	{
 		split_n_make_token(link, start, parse_tree, tmp);
-		// arr = ft_split(tmp, ' ');
-		// while (arr[k])
-		// {
-		// 	if (k == 0 && start && link && parse_tree->token->value[start])
-		// 		arr[k] = ft_strjoin(ft_substr(parse_tree->token->value, 0, start), arr[k]);
-		// 	insert_token(&parse_tree->token, create_token(ft_strlen(arr[k]), arr[k], WORD));
-		// 	k++;
-		// }
-	}
 	if (parse_tree->token->value[*end + 1] == 0)
 	{
 		del_token(&(parse_tree->token));
 		*end = 0;
 	}
+	free(tmp);
 }

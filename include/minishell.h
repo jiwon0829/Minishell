@@ -19,5 +19,5 @@
 void 	main_loop(t_minishell *minishell);
 void	init(t_minishell *minishell, char *envp[]);
 void    init_envp(t_envp **node, char **envp);
-
+void	free_all(t_parse_tree *parse_tree, t_token *token);
 #endif

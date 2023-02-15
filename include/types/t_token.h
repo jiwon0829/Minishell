@@ -6,7 +6,7 @@ typedef struct s_arg t_arg;
 
  struct s_arg{
 	char	**path;
-    char    **envp2;
+	char	**envp2;
 	char	**cmd_arg;
 	char	*cmd;
 	int		pipe_fd[2];

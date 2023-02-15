@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:44:38 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/15 10:26:24 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 15:06:44 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	**envp_to_dptr(t_envp *head)
 			ret[i] = NULL;
 			ret[i] = ft_strdup(str);
 			++i;
+			free(str);
 		}
 		head = head->next;
 	}

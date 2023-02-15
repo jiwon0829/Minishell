@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hanjiwon <hanjiwon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 18:19:55 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/15 00:46:22 by hanjiwon         ###   ########.fr       */
+/*   Updated: 2023/02/15 10:44:10 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	insert_token(t_token **tail, t_token *to_add)
 {
 	if (!to_add)
 		return ;
-	
 	if (!(*tail)->prev)
 	{
 		(*tail)->prev = to_add;
@@ -70,7 +69,7 @@ void	insert_token(t_token **tail, t_token *to_add)
 
 void	del_token(t_token **target)
 {
-	t_token *del;
+	t_token	*del;
 	t_token	*next;
 
 	del = *target;

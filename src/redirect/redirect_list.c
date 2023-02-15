@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect_list.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/15 13:12:14 by inosong           #+#    #+#             */
+/*   Updated: 2023/02/15 13:12:34 by inosong          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "exec.h"
 #include "envp.h"
@@ -8,9 +20,6 @@
 #include "redirect.h"
 #include "builtin.h"
 #include "test_code.h"
-
-
-// #include <errno.h>
 
 static int	re_lstsize(t_redirect *lst)
 {
@@ -34,22 +43,24 @@ static t_redirect	*re_lstlast(t_redirect *lst)
 	return (lst);
 }
 
-
-void redir_dup(t_minishell *minishell)
+int	redir_dup(t_minishell *minishell)
 {
 	while (minishell->redirect)
 	{
-		if (minishell->redirect->type == INPUT) //3
-			redir_dup_input(minishell);
-		else if (minishell->redirect->type == OUTPUT_OVER)//4
+		if (minishell->redirect->type == INPUT)
+		{
+			if (redir_dup_input(minishell) == -1)
+				return (-1);
+		}
+		else if (minishell->redirect->type == OUTPUT_OVER)
 			redir_dup_output_over(minishell);
-		else if (minishell->redirect->type == HERE_DOC)    //5
+		else if (minishell->redirect->type == HERE_DOC)
 			redir_dup_heredoc(minishell);
-		else if (minishell->redirect->type == OUTPUT_APPEND) //6
+		else if (minishell->redirect->type == OUTPUT_APPEND)
 			redir_dup_output_append(minishell);
 		minishell->redirect = minishell->redirect->next;
 	}
-
+	return (1);
 }
 
 void	redir_lstadd_back(t_redirect **head, t_redirect *new)

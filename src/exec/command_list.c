@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command_list.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 09:17:02 by inosong           #+#    #+#             */
+/*   Updated: 2023/02/13 17:27:56 by inosong          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "exec.h"
 #include "lexer.h"
@@ -5,7 +17,8 @@
 #include "signals.h"
 #include "test_code.h"
 
-void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes, int fd[2])
+void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree,
+	t_pipe *pipes, int fd[2])
 {
 	if (pipe(fd) == ERR)
 		shell_exit(minishell, 1, "error");
@@ -20,23 +33,27 @@ void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *
 	}
 }
 
-void	execute_or_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes, int fd[2])
+void	execute_or_node(t_minishell *minishell, t_parse_tree *parse_tree,
+	t_pipe *pipes, int fd[2])
 {
 	if (pipe(fd) == ERR)
 		shell_exit(minishell, 1, "error");
 	lstadd_front(&pipes, lstnew(fd));
 	pipes->left_flag = 1;
 	iterate_tree(minishell, parse_tree->left, pipes);
-	dup2(minishell->exit_fdin,STDIN_FILENO);
+	dup2(minishell->exit_fdin, STDIN_FILENO);
 	if (minishell->exit_status != 0)
 	{
+		printf("or right\n");
 		pipes->right_flag = 1;
 		iterate_tree(minishell, parse_tree->right, pipes);
 	}
 }
 
-void	execute_pipe_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes, int fd[2])
+void	execute_pipe_node(t_minishell *minishell, t_parse_tree *parse_tree,
+	t_pipe *pipes, int fd[2])
 {
+	minishell->pipe_cnt++;
 	if (pipe(fd) == ERR)
 		shell_exit(minishell, 1, "error");
 	lstadd_front(&pipes, lstnew(fd));
@@ -46,7 +63,8 @@ void	execute_pipe_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe 
 	iterate_tree(minishell, parse_tree->right, pipes);
 }
 
-void	handle_iteration(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe)
+void	handle_iteration(t_minishell *minishell, t_parse_tree *parse_tree,
+	t_pipe *pipe)
 {
 	int	fd[2];
 

@@ -19,4 +19,7 @@ void expand_exit_status(t_minishell *minishell, t_parse_tree *parse_tree, int *i
 void init_expander(t_expander *expander);
 void expand_dollor(t_minishell *minishell, t_expander *expander, t_parse_tree *parse_tree, int *i);
 
+//expander_dollor_util.c
+void	is_split_token(t_parse_tree *parse_tree, int start, int *end);
+
 #endif

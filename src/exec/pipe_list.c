@@ -6,12 +6,25 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:24:27 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/13 11:24:32 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 09:37:26 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "exec.h"
+
+int	arr_size(t_token *token)
+{
+	int	size;
+
+	size = 0;
+	while (token)
+	{
+		token = token->next;
+		size++;
+	}
+	return (size);
+}
 
 t_pipe	*lstlast(t_pipe *lst)
 {

@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:31:51 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/13 14:42:30 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 09:39:40 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #include "expander.h"
 #include "t_expander.h"
 
-int remove_dollor(t_minishell *minishell, t_parse_tree *parse_tree, int *i)
+int	remove_dollor(t_minishell *minishell, t_parse_tree *parse_tree, int *i)
 {
 	t_expander	expander;
 

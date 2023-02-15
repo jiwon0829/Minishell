@@ -1,24 +1,35 @@
-#include "exec.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wildcard.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/15 09:39:49 by inosong           #+#    #+#             */
+/*   Updated: 2023/02/15 09:42:18 by inosong          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include"exec.h"
 #include "lexer.h"
 #include "parser.h"
 #include <dirent.h>
 #include "test_code.h"
 
-static int is_valid_value(char *dname, char *str)
+static int	is_valid_value(char *dname, char *str)
 {
-
-	int dname_len;
-	int str_len;
-	int i;
-	int d_i;
+	int	dname_len;
+	int	str_len;
+	int	i;
+	int	d_i;
 
 	dname_len = ft_strlen(dname);
 	str_len = ft_strlen(str);
 	i = 0;
 	while (i < dname_len && i < str_len && (dname[i] == str[i]))
 		++i;
-	if (str_len == i)	//str=k, dname=k -> return (TRUE)
-		return(dname_len == i);
+	if (str_len == i)//str=k, dname=k -> return (TRUE)
+		return (dname_len == i);
 	if (str[i] == '*')
 	{
 		d_i = 0;
@@ -33,17 +44,18 @@ static int is_valid_value(char *dname, char *str)
 	return (0);
 }
 
-static int add_wildcard_token(t_token *token, char *dname, int *cnt)
+static int	add_wildcard_token(t_token *token, char *dname, int *cnt)
 {
-	char *str;
-	t_token *new;
+	char	*str;
+	t_token	*new;
 
 	if (!(*cnt))
 	{
 		str = ft_strdup(dname);
 		if (!str)
 			return (0);
-		free(token->value);token->value = NULL;
+		free(token->value);
+		token->value = NULL;
 		token->value = str;
 	}
 	else
@@ -58,7 +70,6 @@ static int add_wildcard_token(t_token *token, char *dname, int *cnt)
 	}
 	(*cnt)++;
 	return (1);
-
 }
 
 /*static void re_wildcard(char *str)
@@ -71,11 +82,12 @@ static int add_wildcard_token(t_token *token, char *dname, int *cnt)
 	}
 }*/
 
-static int is_valid_wildcard(t_token *token, char *str)
+static int	is_valid_wildcard(t_token *token, char *str)
 {
-	DIR	*dir;
-	struct dirent *dirent;
-	int	cnt;
+	DIR				*dir;
+	struct dirent	*dirent;
+	int				cnt;
+
 	cnt = 0;
 	dir = opendir(".");	//지정한 디렉토리 열기(파일처럼 연다.)즉, 특정 디렉토리 안에 있는 파일과 디렉토리 검색을 위해 사용
 	if (!dir)
@@ -95,13 +107,14 @@ static int is_valid_wildcard(t_token *token, char *str)
 	return (1);
 }
 
-static char *set_wildcard(char *value)
+static char	*set_wildcard(char *value)
 {
-	char *ret;
-	int ret_len;
-	int i=0;
-	char *tmp;
+	char	*ret;
+	int		ret_len;
+	char	*tmp;
+	int		i;
 
+	i = 0;
 	tmp = ft_strdup(value);
 	ret_len = 0;
 	while (value[i])
@@ -122,9 +135,9 @@ static char *set_wildcard(char *value)
 	return (ret);
 }
 
-void    is_wildcard(t_token *token)
+void	is_wildcard(t_token *token)
 {
-	char *str;
+	char	*str;
 
 	if (!token)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:27:31 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/13 11:27:31 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 09:33:18 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include "exec.h"
 #include "error_message.h"
 
-// char *make_err_msg(t_minishell *minishell, char *str1, char *str2, char *str3)
+// char *make_err_msg(t_minishell *minishell,
+//	char *str1, char *str2, char *str3)
 // {
 // 	char	*ret_str;
 // 	int		len;

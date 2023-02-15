@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:20:40 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/13 18:14:06 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 09:38:31 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 #include "term_signal.h"
 #include "test_code.h"
 
-int exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe, char **envp)
+int	exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree,
+	t_pipe *pipe, char **envp)
 {
 	get_cmd(minishell, parse_tree->token->arg, parse_tree, envp);
 	if (parse_tree->token == NULL)
@@ -54,15 +55,15 @@ void	exec_child_scmd(t_minishell *minishell, t_parse_tree *parse_tree,
 	t_pipe *pipe, char **envp)
 {
 	(void)pipe;
-		if (parse_tree->token == NULL)
-			exit (0);	
-		get_cmd(minishell, parse_tree->token->arg, parse_tree, envp);
-		redir_dup(minishell);//redirect 반영
-		if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
-		{
-			exec_builtin(minishell, parse_tree);
-			exit(minishell->exit_status);
-		}
-		else
-			run_program(parse_tree->token->arg, envp);
+	if (parse_tree->token == NULL)
+		exit(0);
+	get_cmd(minishell, parse_tree->token->arg, parse_tree, envp);
+	redir_dup(minishell);
+	if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
+	{
+		exec_builtin(minishell, parse_tree);
+		exit(minishell->exit_status);
+	}
+	else
+		run_program(parse_tree->token->arg, envp);
 }

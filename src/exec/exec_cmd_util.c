@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:22:58 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/13 18:19:46 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 09:39:02 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #include "term_signal.h"
 #include "test_code.h"
 
-int exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree)
+int	exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree)
 {
 	char	**cmds;
 
@@ -38,7 +38,7 @@ int exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree)
 	return (1);
 }
 
-int exec_builtin_scmd(t_minishell *minishell, t_parse_tree *parse_tree)
+int	exec_builtin_scmd(t_minishell *minishell, t_parse_tree *parse_tree)
 {
 	minishell->scmd_builtin = 1;
 	if (exec_builtin(minishell, parse_tree) == -1)
@@ -46,7 +46,7 @@ int exec_builtin_scmd(t_minishell *minishell, t_parse_tree *parse_tree)
 		minishell->scmd_builtin = 0;
 		return (-1);
 	}
-	dup2(minishell->exit_fdin, STDIN_FILENO);//변경되었는지 체크후 실행하는거로 수정
+	dup2(minishell->exit_fdin, STDIN_FILENO);
 	dup2(minishell->exit_fdout, STDOUT_FILENO);
 	minishell->scmd_builtin = 0;
 	return (1);

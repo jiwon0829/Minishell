@@ -41,6 +41,7 @@ t_pipe	*lstlast(t_pipe *lst);
 void	lstadd_front(t_pipe **head, t_pipe *new);
 t_pipe	*lstnew(int *fd);
 int		lstsize(t_pipe *lst);
+int	arr_size(t_token *token)
  
 //pipe_util.c
 char	**make_cmd_arg(t_parse_tree *parse_tree);

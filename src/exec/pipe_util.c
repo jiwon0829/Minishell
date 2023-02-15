@@ -6,25 +6,12 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:25:07 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/13 11:25:25 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 09:37:13 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "exec.h"
-
-static int	arr_size(t_token *token)
-{
-	int	size;
-
-	size = 0;
-	while (token)
-	{
-		token = token->next;
-		size++;
-	}
-	return (size);
-}
 
 char	**make_cmd_arg(t_parse_tree *parse_tree)
 {
@@ -66,10 +53,7 @@ char	*get_cmd_argv(char **path, char *cmd)
 	int		fd;
 	char	*path_cmd;
 	char	*tmp;
-	// //지금 받은 명령어가 실행가능한 파일인지 먼저 검사후 가능하면 그대로 리턴
-	// fd = access(cmd, X_OK);
-	// if (fd != -1)
-	// 	return (cmd);
+
 	path_cmd = ft_strjoin("/", cmd);
 	i = 0;
 	while (path && path[i])
@@ -89,9 +73,10 @@ char	*get_cmd_argv(char **path, char *cmd)
 	return (NULL);
 }
 
-static int check_cur_exec(t_minishell *minishell, t_arg *arg)
+static int	check_cur_exec(t_minishell *minishell, t_arg *arg)
 {
 	int	fd;
+
 	(void)minishell;
 	fd = access(arg->cmd_arg[0], F_OK);
 	if (fd != -1)
@@ -104,13 +89,14 @@ static int check_cur_exec(t_minishell *minishell, t_arg *arg)
 		}
 		return (-1);
 	}
-	return(0);
+	return (0);
 }
 
-void	get_cmd(t_minishell *minishell, t_arg *arg, t_parse_tree *parse_tree, char **envp)
+void	get_cmd(t_minishell *minishell, t_arg *arg,
+	t_parse_tree *parse_tree, char **envp)
 {
 	int	i;
-	
+
 	i = 0;
 	arg->cmd_arg = make_cmd_arg(parse_tree);
 	if (arg->cmd_arg == NULL)
@@ -121,13 +107,14 @@ void	get_cmd(t_minishell *minishell, t_arg *arg, t_parse_tree *parse_tree, char 
 		if (i == -1)
 			permission_error_message(minishell, 126, *(arg->cmd_arg));
 	}
-	else 
+	else
 	{
-		if(strncmp("./", *(arg->cmd_arg),2) == 0)
+		if (strncmp("./", *(arg->cmd_arg), 2) == 0)
 		{
 			redir_open_error_message(minishell, 127, *(arg->cmd_arg));
 		}
-		if ((arg->path = get_path_envp(envp)) == NULL)
+		arg->path = get_path_envp(envp);
+		if ((arg->path == NULL))
 			redir_open_error_message(minishell, 127, *(arg->cmd_arg));
 		arg->cmd = get_cmd_argv(arg->path, arg->cmd_arg[0]);
 	}

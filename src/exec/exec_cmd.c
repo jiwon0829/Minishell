@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:26:05 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/13 19:33:55 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 09:32:25 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@ static void	wait_pid(t_minishell *minishell, t_pipe *pipe)
 	int	status;
 	int	tmp;
 	int	i;
-// (void)pipe;
-	i = 0;
 
+	i = 0;
 	waitpid(pipe->pid, &status, 0);
 	if (WIFEXITED(status))
 		minishell->exit_status = WEXITSTATUS(status);
@@ -75,7 +74,6 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree,
 void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree,
 		t_pipe *pipe)
 {
-	
 	if (parse_tree->up && parse_tree->up->up
 		&& parse_tree->up->up->type == PIPE && pipe->right_flag == 1)
 	{
@@ -83,8 +81,10 @@ void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree,
 		close(pipe->next->fd[1]);
 		close(pipe->next->fd[0]);
 	}
-	else if ((parse_tree->up && parse_tree->up->type != PIPE) || (pipe->right_flag == 1 && (((parse_tree->up && parse_tree->up->type == PIPE)
-			&& (!(parse_tree->up->up))) || ((parse_tree->up) && (parse_tree->up->up && parse_tree->up->up->type != PIPE)))))
+	else if ((parse_tree->up && parse_tree->up->type != PIPE)
+		|| (pipe->right_flag == 1 && (((parse_tree->up && parse_tree->up->\
+			type == PIPE) && (!(parse_tree->up->up))) || ((parse_tree->up) \
+			&& (parse_tree->up->up && parse_tree->up->up->type != PIPE)))))
 	{
 		wait_pid(minishell, pipe);
 	}
@@ -94,7 +94,6 @@ void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree,
 		dup2(pipe->fd[0], STDIN_FILENO);
 		close(pipe->fd[0]);
 	}
-
 	minishell->redirect = NULL;
 }
 

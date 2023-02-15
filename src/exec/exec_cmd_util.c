@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_util.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:22:58 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 10:54:01 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 15:59:06 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree)
 			return (-1);
 		cmds = make_cmd_arg(parse_tree);
 		ft_execve(minishell, minishell->cmd_tbl, cmds);
-		while (*cmds)
-			free(*cmds++);
+		//while (*cmds)
+		//	free(*cmds++);
 	}
 	return (1);
 }

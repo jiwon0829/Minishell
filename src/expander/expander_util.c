@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_util.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:27:57 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 10:40:24 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 15:44:47 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ void	expand_dollor(t_minishell *minishell, t_expander *ex,
 			*i = strlen(ex->first_str);
 		ex->ret = 1;
 	}
+	free(ex->first_str);
+	free(ex->last_str);
 }
 
 void	expand_exit_status(t_minishell *minishell, t_parse_tree *parse_tree,

@@ -41,7 +41,7 @@ void	init_separs(char **separs);
 int check_quot(char input);
 
 //lexer_free.c
-t_token *free_tokens(t_token *token);
+void	free_tokens(t_token *token);
 
 //lexer.c
 t_token *lexer(t_token *token);

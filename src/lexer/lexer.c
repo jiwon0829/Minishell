@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 18:19:38 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/15 09:49:29 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 14:08:57 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ int	set_token_types(t_token **token)
 t_token	*lexer(t_token *token)
 {
 	if (set_token_types(&token) == -1)
-		return (free_tokens(token));
+		return (free_tokens(token), NULL);
 	return (token);
 }

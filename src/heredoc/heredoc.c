@@ -9,7 +9,7 @@
 #include "error_message.h"
 #include "heredoc.h"
 #include "expander.h"
-#include "term_signal.h"
+#include "signals.h"
 
 ///static void print_heredoc_list(t_heredoc *head);
 
@@ -58,10 +58,7 @@ void open_heredoc(t_minishell *minishell, t_token *token)
 	if (pid == -1)
 		return (err_massage(minishell, 1, "fork_error"));//메세지수정
 	if (pid)
-	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
-	}
+		set_signal(IGNORE, IGNORE);
 	if (pid == 0)
 	{
 		signal(SIGINT, heredoc_handler);
@@ -79,6 +76,7 @@ void open_heredoc(t_minishell *minishell, t_token *token)
 		free(heredoc);
 		return ;
 	}
+	set_signal(CATCH, IGNORE);
 	heredoc->fd[0] = here_pipe[0];
 	heredoc_add_back(&(minishell->heredoc), heredoc);
 }
@@ -92,7 +90,6 @@ void check_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 	{
 		if (tmp_token->type == HERE_DOC)
 		{
-			//signal(SIGINT, heredoc_handler);
 			open_heredoc(minishell, tmp_token);
 			if (minishell->exit_status == 130)
 				return ;
@@ -113,7 +110,6 @@ void exec_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 	if(tmp && tmp->type == WORD)
 	{
 		check_heredoc(minishell, tmp);
-		setting_signal();
 	}
 	else
 	{

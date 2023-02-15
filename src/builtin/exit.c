@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 09:34:05 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/13 09:34:39 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtin.h"
 #include "error_message.h"
 
-static long long ft_atoll(char *num)
+static long long	ft_atoll(char *num)
 {
-	int         i;
+	int			i;
 	int			check;
-	long long   ret;
+	long long	ret;
 	long long	val;
 
 	ret = 0;
@@ -29,9 +41,9 @@ static long long ft_atoll(char *num)
 	return (ret * check);
 }
 
-static int is_valid_value(char *arr)
+static int	is_valid_value(char *arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (arr[i] == '-')
@@ -42,9 +54,9 @@ static int is_valid_value(char *arr)
 	return (1);
 }
 
-void    ft_exit(t_minishell *minishell, char **arr)
+void	ft_exit(t_minishell *minishell, char **arr)
 {
-	if(arr[1] && arr[2])
+	if (arr[1] && arr[2])
 	{
 		exit_argment_cnt_error();
 		minishell->exit_status = 255;

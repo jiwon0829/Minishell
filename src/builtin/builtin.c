@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:09:25 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/15 13:39:40 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/15 15:10:45 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_cmd_tbl	*init_cmd_tbl(void)
 	cmd_tbl->cmd = (t_cmd *)malloc(sizeof(t_cmd) * cmd_tbl->cnt);
 	if (!cmd_tbl->cmd)
 		memory_malloc_error();
-	setting_cmd(&cmd_tbl->cmd[0], ft_strdup("echo"), AC_ANY, "");
+	setting_cmd(&cmd_tbl->cmd[0], "echo", AC_ANY, "");
 	cmd_tbl->cmd[0].func = echo;
 	setting_cmd(&cmd_tbl->cmd[1], "cd", AC_LESS_1, "");
 	cmd_tbl->cmd[1].func = cd;
@@ -70,7 +70,7 @@ void	ft_execve(t_minishell *minishell, t_cmd_tbl *cmd_tbl, char **arr)
 	{
 		if (ft_strlen(cmd_tbl->cmd[i].cmd) > ft_strlen(arr[0]))
 		{
-			ft_putstr_fd("minishell: ",2);
+			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(arr[0], 2);
 			ft_putendl_fd(": command not found", 2);
 			return ;

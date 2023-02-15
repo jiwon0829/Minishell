@@ -16,7 +16,7 @@ static void setting_shlvl(t_envp *envp)
 	}
 	shlvl = ft_atoi(shlvl_node->value);
 	++shlvl;
-	insert_envp(&envp, "SHLVL", ft_itoa(shlvl));
+	update_envp(envp, "SHLVL", ft_itoa(shlvl));
 }
 
 #include "test_code.h"	//TODO

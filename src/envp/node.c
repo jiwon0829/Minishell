@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:41:34 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/13 18:09:52 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/15 15:37:47 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,5 @@ void	update_envp(t_envp *head, char *key, char *new)
 	free(head->value);
 	head->value = NULL;
 	head->value = ft_strdup(new);
+	free(new);
 }

@@ -1,4 +1,4 @@
-CC = cc -g -fsanitize=address
+CC = cc 
 CFLAGS = -Wall -Wextra -Werror
 
 # 클러스터
@@ -25,7 +25,7 @@ LIBFT_DIR = libft
 
 SRCS = src/test_code.c \
 		src/utils/error_message.c src/utils/setting.c \
-		src/minishell.c src/main_loop.c  \
+		src/minishell.c src/main_loop.c  src/utils/memory.c\
 		src/envp/setting.c src/envp/node.c src/envp/print.c\
 		src/builtin/builtin.c src/builtin/echo.c src/builtin/env.c \
 		src/builtin/export.c src/builtin/pwd.c src/builtin/unset.c \

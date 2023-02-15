@@ -22,7 +22,7 @@
 #include "expander.h"
 #include "t_expander.h"
 
-int	remove_dollor(t_minishell *minishell, t_parse_tree *parse_tree, int *i)
+int remove_dollor(t_minishell *minishell, t_parse_tree *parse_tree, int *i)
 {
 	t_expander	expander;
 

@@ -51,19 +51,22 @@ void	get_cmd(t_minishell *minishell, t_arg *arg, t_parse_tree *parse_tree, char 
 //shell_exit.c
 void 	shell_err(t_minishell *minishell, int status, char *msg);
 void 	shell_exit(t_minishell *minishell, int status, char *msg);
+void	redir_open_error_message(t_minishell *minishell, int status, char *msg);
 void	exit_value_set(t_minishell *minishell, int exit_status);
+void	permission_error_message(t_minishell *minishell, int status, char *msg);
+
 
 //set_cmd.c
 void set_cmd(t_minishell *minishell, t_parse_tree *parse_tree);
 
 //exec_cmd_util.c
-void exec_builtin_scmd(t_minishell *minishell, t_parse_tree *parse_tree);
+int exec_builtin_scmd(t_minishell *minishell, t_parse_tree *parse_tree);
 void exec_multi_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes);
 void exec_scmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes);
-void exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree);
+int exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree);
 
 //exec_cmd_child_util.c
-void exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe, char **envp);
+int exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe, char **envp);
 void exec_child_scmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe, char **envp);
 
 #endif

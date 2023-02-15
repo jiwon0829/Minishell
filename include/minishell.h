@@ -15,6 +15,7 @@
 
 #define FALSE 0
 #define TRUE 1
+#define FAILURE -1
 
 void	setting_signal(void);
 void 	main_loop(t_minishell *minishell);

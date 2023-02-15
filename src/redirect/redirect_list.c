@@ -34,12 +34,15 @@ static t_redirect	*re_lstlast(t_redirect *lst)
 }
 
 
-void redir_dup(t_minishell *minishell)
+int redir_dup(t_minishell *minishell)
 {
 	while (minishell->redirect)
 	{
 		if (minishell->redirect->type == INPUT) //3
-			redir_dup_input(minishell);
+		{
+			if (redir_dup_input(minishell) == -1)
+				return (-1);
+		}
 		else if (minishell->redirect->type == OUTPUT_OVER)//4
 			redir_dup_output_over(minishell);
 		else if (minishell->redirect->type == HERE_DOC)    //5
@@ -48,7 +51,7 @@ void redir_dup(t_minishell *minishell)
 			redir_dup_output_append(minishell);
 		minishell->redirect = minishell->redirect->next;
 	}
-
+	return (1);
 }
 
 void	redir_lstadd_back(t_redirect **head, t_redirect *new)

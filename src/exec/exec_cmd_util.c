@@ -22,25 +22,34 @@
 #include "term_signal.h"
 #include "test_code.h"
 
-void	exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree)
+int exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree)
 {
 	char	**cmds;
 
 	if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
 	{
-		redir_dup(minishell);
+		if (redir_dup(minishell) == -1)
+			return (-1);
 		cmds = make_cmd_arg(parse_tree);
 		ft_execve(minishell, minishell->cmd_tbl, cmds);
 		while (*cmds)
 			free(*cmds++);
 	}
+	return (1);
 }
 
-void	exec_builtin_scmd(t_minishell *minishell, t_parse_tree *parse_tree)
+int exec_builtin_scmd(t_minishell *minishell, t_parse_tree *parse_tree)
 {
-	exec_builtin(minishell, parse_tree);
-	dup2(minishell->exit_fdin, STDIN_FILENO);
+	minishell->scmd_builtin = 1;
+	if (exec_builtin(minishell, parse_tree) == -1)
+	{
+		minishell->scmd_builtin = 0;
+		return (-1);
+	}
+	dup2(minishell->exit_fdin, STDIN_FILENO);//변경되었는지 체크후 실행하는거로 수정
 	dup2(minishell->exit_fdout, STDOUT_FILENO);
+	minishell->scmd_builtin = 0;
+	return (1);
 }
 
 void	exec_multi_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
@@ -49,7 +58,7 @@ void	exec_multi_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
 	pipes->pid = fork();
 	setting_child();
 	if (pipes->pid < 0)
-		shell_err(minishell, 1, "error");
+		exit_err_massage(minishell, 1, "fork_error");
 	if (pipes->pid == 0)
 	{
 		child_process(minishell, parse_tree, pipes);

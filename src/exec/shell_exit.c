@@ -14,6 +14,46 @@
 #include "exec.h"
 #include "error_message.h"
 
+// char *make_err_msg(t_minishell *minishell, char *str1, char *str2, char *str3)
+// {
+// 	char	*ret_str;
+// 	int		len;
+// 	int		i;
+// 	// int		j;
+
+// 	ret_str = NULL;
+// 	if (str1)
+// 	{
+// 		i = 0;
+// 		while (str1)
+// 		{
+// 			ret_str[i] = str1[i];
+// 			i++;
+// 		}
+// 	}
+// 	if (str2)
+// 	{
+// 		len = ft_strlen(ret_str);
+// 		i = 0;
+// 		while (str2)
+// 		{
+// 			ret_str[len + i] = str2[i];
+// 			i++;
+// 		}
+// 	}
+// 	if (str3)
+// 	{
+// 		len = ft_strlen(ret_str);
+// 		i = 0;
+// 		while (str3)
+// 		{
+// 			ret_str[len + i] = str3[i];
+// 			i++;
+// 		}
+// 	}
+// 	return (ret_str);
+// }
+
 void	shell_err(t_minishell *minishell, int status, char *msg)
 {
 	minishell->exit_status = status;

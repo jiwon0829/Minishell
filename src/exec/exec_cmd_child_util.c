@@ -22,10 +22,8 @@
 #include "term_signal.h"
 #include "test_code.h"
 
-void	exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree,
-	t_pipe *pipe, char **envp)
+int exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe, char **envp)
 {
-	printf("in child logical\n");
 	get_cmd(minishell, parse_tree->token->arg, parse_tree, envp);
 	if (parse_tree->token == NULL)
 		exit (0);
@@ -40,8 +38,8 @@ void	exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree,
 	}
 	else
 		close(pipe->fd[1]);
-	
-	redir_dup(minishell);
+	if (redir_dup(minishell) == FAILURE)
+		return (FAILURE);
 	if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
 	{
 		exec_builtin(minishell, parse_tree);
@@ -49,23 +47,22 @@ void	exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree,
 	}
 	else
 		run_program(parse_tree->token->arg, envp);
+	return (127);
 }
 
 void	exec_child_scmd(t_minishell *minishell, t_parse_tree *parse_tree,
 	t_pipe *pipe, char **envp)
 {
 	(void)pipe;
-	get_cmd(minishell, parse_tree->token->arg, parse_tree, envp);
-	if (parse_tree->token == NULL)
-		exit(0);
-	redir_dup(minishell);
-	if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
-	{
-		exec_builtin(minishell, parse_tree);
-		exit(minishell->exit_status);
-	}
-	else
-	{
-		run_program(parse_tree->token->arg, envp_to_dptr(minishell->envp));
-	}
+		if (parse_tree->token == NULL)
+			exit (0);	
+		get_cmd(minishell, parse_tree->token->arg, parse_tree, envp);
+		redir_dup(minishell);//redirect 반영
+		if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
+		{
+			exec_builtin(minishell, parse_tree);
+			exit(minishell->exit_status);
+		}
+		else
+			run_program(parse_tree->token->arg, envp);
 }

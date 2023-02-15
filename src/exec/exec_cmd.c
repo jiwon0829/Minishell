@@ -29,27 +29,19 @@ static void	wait_pid(t_minishell *minishell, t_pipe *pipe)
 	int	i;
 // (void)pipe;
 	i = 0;
-	printf("in wait_pid\n");
 
 	waitpid(pipe->pid, &status, 0);
 	if (WIFEXITED(status))
 		minishell->exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 		minishell->exit_status = WTERMSIG(status);
-	// printf ("pipe pid :[%d]\n", pipe->pid);
-	printf("exit_status:[%d]\n",minishell->exit_status);
-
 	while (i < minishell->pipe_cnt)
 	{
-		printf ("pipe while 12\n");
 		wait(&tmp);
-		// pipe = pipe->prev;
 		i++;
 	}
 	minishell->pipe_cnt = 0;
 	dup2(minishell->exit_fdin, STDIN_FILENO);
-		// printf ("pipe while 1\n");
-
 }
 
 void	run_program(t_arg *arg, char **envp)
@@ -62,7 +54,6 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree,
 {
 	t_arg	arg;
 	char	**envp;
-	printf("in child process\n");
 
 	minishell->exit_status = 0;
 	envp = envp_to_dptr(minishell->envp);
@@ -78,13 +69,13 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree,
 	minishell->exit_status = 1;
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(parse_tree->token->value, 2);
-	shell_exit(minishell, 1, ": command not found");
+	shell_exit(minishell, 127, ": command not found");
 }
 
 void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree,
 		t_pipe *pipe)
 {
-	printf("in parent process\n");
+	
 	if (parse_tree->up && parse_tree->up->up
 		&& parse_tree->up->up->type == PIPE && pipe->right_flag == 1)
 	{

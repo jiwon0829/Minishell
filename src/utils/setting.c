@@ -31,4 +31,6 @@ void	init(t_minishell *minishell, char *envp[])
 	minishell->heredoc_cnt = 0;
 	minishell->redirect = NULL;
 	minishell->heredoc = NULL;
+	minishell->heredoc_cnt = 0;
+	minishell->scmd_builtin = 0;
 }

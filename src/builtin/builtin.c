@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:09:25 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/13 09:16:40 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/15 13:31:42 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void	ft_execve(t_minishell *minishell, t_cmd_tbl *cmd_tbl, char **arr)
 	i = -1;
 	while (++i < cmd_tbl->cnt)
 	{
-		if (ft_strncmp(cmd_tbl->cmd[i].cmd, arr[0], ft_strlen(arr[0])) == 0)
+		if (ft_strncmp(cmd_tbl->cmd[i].cmd, arr[0], \
+			ft_strlen(cmd_tbl->cmd[i].cmd)) == 0)
 		{
 			cmd_tbl->cmd[i].func(minishell, arr);
 			return ;

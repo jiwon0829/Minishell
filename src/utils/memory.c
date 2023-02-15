@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 18:31:35 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/15 14:35:15 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/15 17:12:58 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,15 @@ void	free_all(t_parse_tree *parse_tree, t_token *token)
 		return ;
 	if (parse_tree)
 		free_parse_tree(parse_tree);
+	// free(parse_tree);
+	// parse_tree = NULL;
+
+	// if (parse_tree)
+	// {
+	// 	if (parse_tree->token)
+	// 		free_tokens(parse_tree->token);
+	// }
+
 	// if (token)
 	// 	free_tokens(token);
 }

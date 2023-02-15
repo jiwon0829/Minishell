@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:17:02 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 15:55:36 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/15 17:42:11 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ void	execute_pipe_node(t_minishell *minishell, t_parse_tree *parse_tree,
 	pipes->left_flag = 1;
 	iterate_tree(minishell, parse_tree->left, pipes);
 	pipes->right_flag = 1;
+
 	iterate_tree(minishell, parse_tree->right, pipes);
+	// system("leaks minishell");
 }
 
 void	handle_iteration(t_minishell *minishell, t_parse_tree *parse_tree,

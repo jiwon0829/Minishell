@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 09:16:44 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/13 09:17:27 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtin.h"
 #include "envp.h"
 
@@ -36,9 +48,9 @@ int	go_to_home(t_envp *envp)
 	}
 	if (chdir(home))
 	{
-		ft_putstr_fd("minishell: cd: ",2);
-		ft_putstr_fd(home,2);
-		ft_putendl_fd(": No such file or directory",2);
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(home, 2);
+		ft_putendl_fd(": No such file or directory", 2);
 		return (1);
 	}
 	return (update_path(envp));
@@ -56,9 +68,9 @@ int	go_to_oldpwd(t_envp *envp)
 	}
 	if (chdir(oldpwd))
 	{
-		ft_putstr_fd("minishell: cd: ",2);
-		ft_putstr_fd(oldpwd,2);
-		ft_putendl_fd(": No such file or directory",2);
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(oldpwd, 2);
+		ft_putendl_fd(": No such file or directory", 2);
 		return (1);
 	}
 	else
@@ -66,13 +78,13 @@ int	go_to_oldpwd(t_envp *envp)
 	return (update_path(envp));
 }
 
-int go_to_new(t_envp *envp, char *path)
+int	go_to_new(t_envp *envp, char *path)
 {
 	if (chdir(path))
 	{
-		ft_putstr_fd("minishell: cd: ",2);
-		ft_putstr_fd(path,2);
-		ft_putendl_fd(": No such file or directory",2);
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putendl_fd(": No such file or directory", 2);
 		return (1);
 	}
 	return (update_path(envp));

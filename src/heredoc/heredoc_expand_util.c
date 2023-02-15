@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 15:00:35 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/13 15:09:41 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 10:43:44 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,36 +21,35 @@
 #include "error_message.h"
 #include "heredoc.h"
 #include "expander.h"
-#include "term_signal.h"
+#include "signals.h"
 #include "t_expander.h"
 
-void	heredoc_expand_dollor(t_minishell *minishell, t_expander *expan,
+void	heredoc_expand_dollor(t_minishell *minishell, t_expander *exp,
 	char **value, int *i)
 {
-	expan->first_str = expand_substr(*value, 0, *i);
-	expan->k = expan->j;
-	while (value[0][expan->k])
-		expan->k++;
-	expan->middle_str = ft_substr(*value, *i + 1, expan->j - *i - 1);
-	expan->last_str = expand_substr(*value, expan->j, expan->k - expan->j + 1);
+	exp->first_str = expand_substr(*value, 0, *i);
+	exp->k = exp->j;
+	while (value[0][exp->k])
+		exp->k++;
+	exp->middle_str = ft_substr(*value, *i + 1, exp->j - *i - 1);
+	exp->last_str = expand_substr(*value, exp->j, exp->k - exp->j + 1);
 	free(*value);
-	if (get_envpNode(minishell->envp, expan->middle_str))
+	if (get_envpnode(minishell->envp, exp->middle_str))
 	{
-		expan->change_str = get_envpNode(minishell->envp,
-				expan->middle_str)->value;
-		expan->return_str = expen_strjoin(expan->first_str,
-				expan->change_str);
-		*value = expen_strjoin(expan->return_str, expan->last_str);
-		*i = strlen(expan->return_str) - 1 ;
+		exp->change_str = get_envpnode(minishell->envp, exp->middle_str)->value;
+		exp->return_str = expen_strjoin(exp->first_str,
+				exp->change_str);
+		*value = expen_strjoin(exp->return_str, exp->last_str);
+		*i = strlen(exp->return_str) - 1 ;
 	}
 	else
 	{
-		*value = expen_strjoin(expan->first_str, expan->last_str);
-		if (!expan->first_str)
+		*value = expen_strjoin(exp->first_str, exp->last_str);
+		if (!exp->first_str)
 			*i = 0;
 		else
-			*i = strlen(expan->first_str);
-		expan->ret = 1;
+			*i = strlen(exp->first_str);
+		exp->ret = 1;
 	}
 }
 

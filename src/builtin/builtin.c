@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 09:09:25 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/13 09:16:40 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtin.h"
+#include "error_message.h"
 
 static void	setting_cmd(t_cmd *cmd, char *command, int argc, char *option)
 {
@@ -9,15 +22,15 @@ static void	setting_cmd(t_cmd *cmd, char *command, int argc, char *option)
 
 t_cmd_tbl	*init_cmd_tbl(void)
 {
-    t_cmd_tbl	*cmd_tbl;
-	
+	t_cmd_tbl	*cmd_tbl;
+
 	cmd_tbl = (t_cmd_tbl *)malloc(sizeof(t_cmd_tbl));
 	if (!cmd_tbl)
-		exit(-1);	//TODO error message
+		memory_malloc_error();
 	cmd_tbl->cnt = 7;
 	cmd_tbl->cmd = (t_cmd *)malloc(sizeof(t_cmd) * cmd_tbl->cnt);
 	if (!cmd_tbl->cmd)
-		exit(-1);	//TODO error message
+		memory_malloc_error();
 	setting_cmd(&cmd_tbl->cmd[0], ft_strdup("echo"), AC_ANY, "");
 	cmd_tbl->cmd[0].func = echo;
 	setting_cmd(&cmd_tbl->cmd[1], "cd", AC_LESS_1, "");
@@ -51,6 +64,7 @@ int	check_builtin(t_cmd_tbl *cmd_tbl, const char *cmd)
 void	ft_execve(t_minishell *minishell, t_cmd_tbl *cmd_tbl, char **arr)
 {
 	int	i;
+
 	i = -1;
 	while (++i < cmd_tbl->cnt)
 	{

@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:31:51 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 09:39:40 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 13:14:51 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,14 @@
 #include "expander.h"
 #include "t_expander.h"
 
-int	remove_dollor(t_minishell *minishell, t_parse_tree *parse_tree, int *i)
+
+int	remove_dollor(t_minishell *minishell,
+	t_parse_tree *parse_tree, int *i, int check)
 {
 	t_expander	expander;
+	int			init;
 
+	init = *i;
 	init_expander(&expander);
 	(void)minishell;
 	expander.j = *i + 1;
@@ -48,6 +52,8 @@ int	remove_dollor(t_minishell *minishell, t_parse_tree *parse_tree, int *i)
 	{
 		expand_dollor(minishell, &expander, parse_tree, i);
 	}
+	if (check)
+		is_split_token(parse_tree, init, i);
 	return (expander.ret);
 }
 
@@ -78,31 +84,31 @@ void	remove_squotes(t_minishell *minishell, t_parse_tree *parse_tree, int *i)
 
 void	remove_dquotes(t_minishell *minishell, t_parse_tree *parse, int *i)
 {
-	t_expander	expan;
+	t_expander	exp;
 
-	init_expander(&expan);
+	init_expander(&exp);
 	(void)minishell;
-	expan.j = *i + 1;
-	expan.first_str = ft_substr(parse->token->value, 0, *i);
-	while (parse->token->value[expan.j] != '"')
+	exp.j = *i + 1;
+	exp.first_str = ft_substr(parse->token->value, 0, *i);
+	while (parse->token->value[exp.j] != '"')
 	{
-		if (parse->token->value[expan.j] == '$')
+		if (parse->token->value[exp.j] == '$')
 		{
-			if (remove_dollor(minishell, parse, &(expan.j)) == 1)
-				expan.j--;
+			if (remove_dollor(minishell, parse, &(exp.j), 0) == 1)
+				exp.j--;
 		}
-		expan.j++;
+		exp.j++;
 	}
-	expan.k = expan.j + 1;
-	while (parse->token->value[expan.k])
-		expan.k++;
-	expan.middle_str = ft_substr(parse->token->value, *i + 1, expan.j - *i - 1);
-	expan.return_str = expen_strjoin(expan.first_str, expan.middle_str);
-	*i = strlen(expan.return_str) - 1;
-	expan.last_str = ft_substr(parse->token->value,
-			expan.j + 1, expan.k - expan.j + 1);
+	exp.k = exp.j + 1;
+	while (parse->token->value[exp.k])
+		exp.k++;
+	exp.middle_str = ft_substr(parse->token->value, *i + 1, exp.j - *i - 1);
+	exp.return_str = expen_strjoin(exp.first_str, exp.middle_str);
+	*i = strlen(exp.return_str) - 1;
+	exp.last_str = ft_substr(parse->token->value,
+			exp.j + 1, exp.k - exp.j + 1);
 	free(parse->token->value);
-	parse->token->value = expen_strjoin(expan.return_str, expan.last_str);
+	parse->token->value = expen_strjoin(exp.return_str, exp.last_str);
 }
 
 void	expander(t_minishell *minishell, t_parse_tree *parse_tree)
@@ -119,7 +125,11 @@ void	expander(t_minishell *minishell, t_parse_tree *parse_tree)
 		while (parse_tree->token->value[i])
 		{
 			if (parse_tree->token->value[i] == '$')
-				remove_dollor(minishell, parse_tree, &i);
+			{
+				remove_dollor(minishell, parse_tree, &i, 1);
+				if (!parse_tree->token)
+					break ;
+			}
 			if (parse_tree->token->value[i] == '\'')
 				remove_squotes(minishell, parse_tree, &i);
 			else if (parse_tree->token->value[i] == '"')
@@ -128,6 +138,7 @@ void	expander(t_minishell *minishell, t_parse_tree *parse_tree)
 				break ;
 			i = i + 1;
 		}
+		if (parse_tree->token)
 			parse_tree->token = parse_tree->token->next;
 	}
 	parse_tree->token = tmp_token;

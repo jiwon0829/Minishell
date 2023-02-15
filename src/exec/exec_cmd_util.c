@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:22:58 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 09:39:02 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 10:54:01 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "lexer.h"
 #include "redirect.h"
 #include "builtin.h"
-#include "term_signal.h"
+#include "signals.h"
 #include "test_code.h"
 
 int	exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree)
@@ -56,41 +56,49 @@ void	exec_multi_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
 	t_pipe *pipes)
 {
 	pipes->pid = fork();
-	setting_child();
 	if (pipes->pid < 0)
-		exit_err_massage(minishell, 1, "fork_error");
+		shell_err(minishell, 1, "error");
+	set_signal(IGNORE, IGNORE);
 	if (pipes->pid == 0)
 	{
 		child_process(minishell, parse_tree, pipes);
 	}
 	else
 		parent_process(minishell, parse_tree, pipes);
-	setting_signal();
+	set_signal(CATCH, IGNORE);
+}
+
+static void	parent_wait_pid(t_minishell *minishell, t_pipe *pipes, int status)
+{
+	waitpid(pipes->pid, &status, 0);
+	if (WIFEXITED(status))
+		minishell->exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		minishell->exit_status = WTERMSIG(status);
 }
 
 void	exec_scmd(t_minishell *minishell, t_parse_tree *parse_tree,
-	t_pipe *pipes)
+		t_pipe *pipes)
 {
 	int	status;
 	int	fd[2];
 
+	status = 0;
 	pipe(fd);
 	pipes = lstnew(fd);
 	pipes->pid = fork();
-	setting_child();
 	if (pipes->pid < 0)
 		shell_err(minishell, 1, "error");
+	set_signal(IGNORE, IGNORE);
 	if (pipes->pid == 0)
 	{
 		child_process(minishell, parse_tree, pipes);
 	}
 	else
-	{
-		waitpid(pipes->pid, &status, 0);
-		if (WIFEXITED(status))
-			minishell->exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			minishell->exit_status = WTERMSIG(status);
-	}
-	setting_signal();
+		parent_wait_pid(minishell, pipes, status);
+	if (WTERMSIG(status) == SIGINT)
+		write(1, "\n", 1);
+	else if (WTERMSIG(status) == SIGQUIT)
+		ft_putendl_fd("Quit: 3", 1);
+	set_signal(CATCH, IGNORE);
 }

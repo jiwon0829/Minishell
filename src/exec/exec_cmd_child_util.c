@@ -19,7 +19,7 @@
 #include "lexer.h"
 #include "redirect.h"
 #include "builtin.h"
-#include "term_signal.h"
+#include "signals.h"
 #include "test_code.h"
 
 int	exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree,

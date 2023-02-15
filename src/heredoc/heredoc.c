@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:12:42 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/13 14:48:49 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 09:54:05 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include "error_message.h"
 #include "heredoc.h"
 #include "expander.h"
-#include "term_signal.h"
+#include "signals.h"
 
 static void	heredoc_waitpid(t_minishell *minishell, t_heredoc **heredoc,
 	int *status, int pid)
@@ -36,6 +36,7 @@ static void	heredoc_waitpid(t_minishell *minishell, t_heredoc **heredoc,
 		free(*heredoc);
 		return ;
 	}
+	set_signal(CATCH, IGNORE);
 }
 
 void	heredoc_child(t_minishell *minishell,
@@ -75,10 +76,7 @@ void	open_heredoc(t_minishell *minishell, t_token *token)
 	if (heredoc->pid == -1)
 		return (err_massage(minishell, 1, "fork_error"));
 	if (heredoc->pid)
-	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
-	}
+		set_signal(IGNORE, IGNORE);
 	if (heredoc->pid == 0)
 	{
 		signal(SIGINT, heredoc_handler);
@@ -119,7 +117,6 @@ void	exec_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 	if (tmp && tmp->type == WORD)
 	{
 		check_heredoc(minishell, tmp);
-		setting_signal();
 	}
 	else
 	{

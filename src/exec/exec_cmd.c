@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:26:05 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 09:32:25 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 10:10:09 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "lexer.h"
 #include "redirect.h"
 #include "builtin.h"
-#include "term_signal.h"
+#include "signals.h"
 #include "test_code.h"
 
 static void	wait_pid(t_minishell *minishell, t_pipe *pipe)
@@ -54,6 +54,7 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree,
 	t_arg	arg;
 	char	**envp;
 
+	set_signal(CATCH, DEFAULT);
 	minishell->exit_status = 0;
 	envp = envp_to_dptr(minishell->envp);
 	parse_tree->token->arg = &arg;
@@ -113,6 +114,7 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
 		exec_multi_cmd(minishell, parse_tree, pipes);
 	else
 		exec_scmd(minishell, parse_tree, pipes);
+	set_signal(CATCH, IGNORE);
 	if (pipes && pipes->right_flag == 1)
 	{
 		pipes = pipes->next;

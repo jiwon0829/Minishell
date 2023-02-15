@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:37:09 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/13 15:47:59 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 09:51:50 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@
 #include "error_message.h"
 #include "heredoc.h"
 #include "expander.h"
-#include "term_signal.h"
-#include "expander.h"
+#include "signals.h"
 
 int	heredoc_remove_dollor(t_minishell *minishell, char **value, int *i)
 {

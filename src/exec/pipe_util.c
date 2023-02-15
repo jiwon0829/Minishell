@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:25:07 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 09:37:13 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 10:10:25 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	get_cmd(t_minishell *minishell, t_arg *arg,
 			redir_open_error_message(minishell, 127, *(arg->cmd_arg));
 		}
 		arg->path = get_path_envp(envp);
-		if ((arg->path == NULL))
+		if (arg->path == NULL)
 			redir_open_error_message(minishell, 127, *(arg->cmd_arg));
 		arg->cmd = get_cmd_argv(arg->path, arg->cmd_arg[0]);
 	}

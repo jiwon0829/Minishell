@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:24:05 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/13 11:24:15 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 10:35:39 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "exec.h"
 #include "heredoc.h"
 #include "redirect.h"
-#include "term_signal.h"
+#include "signals.h"
 #include "expander.h"
 
 void	iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree,
@@ -24,7 +24,6 @@ void	iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree,
 
 	i = 0;
 	expander(minishell, parse_tree);
-	setting_signal();
 	handle_iteration(minishell, parse_tree, pipe);
 	if (parse_tree->type == 0)
 	{

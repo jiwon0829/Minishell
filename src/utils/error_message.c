@@ -33,3 +33,9 @@ void	exit_argment_cnt_error()
 {
 	ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
 }
+
+void	memory_malloc_error(void)
+{
+	ft_putendl_fd("memory malloc fail", 2);
+	exit (1);
+}

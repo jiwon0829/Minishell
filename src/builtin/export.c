@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 09:34:46 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/13 16:45:11 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtin.h"
 
-static int check_variable_name(const char *name)
+static int	check_variable_name(const char *name)
 {
 	if (!ft_isalpha(*name) && *name != '_')
 		return (FALSE);
@@ -13,31 +25,41 @@ static int check_variable_name(const char *name)
 	return (TRUE);
 }
 
-void    split_key_value(t_envp *envp, char *str)
+void	split_key_value(t_envp *envp, char *str)
 {
-	char    *key;
-	char    *value;
-	char    *sign;
+	char	*key;
+	char	*value;
+	char	*sign;
 
 	sign = ft_strchr(str, '=');
+	key = ft_substr(str, 0, ft_strlen(str) - ft_strlen(sign));
 	if (sign)
 	{
-		key = ft_substr(str, 0, ft_strlen(str) - ft_strlen(sign));
 		value = ft_substr(sign, 1, ft_strlen(sign) - 1);
+		if (!value)
+			value = ft_strdup("");
+		if (find_envp(envp, key))
+			update_envp(envp, key, value);
+		else
+			insert_envp(&envp, key, value);
+		free(value);
 	}
 	else
 	{
-		key = ft_strdup(str);
-		value = NULL;
+		if (find_envp(envp, key))
+			 ;
+		else
+		{
+			key = ft_strdup(str);
+			insert_envp(&envp, key, 0);
+		}
 	}
-	insert_envp(&envp, key, value);
 	free(key);
-	free(value);
 }
 
 void	export(t_minishell *minishell, char **arr)
 {
-	int    i;
+	int	i;
 
 	i = 1;
 	if (!arr[1])

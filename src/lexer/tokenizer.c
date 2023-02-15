@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 15:16:30 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/13 15:18:11 by inosong          ###   ########.fr       */
+/*   Created: 2023/02/13 18:21:24 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/15 10:06:58 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,8 @@ int	sub_lexer_quotes(int *type, char *input_i, \
 	int	ret;
 
 	ret = 0;
-	if (check_quot(*input_i) == DQUOT || \
-					check_quot(*input_i) == SQUOT)
-	{
+	if (check_quot(*input_i) == DQUOT || check_quot(*input_i) == SQUOT)
 		ret = init_quot_token(tokens, input_i, start, type);
-	}
 	return (ret);
 }
 

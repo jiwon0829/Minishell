@@ -1,4 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 09:17:39 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/13 09:33:08 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtin.h"
+
+static void	print_arr_echo(char **arr, int i)
+{
+	while (arr[i])
+	{
+		if (ft_strlen(arr[i]) == 0)
+		{
+			++i;
+			continue ;
+		}
+		printf("%s", arr[i++]);
+		if (arr[i])
+			printf(" ");
+	}
+}
 
 void	echo(t_minishell *minishell, char **arr)
 {
@@ -19,17 +46,7 @@ void	echo(t_minishell *minishell, char **arr)
 			is_n_option = 1;
 		++i;
 	}
-	while (arr[i])
-	{
-		if (ft_strlen(arr[i]) == 0)
-		{
-			i++;
-			continue ;
-		}
-		printf("%s", arr[i++]);
-		if (arr[i])
-			printf(" ");
-	}
+	print_arr_echo(arr, i);
 	if (!is_n_option)
 		printf("\n");
 	minishell->exit_status = 0;

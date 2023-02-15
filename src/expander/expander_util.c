@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:27:57 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/13 11:31:43 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 10:40:24 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ void	expand_dollor(t_minishell *minishell, t_expander *ex,
 	ex->last_str = expand_substr(parse_tree->token->value,
 			ex->j, ex->k - ex->j + 1);
 	free(parse_tree->token->value);
-	if (get_envpNode(minishell->envp, ex->middle_str))
+	if (get_envpnode(minishell->envp, ex->middle_str))
 	{
-		ex->change_str = get_envpNode(minishell->envp, ex->middle_str)->value;
+		ex->change_str = get_envpnode(minishell->envp, ex->middle_str)->value;
 		ex->return_str = expen_strjoin(ex->first_str, ex->change_str);
 		parse_tree->token->value = expen_strjoin(ex->return_str, ex->last_str);
 		*i = strlen(ex->return_str) - 1 ;
@@ -128,6 +128,8 @@ void	expand_exit_status(t_minishell *minishell, t_parse_tree *parse_tree,
 		k++;
 	last_str = expand_substr(parse_tree->token->value, j + 1, k - j + 1);
 	free(parse_tree->token->value);
+	if (minishell->exit_status == 2)
+		minishell->exit_status = 130;
 	change_str = ft_itoa(minishell->exit_status);
 	return_str = expen_strjoin(first_str, change_str);
 	parse_tree->token->value = expen_strjoin(return_str, last_str);

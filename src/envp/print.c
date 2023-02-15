@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/13 09:43:39 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/13 16:46:49 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "envp.h"
 #include "minishell.h"
 
-t_envp *copy_envp(t_envp *head)
+t_envp	*copy_envp(t_envp *head)
 {
-	t_envp *ret;
-	t_envp ret_head;
+	t_envp	*ret;
+	t_envp	ret_head;
 	int		cnt;
 
 	cnt = 0;
@@ -41,11 +53,11 @@ void	swap_contents_envp(t_envp *node1, t_envp *node2)
 	node1->value = value;
 }
 
-t_envp *sort_envp(t_envp *head)
+t_envp	*sort_envp(t_envp *head)
 {
-	t_envp *ret;
-	t_envp *copy;
-	t_envp *next;
+	t_envp	*ret;
+	t_envp	*copy;
+	t_envp	*next;
 
 	copy = copy_envp(head);
 	ret = copy;
@@ -72,21 +84,24 @@ void	print_sort_envp(t_minishell *minishell)
 	sorted_head = sorted_envp;
 	while (sorted_envp)
 	{
-		printf("%s=%s\n",sorted_envp->key, sorted_envp->value);
+		if (sorted_envp->value)
+			printf("%s=\"%s\"\n", sorted_envp->key, sorted_envp->value);
+		else
+			printf("%s\n", sorted_envp->key);
 		sorted_envp = sorted_envp->next;
 	}
 	(void)sorted_head;
 }
 
-void    print_envp(t_minishell *minishell)
+void	print_envp(t_minishell *minishell)
 {
-	t_envp  *envp;
+	t_envp	*envp;
 
 	envp = minishell->envp;
 	while (envp)
 	{
 		if (envp->value)
-			printf("%s=%s\n",envp->key,envp->value);
+			printf("%s=%s\n", envp->key, envp->value);
 		envp = envp->next;
 	}
 }

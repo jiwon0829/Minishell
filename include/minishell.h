@@ -12,12 +12,10 @@
 #include "../libft/libft.h"
 #include "types/t_minishell.h"
 
-
 #define FALSE 0
 #define TRUE 1
 #define FAILURE -1
 
-void	setting_signal(void);
 void 	main_loop(t_minishell *minishell);
 void	init(t_minishell *minishell, char *envp[]);
 void    init_envp(t_envp **node, char **envp);

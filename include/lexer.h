@@ -56,6 +56,6 @@ int	tokenize_special(int *type, char *input_i, char **start, t_token **tokens);
 //token.c
 void	add_token(t_token **first, t_token *to_add);
 t_token	*create_token(int length, char *start, int type);
-
-
+void	insert_token(t_token **tail, t_token *to_add);
+void	del_token(t_token **target);
 #endif

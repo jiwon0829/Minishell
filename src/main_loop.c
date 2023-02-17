@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: hanjiwon <hanjiwon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:50:03 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/15 15:52:57 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/17 16:19:11 by hanjiwon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,11 @@ void	main_loop(t_minishell *minishell)
 		line = NULL;
 		token = lexer(token);
 		parse_tree = parser(token);
-		if (parse_tree)
-			executor(minishell, parse_tree);
+		if (parse_tree)print_parse_tree(parse_tree, 0);
+			//executor(minishell, parse_tree);
 		//system("leaks minishell");
-		free_all(parse_tree, token);
+		free_all(parse_tree);
+		parse_tree = NULL;
 	}
 	rl_clear_history();
 	is_eof(minishell);

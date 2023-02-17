@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_dollor_util.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: hanjiwon <hanjiwon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:46:34 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 15:41:56 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/16 18:24:43 by hanjiwon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ void	is_split_token(t_parse_tree *parse_tree, int start, int *end)
 {
 	char	*tmp;
 	int		link;
-	int		k;
+	//int		k;
 
 	tmp = ft_substr(parse_tree->token->value, start, *end - start + 1);
 	link = 1;
-	k = 0;
+	//k = 0;
 	if (!tmp)
 		return ;
 	if (tmp[0] == ' ')

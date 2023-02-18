@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: hanjiwon <hanjiwon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:41:34 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/15 15:37:47 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/18 19:29:36 by hanjiwon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	insert_envp(t_envp **node, const char *key, const char *value)
 	head->cnt += 1;
 }
 
-void	delete_envp(t_envp **node, const char *key)
+void	remove_envp(t_envp **node, const char *key)
 {
 	t_envp	*head;
 	t_envp	*tmp;
@@ -58,6 +58,7 @@ void	delete_envp(t_envp **node, const char *key)
 		free(tmp->key);
 		free(tmp->value);
 		free(tmp);
+		tmp = NULL;
 		head->cnt--;
 	}
 }
@@ -86,4 +87,20 @@ void	update_envp(t_envp *head, char *key, char *new)
 	head->value = NULL;
 	head->value = ft_strdup(new);
 	free(new);
+}
+
+void	delete_envp(t_envp *head)
+{
+	t_envp	*node;
+
+	node = head;
+	while (node)
+	{
+		head = node->next;
+		free(node->key);
+		free(node->value);
+		free(node);
+		node = head;
+	}
+	free(head);
 }

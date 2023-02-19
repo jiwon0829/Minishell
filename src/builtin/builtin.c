@@ -6,7 +6,7 @@
 /*   By: hanjiwon <hanjiwon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:09:25 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/20 00:46:39 by hanjiwon         ###   ########.fr       */
+/*   Updated: 2023/02/20 01:45:12 by hanjiwon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ void	ft_execve(t_minishell *minishell, t_cmd_tbl *cmd_tbl, char **arr)
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(arr[0], 2);
 	ft_putendl_fd(": command not found", 2);
+	minishell->exit_status = 1;
 	return ;
 }

@@ -83,15 +83,11 @@ static void	parent_wait_pid(t_minishell *minishell, t_pipe **pipes, int status)
 void	exec_scmd(t_minishell *minishell, t_parse_tree *parse_tree,
 		t_pipe **pipes)
 {
-	// printf("in scmd\n");
 	int	status;
-	// int	fd[2];
 	int pid;
 
 	status = 0;
 	(void)pipes;
-	// pipe(fd);
-	// (*pipes) = lstnew(fd);
 	pid = fork();
 	if (pid < 0)
 		shell_err(minishell, 1, "error");

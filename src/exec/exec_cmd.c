@@ -96,13 +96,11 @@ void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree,
 		dup2((*pipe)->fd[0], STDIN_FILENO);
 		close((*pipe)->fd[0]);
 	}
-	// minishell->redirect = NULL;
 }
 
 void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
 	t_pipe **pipes)
 {
-	// printf("in exec_cmd\n");
 	set_redirect(minishell, parse_tree);
 	set_cmd(minishell, parse_tree);
 	if (parse_tree->token == NULL)
@@ -118,6 +116,4 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
 		exec_scmd(minishell, parse_tree, pipes);
 	set_signal(CATCH, IGNORE);
 	free_redirect(minishell);
-	// printf("finish exec_cmd\n");
-	
 }

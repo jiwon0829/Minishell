@@ -61,7 +61,6 @@ static void	delete_not_word_token(t_minishell *minishell,
 		if (parse_tree->token->type >= INPUT
 			&& parse_tree->token->type <= OUTPUT_APPEND)
 		{
-			// printf("del_re_tok\n");
 			tmp = parse_tree->token->next->next;
 			prev = parse_tree->token->prev;
 			parse_tree->token->prev->next = tmp;

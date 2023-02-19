@@ -19,14 +19,10 @@ void free_redirect(t_minishell *minishell)
 	free_redirect = minishell->redirect;
 	while(free_redirect)
 	{
-		// printf("str:%s\n",free_redirect->file_name);
-		// printf("free redirect\n");
 		tmp = free_redirect->next;
-		// free(free_redirect->file_name);
 		free(free_redirect->file_name);
 		free(free_redirect);
 		free_redirect = tmp;
-		// printf("free finish\n");
 
 	}
 	minishell->redirect = NULL;

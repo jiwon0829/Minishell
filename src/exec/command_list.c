@@ -24,7 +24,6 @@ void	free_n_move_pipe(t_minishell *minishell, t_pipe **pipes)
 	{
 		if ((*pipes)->type == PIPE)
 		{
-			printf("in free pipe\n");
 			t_pipe *tmp;
 			tmp = (*pipes)->next;
 			free(*pipes);
@@ -32,14 +31,12 @@ void	free_n_move_pipe(t_minishell *minishell, t_pipe **pipes)
 		}
 		else if((*pipes) && (*pipes)->type == LOGICAL)
 		{
-			printf("in free pipe_logic\n");
 			t_pipe *tmp;
 			tmp = (*pipes)->next;
 			free(*pipes);
 			(*pipes) = tmp;
 		}
 	}
-	printf("after free pipe\n");
 }
 
 void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree,
@@ -53,12 +50,10 @@ void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree,
 	iterate_tree(minishell, parse_tree->left, pipes);
 	dup2(minishell->exit_fdin, STDIN_FILENO);
 	free_n_move_pipe(minishell, pipes);
-	// printf(">>>>>>>pipe_fd%d<<<<\n",(*pipes)->fd[1]);
 	if (minishell->exit_status == 0)
 	{
 		(*pipes)->right_flag = 1;
 		iterate_tree(minishell, parse_tree->right, pipes);
-	// printf("!!>>>>>>>pipe_fd%d<<<<\n",(*pipes)->fd[1]);
 	}
 	free_n_move_pipe(minishell, pipes);
 }

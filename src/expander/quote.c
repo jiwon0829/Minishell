@@ -22,8 +22,8 @@ static int  get_delete_len_and_check(char *str, int *check)
                 ret += 2;
             }
         }
-        else if (*start == '*') //TODO
-            *start = -42;//TODO
+        else if (*start == '*')
+            *start = -42;
         start++;
     }
     return (ret);
@@ -56,6 +56,8 @@ int quote_delete(t_token *token)
     char    *ret;
     int *check;
 
+    if (!token)
+        return (1);
     original_len = ft_strlen(token->value);
     check = ft_calloc(original_len, sizeof(int));
     del_len = get_delete_len_and_check(token->value, check);

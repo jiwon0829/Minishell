@@ -44,7 +44,7 @@ SRCS = src/test_code.c \
 		src/heredoc/heredoc_util.c src/heredoc/heredoc.c src/heredoc/heredoc_expand.c src/heredoc/heredoc_expand_util.c \
 		src/redirect/redirect_list.c src/redirect/redirects.c src/redirect/redirect_list_util.c\
 		src/expander/expander.c src/expander/expander_util.c src/expander/quote.c \
-		src/expander/wildcard.c src/expander/expander_dollor_util.c
+		src/expander/wildcard.c src/expander/expander_dollor_util.c src/expander/envp.c
 
 OBJS = $(SRCS:.c=.o)
 

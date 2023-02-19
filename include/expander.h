@@ -28,4 +28,6 @@ int	wildcard(t_token *token);
 //quote
 int quote_delete(t_token *token);
 
+//envp
+int	envp_expand(t_token *token);
 #endif

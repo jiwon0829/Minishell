@@ -32,8 +32,8 @@ int	exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree)
 			return (-1);
 		cmds = make_cmd_arg(parse_tree);
 		ft_execve(minishell, minishell->cmd_tbl, cmds);
-		//while (*cmds)
-		//	free(*cmds++);
+		// while (*cmds)
+			// free(*cmds++);
 	}
 	return (1);
 }
@@ -53,13 +53,14 @@ int	exec_builtin_scmd(t_minishell *minishell, t_parse_tree *parse_tree)
 }
 
 void	exec_multi_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
-	t_pipe *pipes)
+	t_pipe **pipes)
 {
-	pipes->pid = fork();
-	if (pipes->pid < 0)
+	printf("in multi cmd\n");
+	(*pipes)->pid = fork();
+	if ((*pipes)->pid < 0)
 		shell_err(minishell, 1, "error");
 	set_signal(IGNORE, IGNORE);
-	if (pipes->pid == 0)
+	if ((*pipes)->pid == 0)
 	{
 		child_process(minishell, parse_tree, pipes);
 	}
@@ -68,9 +69,11 @@ void	exec_multi_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
 	set_signal(CATCH, IGNORE);
 }
 
-static void	parent_wait_pid(t_minishell *minishell, t_pipe *pipes, int status)
+static void	parent_wait_pid(t_minishell *minishell, t_pipe **pipes, int status)
 {
-	waitpid(pipes->pid, &status, 0);
+	// waitpid((*pipes)->pid, &status, 0);
+	(void)pipes;
+	wait(&status);
 	if (WIFEXITED(status))
 		minishell->exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
@@ -78,19 +81,18 @@ static void	parent_wait_pid(t_minishell *minishell, t_pipe *pipes, int status)
 }
 
 void	exec_scmd(t_minishell *minishell, t_parse_tree *parse_tree,
-		t_pipe *pipes)
+		t_pipe **pipes)
 {
 	int	status;
-	int	fd[2];
+	int pid;
 
 	status = 0;
-	pipe(fd);
-	pipes = lstnew(fd);
-	pipes->pid = fork();
-	if (pipes->pid < 0)
+	(void)pipes;
+	pid = fork();
+	if (pid < 0)
 		shell_err(minishell, 1, "error");
 	set_signal(IGNORE, IGNORE);
-	if (pipes->pid == 0)
+	if (pid == 0)
 	{
 		child_process(minishell, parse_tree, pipes);
 	}

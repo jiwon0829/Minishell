@@ -16,6 +16,7 @@
 // #include "t_parse_tree.h"
 # include "t_parse_tree.h"
 # include "t_token.h"
+# include "lexer.h"
 
 typedef struct s_pipe	t_pipe;
 
@@ -26,6 +27,7 @@ struct s_pipe
 	struct s_pipe	*prev;
 	int				left_flag;
 	int				right_flag;
+	int				type;
 	// struct s_arg	*arg;
 	int				pid;
 	int				fdin;

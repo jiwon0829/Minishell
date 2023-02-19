@@ -49,7 +49,7 @@ void	heredoc_child(t_minishell *minishell,
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || !ft_strncmp(line, heredoc->limit, ft_strlen(line)))
+		if (!line || !heredoc_strncmp(line, heredoc->limit, ft_strlen(line)))
 		{
 			free(line);
 			exit(0);

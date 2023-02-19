@@ -48,7 +48,7 @@ void	free_tokens(t_token *token)
 	{
 		token = node->next;
 		node->next = NULL;
-		// printf("value:%s\n",node->value);
+		printf(">>>>>>>>>>>>>>>>>value:%s<<<<<<<<<<<<<<<<<<<<<\n",node->value);
 		free(node->value);
 		node->value = NULL;
 		//printf("arg:%s\n",node->arg->cmd);

@@ -14,7 +14,7 @@ typedef struct s_arg t_arg;
 };
 struct s_token
 {
-	char	*tok;
+	// char	*tok;
 	char	*value;
 	int		len;
 	int		type;

@@ -21,6 +21,24 @@
 #include "error_message.h"
 #include "heredoc.h"
 
+int	heredoc_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	if (n == 0)
+		return (1);
+	i = 0;
+	while (i < n && s1[i] && s2[i])
+	{
+		if (((unsigned char *)s1)[i] != ((unsigned char *)s2)[i])
+			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+		++i;
+	}
+	if (i == n)
+		--i;
+	return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+}
+
 void	check_limit(t_minishell *minishell, t_heredoc *heredoc, t_token *token)
 {
 	heredoc->limit = heredoc_expander(minishell, heredoc, token->next->value);

@@ -14,6 +14,7 @@ void	exec_heredoc(t_minishell *minishell, t_parse_tree *parse_tree);
 //heredoc_util.c
 t_heredoc *init_heredoc(t_minishell *minishell);
 void		heredoc_add_back(t_heredoc **head, t_heredoc *new);
+int	heredoc_strncmp(const char *s1, const char *s2, size_t n);
 
 //heredoc_expand.c
 void	heredoc_remove_squotes(t_minishell *minishell, char **value, int *i);

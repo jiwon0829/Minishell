@@ -19,20 +19,21 @@
 #define REDIRERROR 139
 
 // command_list.c
-void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe, int fd[2]);
-void	execute_or_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe, int fd[2]);
-void	execute_pipe_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes, int fd[2]);
-void	handle_iteration(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe);
+void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipe, int fd[2]);
+void	execute_or_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipe, int fd[2]);
+void	execute_pipe_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipes, int fd[2]);
+void	handle_iteration(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipe);
+void	free_n_move_pipe(t_minishell *minishell, t_pipe **pipe);
 
 // exec_cmd.c
 void	run_program(t_arg *arg, char **envp);
-void	child_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe);
-void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe);
-void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe);
+void	child_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipe);
+void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipe);
+void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipe);
 
 // executor.c
 t_pipe *setting_pipe(t_parse_tree *parse_tree);
-void iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe);
+void iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipe);
 void executor(t_minishell *minishell, t_parse_tree *parse_tree);
 void    is_wildcard(t_token *token);
 
@@ -62,12 +63,12 @@ void set_cmd(t_minishell *minishell, t_parse_tree *parse_tree);
 
 //exec_cmd_util.c
 int exec_builtin_scmd(t_minishell *minishell, t_parse_tree *parse_tree);
-void exec_multi_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes);
-void exec_scmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipes);
+void exec_multi_cmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipes);
+void exec_scmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipes);
 int exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree);
 
 //exec_cmd_child_util.c
-int exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe, char **envp);
-void exec_child_scmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe *pipe, char **envp);
+int exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipe, char **envp);
+void exec_child_scmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipe, char **envp);
 
 #endif

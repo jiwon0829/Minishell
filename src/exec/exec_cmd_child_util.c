@@ -23,22 +23,22 @@
 #include "test_code.h"
 
 int	exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree,
-	t_pipe *pipe, char **envp)
+	t_pipe **pipe, char **envp)
 {
 	get_cmd(minishell, parse_tree->token->arg, parse_tree, envp);
 	if (parse_tree->token == NULL)
 		exit (0);
-	if ((pipe->next != NULL && pipe->right_flag == 1) && parse_tree->up->type
+	if (((*pipe)->next != NULL && (*pipe)->right_flag == 1) && parse_tree->up->type
 		== PIPE && parse_tree->up->up->type == PIPE)
-		dup2(pipe->next->fd[1], STDOUT_FILENO);
-	else if ((pipe && pipe->right_flag != 1) && parse_tree->up->type == PIPE)
+		dup2((*pipe)->next->fd[1], STDOUT_FILENO);
+	else if ((pipe && (*pipe)->right_flag != 1) && parse_tree->up->type == PIPE)
 	{
-		close(pipe->fd[0]);
-		dup2(pipe->fd[1], STDOUT_FILENO);
-		close(pipe->fd[1]);
+		close((*pipe)->fd[0]);
+		dup2((*pipe)->fd[1], STDOUT_FILENO);
+		close((*pipe)->fd[1]);
 	}
 	else
-		close(pipe->fd[1]);
+		close((*pipe)->fd[1]);
 	if (redir_dup(minishell) == FAILURE)
 		return (FAILURE);
 	if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
@@ -52,7 +52,7 @@ int	exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree,
 }
 
 void	exec_child_scmd(t_minishell *minishell, t_parse_tree *parse_tree,
-	t_pipe *pipe, char **envp)
+	t_pipe **pipe, char **envp)
 {
 	(void)pipe;
 	if (parse_tree->token == NULL)

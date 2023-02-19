@@ -57,8 +57,10 @@ t_pipe	*lstnew(int *fd)
 		return (NULL);
 	lst->fd[0] = fd[0];
 	lst->fd[1] = fd[1];
+	lst->type = 0;
 	lst->next = NULL;
 	lst->prev = NULL;
+
 	return (lst);
 }
 

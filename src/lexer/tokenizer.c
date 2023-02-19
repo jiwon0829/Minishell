@@ -53,10 +53,14 @@ t_token	*tokenizer(char *input)
 	{
 		sub_lexer(&type, &input[i], &start, &tokens);
 		temp = sub_lexer_quotes(&type, &input[i], &start, &tokens);
+		// printf("token:%s\n",tokens->value);
 		i += temp;
 		temp = tokenize_special(&type, &input[i], &start, &tokens);
+		// printf("token:%s\n",tokens->next->value);
 		i += temp + 1;
 	}
 	add_token(&tokens, create_token((int)(&input[i] - start), start, type));
+		// printf("token:%s\n",tokens->value);
+
 	return (tokens);
 }

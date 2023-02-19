@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:31:51 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 13:50:59 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 13:14:51 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ int	remove_dollor(t_minishell *minishell,
 	t_parse_tree *parse_tree, int *i, int check)
 {
 	t_expander	expander;
-	int			init;
 	(void)check;
-	init = *i;
+	// int			init;
+
+	// init = *i;
 	init_expander(&expander);
 	(void)minishell;
 	expander.j = *i + 1;
@@ -109,6 +110,7 @@ void	remove_dquotes(t_minishell *minishell, t_parse_tree *parse, int *i)
 			exp.j + 1, exp.k - exp.j + 1);
 	free(parse->token->value);
 	parse->token->value = expen_strjoin(exp.return_str, exp.last_str);
+	free(exp.first_str);free(exp.middle_str);free(exp.last_str);free(exp.return_str);
 }
 
 void	expander(t_minishell *minishell, t_parse_tree *parse_tree)

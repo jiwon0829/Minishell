@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_util.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:22:58 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 17:44:35 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 15:59:06 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,14 @@ int	exec_builtin_scmd(t_minishell *minishell, t_parse_tree *parse_tree)
 }
 
 void	exec_multi_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
-	t_pipe *pipes)
+	t_pipe **pipes)
 {
-	pipes->pid = fork();
-	// system("leaks minishell");
-
-	if (pipes->pid < 0)
+	printf("in multi cmd\n");
+	(*pipes)->pid = fork();
+	if ((*pipes)->pid < 0)
 		shell_err(minishell, 1, "error");
 	set_signal(IGNORE, IGNORE);
-	if (pipes->pid == 0)
+	if ((*pipes)->pid == 0)
 	{
 		child_process(minishell, parse_tree, pipes);
 	}
@@ -70,38 +69,33 @@ void	exec_multi_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
 	set_signal(CATCH, IGNORE);
 }
 
-static void	parent_wait_pid(t_minishell *minishell, t_pipe *pipes, int status)
+static void	parent_wait_pid(t_minishell *minishell, t_pipe **pipes, int status)
 {
-	// waitpid(pipes->pid, &status, 0);
+	// waitpid((*pipes)->pid, &status, 0);
 	(void)pipes;
 	wait(&status);
 	if (WIFEXITED(status))
 		minishell->exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 		minishell->exit_status = WTERMSIG(status);
-	// while (pipes)
-	// {
-	// 	free(pipes);
-	// 	pipes = pipes->prev;
-	// }
 }
 
 void	exec_scmd(t_minishell *minishell, t_parse_tree *parse_tree,
-		t_pipe *pipes)
+		t_pipe **pipes)
 {
+	// printf("in scmd\n");
 	int	status;
 	// int	fd[2];
-	int pid= 0;
+	int pid;
 
 	status = 0;
+	(void)pipes;
 	// pipe(fd);
-	// pipes = lstnew(fd);
+	// (*pipes) = lstnew(fd);
 	pid = fork();
 	if (pid < 0)
 		shell_err(minishell, 1, "error");
 	set_signal(IGNORE, IGNORE);
-	system("leaks minishell");
-
 	if (pid == 0)
 	{
 		child_process(minishell, parse_tree, pipes);

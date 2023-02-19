@@ -18,7 +18,7 @@ void	handle_output_redirect(t_minishell *minishell, t_redirect *redirect);
 void	handle_heredoc_redirect(t_minishell *minishell, t_heredoc *heredoc);
 void	handle_append_redirect(t_minishell *minishell, t_redirect *redirect);
 void	handle_redirects(t_minishell *minishell);
-void set_redirect(t_minishell *minishell, t_parse_tree *parse_tree);
+void 	set_redirect(t_minishell *minishell, t_parse_tree *parse_tree);
 
 //redirect_list_util.c
 int redir_dup_input(t_minishell *minishell);

@@ -22,46 +22,46 @@
 #include "expander.h"
 #include "t_expander.h"
 
-static void split_n_make_token(int link, int start,
-	t_parse_tree *parse_tree, char *tmp)
-{
-	char	**arr;
-	int		k;
+// static void split_n_make_token(int link, int start,
+// 	t_parse_tree *parse_tree, char *tmp)
+// {
+// 	char	**arr;
+// 	int		k;
 
-	k = 0;
-	arr = ft_split(tmp, ' ');
-	while (arr[k])
-	{
-		if (k == 0 && start && link && parse_tree->token->value[start])
-			arr[k] = ft_strjoin(ft_substr(parse_tree->token->value, \
-				0, start), arr[k]);
-		insert_token(&parse_tree->token, create_token(ft_strlen(arr[k]),
-				arr[k], WORD));
-	free(arr[k]);
-		k++;
-	}
-	free(arr);
-}
+// 	k = 0;
+// 	arr = ft_split(tmp, ' ');
+// 	while (arr[k])
+// 	{
+// 		if (k == 0 && start && link && parse_tree->token->value[start])
+// 			arr[k] = ft_strjoin(ft_substr(parse_tree->token->value, \
+// 				0, start), arr[k]);
+// 		insert_token(&parse_tree->token, create_token(ft_strlen(arr[k]),
+// 				arr[k], WORD));
+// 	free(arr[k]);
+// 		k++;
+// 	}
+// 	free(arr);
+// }
 
-void	is_split_token(t_parse_tree *parse_tree, int start, int *end)
-{
-	char	*tmp;
-	int		link;
-	int		k;
+// void	is_split_token(t_parse_tree *parse_tree, int start, int *end)
+// {
+// 	char	*tmp;
+// 	int		link;
+// 	int		k;
 
-	tmp = ft_substr(parse_tree->token->value, start, *end - start + 1);
-	link = 1;
-	k = 0;
-	if (!tmp)
-		return ;
-	if (tmp[0] == ' ')
-		link = 0;
-	if (ft_strchr(tmp, ' '))
-		split_n_make_token(link, start, parse_tree, tmp);
-	if (parse_tree->token->value[*end + 1] == 0)
-	{
-		del_token(&(parse_tree->token));
-		*end = 0;
-	}
-	free(tmp);
-}
+// 	tmp = ft_substr(parse_tree->token->value, start, *end - start + 1);
+// 	link = 1;
+// 	k = 0;
+// 	if (!tmp)
+// 		return ;
+// 	if (tmp[0] == ' ')
+// 		link = 0;
+// 	if (ft_strchr(tmp, ' '))
+// 		split_n_make_token(link, start, parse_tree, tmp);
+// 	if (parse_tree->token->value[*end + 1] == 0)
+// 	{
+// 		del_token(&(parse_tree->token));
+// 		*end = 0;
+// 	}
+// 	free(tmp);
+// }

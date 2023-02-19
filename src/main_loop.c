@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:50:03 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/15 17:37:25 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/15 15:52:57 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void	main_loop(t_minishell *minishell)
 	{
 		if (line)
 			add_history(line);
-		// system("leaks minishell");
 		if (!check_line(&line))
 		{
 			free(line);
@@ -101,12 +100,19 @@ void	main_loop(t_minishell *minishell)
 		token = tokenizer(line);
 		free(line);
 		line = NULL;
+		// system("leaks minishell");
 		token = lexer(token);
+
 		parse_tree = parser(token);
+		// system("leaks minishell");
 
 		if (parse_tree)
+			print_parse_tree(parse_tree, 0);
 			executor(minishell, parse_tree);
-		//system("leaks minishell");
+			print_parse_tree(parse_tree, 0);
+			// printf("finish execuotr\n");
+		system("leaks --list -- minishell");
+		// printf("44444444\n");
 		free_all(parse_tree, token);
 	}
 	rl_clear_history();

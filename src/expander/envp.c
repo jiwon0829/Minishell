@@ -86,11 +86,13 @@ static void change_single_quote(int *check, int start, int end)
     check[end] = 8;
 }
 
-static void quote_in_envp(char *str, int *check)
+static int quote_in_envp(char *str, int *check)
 {
     char    *start;
     char    *quote;
+    int     ret;
 
+    ret = 0;
     start = str;
     while(*start)
     {
@@ -101,7 +103,7 @@ static void quote_in_envp(char *str, int *check)
             {
                 change_word_all(check, start - str, quote - str);
                 start = quote;
-                //delete_len += 2;
+                ret += 2;
             }
         }
         else if (*start == '\"')
@@ -111,17 +113,66 @@ static void quote_in_envp(char *str, int *check)
             {
                 change_single_quote(check, start - str, quote - str);
                 start = quote;
-                //delete_len += 2;
+                ret += 2;
             }
         }
         start++;
     }
+    return (ret);
 }
+
+static void get_delete_char_string(char *str, int *check, char *ret, int len)
+{
+    int i;
+    int now_len;
+
+    i = 0;
+    now_len = 0;
+    while (i < len)
+    {
+        if (check[i] == 8)
+        {
+            ++i;
+            continue ;
+        }
+        ft_strlcat(ret, str + i, now_len + 2);
+        ++now_len;
+        ++i;
+    }
+}
+
+// void    change_envp_value(t_token *token, int *check, char *ret, int len)
+// {
+//     int end;
+//     int ret_len;
+//     char    *head;
+//     char    *tail;
+//     char    *key;
+
+//     ret_len = ft_strlen(ret);
+//     while (end < len)
+//     {
+//         if (check[end] == 8)
+//         {
+//             end++;
+//             continue ;
+//         }
+//         if (check[end] == 3)
+//         {
+//             head = ft_substr(ret, 0, end);
+//             tail = ft_substr(ret, end + 2, ret_len);
+//             head =  ft_strjoin(head, ft_itoa())
+//             ret += 2;
+//         }
+//     }
+// }
 
 int	envp_expand(t_token *token)
 {
 	int	*check;
 	int original_len = 0;
+    char    *ret = NULL;
+    int     del_len;
 
 	if (!token)
 		return (1);
@@ -131,14 +182,22 @@ int	envp_expand(t_token *token)
 		check = ft_calloc(original_len, sizeof(int));
 		get_char_type(token->value, check);	//1. 문자열 자리별 타입을 체크
 		find_envp_key(check, original_len); //2. 일반문자-> envp key 찾아내기
-		quote_in_envp(token->value, check);    //3. quote 처리
-		//4. change_envp_value
+		del_len = quote_in_envp(token->value, check);    //3. quote 처리
+        ret = ft_calloc(original_len - del_len + 1, 1);
+        if (!ret)
+        {
+            free(check);
+            return (0);
+        }
+        get_delete_char_string(token->value, check, ret, original_len);
+        free(ret);
+        //change_envp_value(token, check, ret, original_len);//4. change_envp_value
         //5. split and inset token
 	}
-    printf("%s\n", token->value);
-    for(int i=0;i < original_len;i++)
-    {
-        printf("%c[%d]\n", token->value[i], check[i]);
-    }
+    // printf("%s(%s)\n", token->value, ret);
+    // for(int i=0;i < original_len;i++)
+    // {
+    //     printf("%c[%d]\n", token->value[i], check[i]);
+    // }
 	return (1);
 }

@@ -1,0 +1,13 @@
+Makefile
+a
+a1
+a12
+a123
+aba
+b
+c
+include
+libft
+minishell
+src
+test.c

@@ -32,8 +32,8 @@ int	exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree)
 			return (-1);
 		cmds = make_cmd_arg(parse_tree);
 		ft_execve(minishell, minishell->cmd_tbl, cmds);
-		//while (*cmds)
-		//	free(*cmds++);
+		// while (*cmds)
+			// free(*cmds++);
 	}
 	return (1);
 }

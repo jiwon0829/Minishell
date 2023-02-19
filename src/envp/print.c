@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: hanjiwon <hanjiwon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:43:39 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/13 16:46:49 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/18 19:34:46 by hanjiwon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ void	print_sort_envp(t_minishell *minishell)
 			printf("%s\n", sorted_envp->key);
 		sorted_envp = sorted_envp->next;
 	}
-	(void)sorted_head;
+	delete_envp(sorted_head);
+	sorted_head = NULL;
 }
 
 void	print_envp(t_minishell *minishell)

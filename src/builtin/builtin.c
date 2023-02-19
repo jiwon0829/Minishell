@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: hanjiwon <hanjiwon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:09:25 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/15 15:10:45 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/20 01:45:12 by hanjiwon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,6 @@ void	ft_execve(t_minishell *minishell, t_cmd_tbl *cmd_tbl, char **arr)
 	i = -1;
 	while (++i < cmd_tbl->cnt)
 	{
-		if (ft_strlen(cmd_tbl->cmd[i].cmd) > ft_strlen(arr[0]))
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(arr[0], 2);
-			ft_putendl_fd(": command not found", 2);
-			return ;
-		}
 		if (ft_strncmp(cmd_tbl->cmd[i].cmd, arr[0], \
 			ft_strlen(cmd_tbl->cmd[i].cmd)) == 0)
 		{
@@ -82,4 +75,9 @@ void	ft_execve(t_minishell *minishell, t_cmd_tbl *cmd_tbl, char **arr)
 			return ;
 		}
 	}
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(arr[0], 2);
+	ft_putendl_fd(": command not found", 2);
+	minishell->exit_status = 1;
+	return ;
 }

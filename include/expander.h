@@ -22,4 +22,10 @@ void expand_dollor(t_minishell *minishell, t_expander *expander, t_parse_tree *p
 //expander_dollor_util.c
 void	is_split_token(t_parse_tree *parse_tree, int start, int *end);
 
+//wildcard
+int	wildcard(t_token *token);
+
+//quote
+int quote_delete(t_token *token);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: hanjiwon <hanjiwon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:24:05 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/18 19:18:13 by hanjiwon         ###   ########.fr       */
+/*   Updated: 2023/02/18 22:01:40 by hanjiwon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree,
 	i = 0;
 	expander(minishell, parse_tree);
 	handle_iteration(minishell, parse_tree, pipe);
-	system("leaks minishell");
 	if (parse_tree->type == 0)
 	{
 		while (i < minishell->heredoc_cnt)
@@ -55,6 +54,5 @@ void	executor(t_minishell *minishell, t_parse_tree *parse_tree)
 		return ;
 	}
 	iterate_tree(minishell, parse_tree, pipe);
-	//system("leaks minishell");
 	free(pipe);
 }

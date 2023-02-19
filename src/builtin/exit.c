@@ -77,6 +77,6 @@ void	ft_exit(t_minishell *minishell, char **arr)
 		minishell->exit_status = (int)(ft_atoll(arr[1]) % 256);
 		ft_putstr_fd("exit\n", 2);
 	}
-	system("leaks minishell");
+	// system("leaks minishell");
 	exit(minishell->exit_status);
 }

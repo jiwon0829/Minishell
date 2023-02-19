@@ -15,6 +15,7 @@
 
 static void	free_parse_tree(t_parse_tree *tree)
 {
+	// printf("in free_parse_tree\n");
 	if (tree->left)
 		free_parse_tree(tree->left);
 	if (tree->right)
@@ -26,6 +27,7 @@ static void	free_parse_tree(t_parse_tree *tree)
 
 void	free_all(t_parse_tree *parse_tree)
 {
+	// printf("in free_all\n");
 	if (!parse_tree)
 		return ;
 	free_parse_tree(parse_tree);

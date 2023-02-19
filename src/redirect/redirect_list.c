@@ -45,6 +45,9 @@ static t_redirect	*re_lstlast(t_redirect *lst)
 
 int	redir_dup(t_minishell *minishell)
 {
+	t_redirect * tmp;
+
+	tmp = minishell->redirect;
 	while (minishell->redirect)
 	{
 		if (minishell->redirect->type == INPUT)
@@ -60,6 +63,7 @@ int	redir_dup(t_minishell *minishell)
 			redir_dup_output_append(minishell);
 		minishell->redirect = minishell->redirect->next;
 	}
+	minishell->redirect = tmp;
 	return (1);
 }
 
@@ -67,8 +71,8 @@ void	redir_lstadd_back(t_redirect **head, t_redirect *new)
 {
 	t_redirect	*end_list;
 
-	if (!new || !head)
-		return ;
+	// if (!new || !head)
+	// 	return ;
 	if (!*head)
 	{
 		*head = new;
@@ -86,7 +90,7 @@ t_redirect	*redir_lstnew(int type, char *value)
 	if (!lst)
 		return (NULL);
 	lst->type = type;
-	lst->file_name = value;
+	lst->file_name = ft_strdup(value);
 	lst->fd[0] = 0;
 	lst->fd[1] = 0;
 	lst->next = NULL;

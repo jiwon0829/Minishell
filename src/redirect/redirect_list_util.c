@@ -28,17 +28,17 @@ int	redir_dup_input(t_minishell *minishell)
 	minishell->redirect->fd[0] = open(minishell->redirect->file_name, O_RDONLY);
 	ret = dup2(minishell->redirect->fd[0], STDIN_FILENO);
 	close(minishell->redirect->fd[0]);
-	if (minishell->redirect->fd[0] == -1)
+	if (minishell->redirect->fd[0] == FAILURE)
 	{
-		if (minishell->scmd_builtin == 1)
+		if (minishell->scmd_builtin == 1 || minishell->inchild == 0)
 		{
 			redir_open_error_message(minishell,
 				1, minishell->redirect->file_name);
-			return (-1);
+			return (FAILURE);
 		}
 		redir_open_error_message(minishell, 1, minishell->redirect->file_name);
 	}
-	if (ret == -1)
+	if (ret == FAILURE)
 	{
 		exit_err_massage(minishell, 1, "dup2_error");
 	}

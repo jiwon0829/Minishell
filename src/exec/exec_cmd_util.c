@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_util.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hanjiwon <hanjiwon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:22:58 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/20 01:47:37 by hanjiwon         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:47:37 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree)
 
 	if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
 	{
-		if (redir_dup(minishell) == -1)
-			return (-1);
+		if (redir_dup(minishell) == FAILURE)
+			return (FAILURE);
 		cmds = make_cmd_arg(parse_tree);
 		ft_execve(minishell, minishell->cmd_tbl, cmds);
 		free(cmds);
@@ -54,7 +54,6 @@ int	exec_builtin_scmd(t_minishell *minishell, t_parse_tree *parse_tree)
 void	exec_multi_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
 	t_pipe **pipes)
 {
-	printf("in multi cmd\n");
 	(*pipes)->pid = fork();
 	if ((*pipes)->pid < 0)
 		shell_err(minishell, 1, "error");
@@ -70,7 +69,6 @@ void	exec_multi_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
 
 static void	parent_wait_pid(t_minishell *minishell, t_pipe **pipes, int status)
 {
-	// waitpid((*pipes)->pid, &status, 0);
 	(void)pipes;
 	wait(&status);
 	if (WIFEXITED(status))
@@ -83,7 +81,7 @@ void	exec_scmd(t_minishell *minishell, t_parse_tree *parse_tree,
 		t_pipe **pipes)
 {
 	int	status;
-	int pid;
+	int	pid;
 
 	status = 0;
 	(void)pipes;

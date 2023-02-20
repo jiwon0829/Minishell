@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:24:27 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 09:37:26 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/20 15:46:55 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ t_pipe	*lstnew(int *fd)
 	lst->type = 0;
 	lst->next = NULL;
 	lst->prev = NULL;
-
 	return (lst);
 }
 

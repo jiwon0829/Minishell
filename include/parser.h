@@ -7,7 +7,7 @@
 #define FALSE 0
 #define TRUE 1
 
-t_parse_tree *parser(t_token *token);
+t_parse_tree *parser(t_minishell *minishell, t_token *token);
 
 //tool
 t_token *get_head_token(t_token *token);

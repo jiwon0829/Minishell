@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 11:24:05 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/20 13:57:40 by jiwonhan         ###   ########seoul.kr  */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "minishell.h"
 #include "exec.h"
@@ -17,35 +7,11 @@
 #include "signals.h"
 #include "expander.h"
 
-// static void ffree_pipe(t_pipe *pipe)
-// {
-// 	t_pipe *tmp;
-// 	return ;
-// 	printf("in ffree pipe\n");
-
-// 	if ((pipe))
-// 	{
-// 		printf("prev ok\n");
-// 		while((pipe))
-// 		{
-// 			tmp = pipe->next;
-// 			// (pipe) = (pipe)->next;
-// 			printf("free)pipe_while on\n");
-// 			free(pipe);
-// 			pipe = tmp;
-// 			// break;
-// 			// *pipe = (*pipe)->next;
-// 			// printf("free)pipe_while on\n");
-
-// 		}
-// 		// (pipe) = NULL;
-// 	}
-// }
 void	iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree,
 	t_pipe **pipe)
 {
 	t_heredoc	*tmp;
-	int	i;
+	int			i;
 
 	i = 0;
 	expander(minishell, parse_tree);
@@ -81,5 +47,4 @@ void	executor(t_minishell *minishell, t_parse_tree *parse_tree)
 		return ;
 	}
 	iterate_tree(minishell, parse_tree, &pipe);
-	// ffree_pipe(pipe);
 }

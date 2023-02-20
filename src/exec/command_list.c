@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:17:02 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 15:55:36 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/20 15:48:33 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@
 
 void	free_n_move_pipe(t_minishell *minishell, t_pipe **pipes)
 {
+	t_pipe	*tmp;
+
 	(void)minishell;
 	if ((*pipes) && (*pipes)->right_flag == 1)
 	{
 		if ((*pipes)->type == PIPE)
 		{
-			t_pipe *tmp;
 			tmp = (*pipes)->next;
 			free(*pipes);
 			(*pipes) = tmp;
 		}
-		else if((*pipes) && (*pipes)->type == LOGICAL)
+		else if ((*pipes) && (*pipes)->type == LOGICAL)
 		{
-			t_pipe *tmp;
 			tmp = (*pipes)->next;
 			free(*pipes);
 			(*pipes) = tmp;
@@ -91,7 +91,6 @@ void	execute_pipe_node(t_minishell *minishell, t_parse_tree *parse_tree,
 	(*pipes)->right_flag = 1;
 	iterate_tree(minishell, parse_tree->right, pipes);
 	free_n_move_pipe(minishell, pipes);
-
 }
 
 void	handle_iteration(t_minishell *minishell, t_parse_tree *parse_tree,
@@ -118,10 +117,7 @@ void	handle_iteration(t_minishell *minishell, t_parse_tree *parse_tree,
 		}
 	}
 	else if (parse_tree->type == LOGICAL_AND)
-	{
 		execute_and_node(minishell, parse_tree, pipe, fd);
-	}
 	else if (parse_tree->type == LOGICAL_OR)
 		execute_or_node(minishell, parse_tree, pipe, fd);
-	
 }

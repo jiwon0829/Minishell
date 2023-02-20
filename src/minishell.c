@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hanjiwon <hanjiwon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:49:38 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/20 01:50:17 by hanjiwon         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:55:54 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	main(int ac, char *av[], char *envp[])
 
 	check_arg(ac, av);
 	init(&minishell, envp);
-	// system("leaks minishell");
 	main_loop(&minishell);
 	return (minishell.exit_status);
 }

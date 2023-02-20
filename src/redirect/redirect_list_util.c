@@ -32,8 +32,6 @@ int	redir_dup_input(t_minishell *minishell)
 	{
 		if (minishell->scmd_builtin == 1 || minishell->inchild == 0)
 		{
-		printf("zcxvczxv\n");
-
 			redir_open_error_message(minishell,
 				1, minishell->redirect->file_name);
 			return (FAILURE);

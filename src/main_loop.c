@@ -105,7 +105,7 @@ void	main_loop(t_minishell *minishell)
 		if (parse_tree)//print_parse_tree(parse_tree, 0);
 			executor(minishell, parse_tree);
 		// system("leaks --list -- minishell");
-		system("leaks minishell");
+		// system("leaks minishell");
 		free_all(parse_tree);
 		parse_tree = NULL;
 	}

@@ -20,7 +20,6 @@ void	redir_open_error_message(t_minishell *minishell, int status, char *msg)
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(msg, 2);
 	ft_putstr_fd(": No such file or directory\n", 2);
-	printf("bulitin:%d ,inchild:%d\n",minishell->scmd_builtin,minishell->inchild);
 	if (minishell->scmd_builtin == 0 && minishell->inchild == 1)
 		exit (minishell->exit_status);
 }

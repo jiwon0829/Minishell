@@ -165,9 +165,11 @@ static char *get_key_in_string(int *check, char *str, int *i)
 {
 	char	*ret;
 	int		len;
+	int		limit;
 
 	len = 0;
-	while (check[*i + len])
+	limit = ft_strlen(str);
+	while (limit > *i + len + 1 && check[*i + len + 1])
 	{
 		if (check[*i + len + 1] == 6)
 			++len;
@@ -182,19 +184,24 @@ static char *get_key_in_string(int *check, char *str, int *i)
 static void	change_value(char *ret, char *key, char *value, int *now_len)
 {
 	int	value_len;
-	int	len;
+	int	original_len;
 	char	*head;
 	char	*tail;
 
 	value_len = ft_strlen(value);
-	len = ft_strlen(ret);
-	head = ft_strjoin(ft_substr(ret, 0, *now_len), value);
-	tail = ft_substr(ret, *now_len + (int)ft_strlen(key) + 1, len - ft_strlen(key));
+	original_len = ft_strlen(ret);
+	tail = ft_substr(ret, *now_len + (int)ft_strlen(key) + 1, original_len - *now_len - ft_strlen(key) + 1);
+	if (value)
+		head = ft_strjoin(ft_substr(ret, 0, *now_len), value);
+	else
+		head = ft_substr(ret, 0, *now_len);
 	free(ret);
 	ret = ft_strjoin(head, tail);
 	*now_len += value_len;
 	free(head);free(tail);
+	printf("\t\tret:%s:(%zu)\n", ret, ft_strlen(ret));
 }
+
 static void	change_envp_value(t_minishell *minishell, t_token *token, int *check, char *ret)
 {
 	int	i;
@@ -206,7 +213,7 @@ static void	change_envp_value(t_minishell *minishell, t_token *token, int *check
 	len = ft_strlen(token->value);
 	now_len = 0;
 	while (i < len)
-	{
+	{printf("\t\t[%d] %s\n", i, ret);
 		if (check[i] == 8)
 		{
 			++i;
@@ -221,12 +228,16 @@ static void	change_envp_value(t_minishell *minishell, t_token *token, int *check
 		if (check[i] == 7)
 		{
 			key = get_key_in_string(check, token->value, &i);
-			change_value(ret, key, find_envp_value(minishell->envp, key), &now_len);
+			printf("\t\tkey: %s\n", key);
+			char *value = find_envp_value(minishell->envp, key);
+			printf("\t\tvalue: %s\n", value);
+			change_value(ret, key, value, &now_len);
 			free(key);
 			continue ;
 		}
 		++i;
 		++now_len;
+
 	}
 }
 
@@ -255,10 +266,17 @@ int	envp_expand(t_minishell *minishell, t_token *token, int *is_expand)
 		}
 		get_delete_char_string(token->value, check, ret, original_len);
 		change_envp_value(minishell, token, check, ret);
+		if (!ft_strlen(ret))
+		{printf("in null ret\n");
+			del_token(&token);
+			if (token->prev)
+				token = token->prev;
+			return (1);
+		}
+		printf("\t\tret value: %s\n", ret);
 		free(token->value);
-		if (!ret)
-			ret = ft_strdup("");
 		token->value = ret;
+
 		//5. split and inset token
 	}
 	return (1);

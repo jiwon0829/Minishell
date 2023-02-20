@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:17:39 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/13 09:33:08 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/20 21:09:23 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ static void	print_arr_echo(char **arr, int i)
 			++i;
 			continue ;
 		}
-		printf("%s", arr[i++]);
+		if (ft_strlen(arr[i]))
+			printf("%s", arr[i]);
+		++i;
 		if (arr[i])
 			printf(" ");
 	}

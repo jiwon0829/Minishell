@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:24:05 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/20 13:57:40 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/20 21:16:07 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "redirect.h"
 #include "signals.h"
 #include "expander.h"
+#include "test_code.h"
 
 // static void ffree_pipe(t_pipe *pipe)
 // {

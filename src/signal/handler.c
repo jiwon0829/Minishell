@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handler.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 10:35:51 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/13 15:50:03 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/20 15:57:42 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	heredoc_handler(int sig)
 }
 
 void	sigquit_handler(int sig)
-{(void)sig;
+{
+	(void)sig;
 	ft_putendl_fd("Quit: 3", 1);
 }
 

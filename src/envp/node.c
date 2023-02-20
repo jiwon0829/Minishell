@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   node.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 09:41:34 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/20 17:40:36 by jiwonhan         ###   ########seoul.kr  */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "envp.h"
 #include "../../libft/libft.h"
@@ -87,7 +76,7 @@ void	update_envp(t_envp *head, char *key, char *new)
 		head = head->next;
 	if (head)
 	{
-	free(head->value);
+		free (head->value);
 	head->value = ft_strdup(new);
 	//free(new);
 	}

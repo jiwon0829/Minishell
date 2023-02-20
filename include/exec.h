@@ -18,6 +18,9 @@
 #define NOEXECUTE 126
 #define REDIRERROR 139
 
+// exec_cmd_check.c
+int	check_arg_type(t_minishell *minishell, t_arg *arg);
+
 // command_list.c
 void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipe, int fd[2]);
 void	execute_or_node(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipe, int fd[2]);
@@ -46,6 +49,7 @@ int	arr_size(t_token *token);
  
 //pipe_util.c
 char	**make_cmd_arg(t_parse_tree *parse_tree);
+int	check_cur_exec(t_minishell *minishell, t_arg *arg);
 char	**get_path_envp(char *envp[]);
 char	*get_cmd_argv(char **path, char *cmd);
 void	get_cmd(t_minishell *minishell, t_arg *arg, t_parse_tree *parse_tree, char **envp);
@@ -69,6 +73,6 @@ int exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree);
 
 //exec_cmd_child_util.c
 int exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipe, char **envp);
-void exec_child_scmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipe, char **envp);
+int exec_child_scmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipe, char **envp);
 
 #endif

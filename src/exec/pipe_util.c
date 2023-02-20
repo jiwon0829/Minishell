@@ -6,12 +6,13 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:25:07 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 10:10:25 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/20 15:37:43 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "exec.h"
+#include "redirect.h"
 
 char	**make_cmd_arg(t_parse_tree *parse_tree)
 {
@@ -73,7 +74,7 @@ char	*get_cmd_argv(char **path, char *cmd)
 	return (NULL);
 }
 
-static int	check_cur_exec(t_minishell *minishell, t_arg *arg)
+int	check_cur_exec(t_minishell *minishell, t_arg *arg)
 {
 	int	fd;
 
@@ -101,18 +102,20 @@ void	get_cmd(t_minishell *minishell, t_arg *arg,
 	arg->cmd_arg = make_cmd_arg(parse_tree);
 	if (arg->cmd_arg == NULL)
 		shell_exit(minishell, 1, "cmd_empty");
-	i = check_cur_exec(minishell, arg);
+	if (check_arg_type(minishell, arg) == 1)
+		i = check_cur_exec(minishell, arg);
 	if (i == 1 || i == -1)
 	{
 		if (i == -1)
+		{
+			redir_dup(minishell);
 			permission_error_message(minishell, 126, *(arg->cmd_arg));
+		}
 	}
 	else
 	{
 		if (strncmp("./", *(arg->cmd_arg), 2) == 0)
-		{
 			redir_open_error_message(minishell, 127, *(arg->cmd_arg));
-		}
 		arg->path = get_path_envp(envp);
 		if (arg->path == NULL)
 			redir_open_error_message(minishell, 127, *(arg->cmd_arg));

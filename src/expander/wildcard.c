@@ -3,129 +3,151 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hanjiwon <hanjiwon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 10:38:20 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/19 20:49:08 by hanjiwon         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:48:28 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "expander.h"
+#include "exec.h"
 #include "lexer.h"
+#include "parser.h"
 #include <dirent.h>
+#include "test_code.h"
 
-static int  find_valid_value(char *dname, char *find)
+static int	is_valid_value(char *dname, char *str)
 {
-    int dname_len;
-    int find_len;
-    int i;
-    int j;
+	int	dname_len;
+	int	str_len;
+	int	i;
+	int	d_i;
 
-    dname_len = ft_strlen(dname);
-    find_len = ft_strlen(find);
-    i = 0;
-    while (i < dname_len && i < find_len && (dname[i] == find[i]))
-        ++i;
-    if (find_len == i)
-        return (dname_len == i);
-    if (find[i] == -42)
-    {
-        j = 0;
-        while (i + j <= dname_len)
-        {
-            if (find_valid_value(dname + j + i, find + i + 1))
-                return (1);
-            ++j;
-        }
-    }
-    return (0);
+	dname_len = ft_strlen(dname);
+	str_len = ft_strlen(str);
+	i = 0;
+	while (i < dname_len && i < str_len && (dname[i] == str[i]))
+		++i;
+	if (str_len == i)
+		return (dname_len == i);
+	if (str[i] == '*')
+	{
+		d_i = 0;
+		while (i + d_i <= dname_len)
+		{
+			if (is_valid_value(dname + d_i + i, str + 1 + i))
+				return (1);
+			++d_i;
+		}
+	}
+	return (0);
 }
 
-static int  add_result_token(t_token *token, char *dname, int *cnt)
+static int	add_wildcard_token(t_token *token, char *dname, int *cnt)
 {
-    char    *new_value;
-    t_token *new_token;
+	char	*str;
+	t_token	*new;
 
-    if (!(*cnt))
-    {
-        new_value = ft_strdup(dname);
-        if (!new_value)
-            return (0);
-        free(token->value);
-        token->value = new_value;
-    }
-    else
-    {
-        new_token = create_token(ft_strlen(dname) + 1, dname, WORD);
-        if (!new_token)
-            return (0);
-        if (token->next)
-        {
-            token->next->prev = new_token;
-            new_token->next = token->next;
-        }
-        token->next = new_token;
-        new_token->prev = token;
-    }
-    (*cnt)++;
-    return (1);
+	if (!(*cnt))
+	{
+		str = ft_strdup(dname);
+		if (!str)
+			return (0);
+		free(token->value);
+		token->value = NULL;
+		token->value = str;
+	}
+	else
+	{
+		new = create_token(ft_strlen(dname), dname, WORD);
+		new->prev = token->prev;
+		token->prev->next = new;
+		new->next = token;
+		token->prev = new;
+		if (!new)
+			return (0);
+	}
+	(*cnt)++;
+	return (1);
 }
 
-static void reset_token_value(char *str)
+static int	is_valid_wildcard(t_token *token, char *str)
 {
-    while (*str)
-    {
-        if (*str == -42)
-            *str = 42;
-        str++;
-    }
+	DIR				*dir;
+	struct dirent	*dirent;
+	int				cnt;
+
+	cnt = 0;
+	dir = opendir(".");
+	if (!dir)
+		return (0);
+	while (1)
+	{
+		dirent = readdir(dir);
+		if (!dirent)
+			break ;
+		if (is_valid_value(dirent->d_name, str) && \
+			!(add_wildcard_token(token, dirent->d_name, &cnt)))
+		{
+			closedir(dir);
+			return (0);
+		}
+	}
+	if (closedir(dir) == -1)
+		return (0);
+	return (1);
 }
 
-static int  is_valid_wildcard(t_token *token, char *find)
+static char	*set_wildcard(char *value)
 {
-    struct dirent   *dirent;
-    DIR             *dir;
-    int             cnt;
+	char	*ret;
+	int		ret_len;
+	int		i;
+	char	*tmp;
 
-    dir = opendir(".");
-    if (!dir)
-        return (0);
-    cnt = 0;
-    while (1)
-    {
-        dirent = readdir(dir);
-        if (!dirent)
-            break ;
-        if (find_valid_value(dirent->d_name, find) && !add_result_token(token, dirent->d_name, &cnt))
-        {
-            closedir(dir);
-            return (0);
-        }
-    }
-    if (!cnt)
-        reset_token_value(token->value);
-    if (closedir(dir) == -1)
-        return (0);
-    return (1);
+	i = 0;
+	tmp = ft_strdup(value);
+	ret_len = 0;
+	i = 0;
+	while (value[i])
+	{
+		if (i == 0)
+			ret_len++;
+		else if (value[i] != '*' || \
+				(value[i] == '*' && tmp[ret_len - 1] != '*'))
+		{
+			tmp[ret_len] = value[i];
+			ret_len++;
+		}
+		++i;
+	}
+	tmp[ret_len] = '\0';
+	ret = ft_strdup(tmp);
+	free(tmp);
+	tmp = NULL;
+	return (ret);
 }
 
-int wildcard(t_token *token)
+void	is_wildcard(t_token *token)
 {
-    char    *find;
+	char	*str;
 
-    if (!token)
-        return (1);
-    if (token->type == WORD && ft_strchr(token->value, -42))
-    {
-        find = ft_strdup(token->value);
-        if (!find || !is_valid_wildcard(token, find))
-        {
-            free(find);
-            return (0);
-        }
-        free(find);
-        find = NULL;
-    }
-    return (1);
+	if (!token)
+		return ;
+	str = NULL;
+	while (token)
+	{
+		if (token->type == WORD && ft_strchr(token->value, '*'))
+		{
+			str = set_wildcard(token->value);
+			if (!str || !is_valid_wildcard(token, str))
+			{
+				free(str);
+				return ;
+			}
+			free(str);
+			str = NULL;
+		}
+		token = token->next;
+	}
 }

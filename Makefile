@@ -2,12 +2,12 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 # -g -fsanitize=address
 # 클러스터
-# READLINE_LIB = -lreadline -L/goinfre/$(USER)/.brew/opt/readline/lib
-# READLINE_INC = -I/goinfre/$(USER)/.brew/opt/readline/include
+READLINE_LIB = -lreadline -L/goinfre/$(USER)/.brew/opt/readline/lib
+READLINE_INC = -I/goinfre/$(USER)/.brew/opt/readline/include
 
 # MAC 인텔
-READLINE_LIB = -lreadline -L/usr/local/opt/readline/lib
-READLINE_INC = -I/usr/local/opt/readline/include
+# READLINE_LIB = -lreadline -L/usr/local/opt/readline/lib
+# READLINE_INC = -I/usr/local/opt/readline/include
 
 LIBFT = libft/libft.a
 
@@ -40,7 +40,7 @@ SRCS = src/test_code.c \
 		src/parser/match_error.c src/parser/utils.c\
 		src/exec/command_list.c src/exec/exec_cmd.c src/exec/executor.c src/exec/pipe_list.c \
 		src/exec/pipe_util.c src/exec/shell_exit.c src/exec/set_cmd.c src/exec/exec_cmd_util.c \
-		src/exec/exec_cmd_child_util.c src/exec/shell_exit_util.c \
+		src/exec/exec_cmd_child_util.c src/exec/shell_exit_util.c src/exec/exec_cmd_check.c\
 		src/heredoc/heredoc_util.c src/heredoc/heredoc.c src/heredoc/heredoc_expand.c src/heredoc/heredoc_expand_util.c \
 		src/redirect/redirect_list.c src/redirect/redirects.c src/redirect/redirect_list_util.c\
 		src/expander/expander.c src/expander/expander_util.c src/expander/quote.c \

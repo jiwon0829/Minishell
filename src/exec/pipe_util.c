@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:25:07 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 10:10:25 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/20 15:37:43 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*get_cmd_argv(char **path, char *cmd)
 	return (NULL);
 }
 
-static int	check_cur_exec(t_minishell *minishell, t_arg *arg)
+int	check_cur_exec(t_minishell *minishell, t_arg *arg)
 {
 	int	fd;
 
@@ -102,8 +102,7 @@ void	get_cmd(t_minishell *minishell, t_arg *arg,
 	arg->cmd_arg = make_cmd_arg(parse_tree);
 	if (arg->cmd_arg == NULL)
 		shell_exit(minishell, 1, "cmd_empty");
-	if (strncmp("./", *(arg->cmd_arg), 2) == 0 ||
-		strncmp("/", *(arg->cmd_arg), 1) == 0)
+	if (check_arg_type(minishell, arg) == 1)
 		i = check_cur_exec(minishell, arg);
 	if (i == 1 || i == -1)
 	{

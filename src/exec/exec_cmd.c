@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:26:05 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 16:00:30 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/20 15:45:04 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
 	{
 		redir_dup(minishell);
 		free_redirect(minishell);
+		dup2(minishell->exit_fdin, STDIN_FILENO);
+		dup2(minishell->exit_fdout, STDOUT_FILENO);
 		return ;
 	}
 	if (((parse_tree->up == NULL

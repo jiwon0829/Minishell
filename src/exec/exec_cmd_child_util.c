@@ -40,7 +40,7 @@ int	exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree,
 	else
 		close((*pipe)->fd[1]);
 	if (redir_dup(minishell) == FAILURE)
-		return (FAILURE);
+		return (1);
 	if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
 	{
 		exec_builtin(minishell, parse_tree);
@@ -51,14 +51,15 @@ int	exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree,
 	return (127);
 }
 
-void	exec_child_scmd(t_minishell *minishell, t_parse_tree *parse_tree,
+int	exec_child_scmd(t_minishell *minishell, t_parse_tree *parse_tree,
 	t_pipe **pipe, char **envp)
 {
 	(void)pipe;
 	if (parse_tree->token == NULL)
 		exit(0);
 	get_cmd(minishell, parse_tree->token->arg, parse_tree, envp);
-	redir_dup(minishell);
+	if (redir_dup(minishell) == FAILURE)
+		return (1);
 	if (check_builtin(minishell->cmd_tbl, parse_tree->token->value))
 	{
 		exec_builtin(minishell, parse_tree);
@@ -66,4 +67,5 @@ void	exec_child_scmd(t_minishell *minishell, t_parse_tree *parse_tree,
 	}
 	else
 		run_program(parse_tree->token->arg, envp);
+	return (127);
 }

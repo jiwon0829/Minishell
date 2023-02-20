@@ -69,6 +69,6 @@ int exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree);
 
 //exec_cmd_child_util.c
 int exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipe, char **envp);
-void exec_child_scmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipe, char **envp);
+int exec_child_scmd(t_minishell *minishell, t_parse_tree *parse_tree, t_pipe **pipe, char **envp);
 
 #endif

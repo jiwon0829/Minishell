@@ -17,7 +17,7 @@ struct s_minishell
 	int			exit_fdout;
 	int			heredoc_cnt;
 	int			pipe_cnt;
-	
+	int			inchild;
 	int			scmd_builtin;
 
 	t_envp		*envp;

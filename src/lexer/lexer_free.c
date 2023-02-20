@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: hanjiwon <hanjiwon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 18:17:19 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/15 14:49:03 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/20 01:32:04 by hanjiwon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	free_tokens(t_token *token)
 	{
 		token = node->next;
 		node->next = NULL;
+		//printf(">>>>>>>>>>>>>>>>>value:%s<<<<<<<<<<<<<<<<<<<<<\n",node->value);
 		free(node->value);
 		node->value = NULL;
 		//printf("arg:%s\n",node->arg->cmd);

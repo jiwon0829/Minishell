@@ -54,23 +54,25 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree,
 {
 	t_arg	arg;
 	char	**envp;
+	int		ret;
 
+	minishell->inchild = 1;
 	set_signal(CATCH, DEFAULT);
 	minishell->exit_status = 0;
 	envp = envp_to_dptr(minishell->envp);
 	parse_tree->token->arg = &arg;
 	if (parse_tree->up != NULL)
 	{
-		exec_child_logical(minishell, parse_tree, pipe, envp);
+		ret = exec_child_logical(minishell, parse_tree, pipe, envp);
 	}
 	else
 	{
-		exec_child_scmd(minishell, parse_tree, pipe, envp);
+		ret = exec_child_scmd(minishell, parse_tree, pipe, envp);
 	}
-	minishell->exit_status = 1;
+	// minishell->exit_status = 1;
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(parse_tree->token->value, 2);
-	shell_exit(minishell, 127, ": command not found");
+	shell_exit(minishell, ret, ": command not found");
 }
 
 void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree,
@@ -104,7 +106,12 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
 	set_redirect(minishell, parse_tree);
 	set_cmd(minishell, parse_tree);
 	if (parse_tree->token == NULL)
+	{
+		printf("QWERQ\n");
+		redir_dup(minishell);
+		free_redirect(minishell);
 		return ;
+	}
 	if (((parse_tree->up == NULL
 				&& check_builtin(minishell->cmd_tbl, parse_tree->token->value)))
 		|| ((parse_tree->up && parse_tree->up->type != PIPE)

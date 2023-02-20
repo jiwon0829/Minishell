@@ -2,12 +2,6 @@
 #include "expander.h"
 #include "envp.h"
 
-int	envp_expand(t_token *token)
-{
-	(void)token;
-	return (1);
-}
-
 void	expander(t_minishell *minishell, t_parse_tree *parse_tree)
 {
 	t_token	*token;

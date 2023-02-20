@@ -6,7 +6,7 @@
 /*   By: hanjiwon <hanjiwon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:41:34 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/18 19:29:36 by hanjiwon         ###   ########.fr       */
+/*   Updated: 2023/02/20 01:39:34 by hanjiwon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,12 @@ void	update_envp(t_envp *head, char *key, char *new)
 {
 	while (head && ft_strncmp(head->key, key, ft_strlen(key) + 1))
 		head = head->next;
+	if (head)
+	{
 	free(head->value);
-	head->value = NULL;
 	head->value = ft_strdup(new);
-	free(new);
+	//free(new);
+	}
 }
 
 void	delete_envp(t_envp *head)

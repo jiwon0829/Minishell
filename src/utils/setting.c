@@ -7,6 +7,7 @@ static void setting_shlvl(t_envp *envp)
 {
 	t_envp *shlvl_node;
 	int shlvl;
+	char	*shlvl_str;
 
 	shlvl_node = get_envpnode(envp, "SHLVL");
 	if (!shlvl_node)
@@ -16,7 +17,9 @@ static void setting_shlvl(t_envp *envp)
 	}
 	shlvl = ft_atoi(shlvl_node->value);
 	++shlvl;
-	update_envp(envp, "SHLVL", ft_itoa(shlvl));
+	shlvl_str = ft_itoa(shlvl);
+	update_envp(envp, "SHLVL", shlvl_str);
+	free(shlvl_str);
 }
 
 #include "test_code.h"	//TODO
@@ -33,4 +36,5 @@ void	init(t_minishell *minishell, char *envp[])
 	minishell->heredoc = NULL;
 	minishell->heredoc_cnt = 0;
 	minishell->scmd_builtin = 0;
+	minishell->inchild = 0;
 }

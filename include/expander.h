@@ -26,8 +26,8 @@ void	is_split_token(t_parse_tree *parse_tree, int start, int *end);
 int	wildcard(t_token *token);
 
 //quote
-int quote_delete(t_token *token);
+int quote_delete(t_token *token, int is_expand);
 
 //envp
-int	envp_expand(t_minishell *minishell, t_token *token);
+int	envp_expand(t_minishell *minishell, t_token *token, int *is_expand);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hanjiwon <hanjiwon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:41:34 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/20 01:39:34 by hanjiwon         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:40:36 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ t_envp	*find_envp(t_envp *head, char *key)
 
 char	*find_envp_value(t_envp *head, char *key)
 {
+	if (!key)
+		return (NULL);
 	while (head && ft_strncmp(head->key, key, ft_strlen(key) + 1))
 		head = head->next;
 	if (!head)

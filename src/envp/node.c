@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   node.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 09:41:34 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/20 15:55:33 by inosong          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "envp.h"
 #include "../../libft/libft.h"
@@ -72,6 +61,8 @@ t_envp	*find_envp(t_envp *head, char *key)
 
 char	*find_envp_value(t_envp *head, char *key)
 {
+	if (!key)
+		return (NULL);
 	while (head && ft_strncmp(head->key, key, ft_strlen(key) + 1))
 		head = head->next;
 	if (!head)

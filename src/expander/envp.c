@@ -142,44 +142,6 @@ static void get_delete_char_string(char *str, int *check, char *ret, int len)
 	}
 }
 
-// void	change_envp_value(t_minishell *minishell, t_token *token, int *check, int len)
-// {
-// 	int	end;	//key를 기준으로 왼쪽 마지막
-// 	int	start;	//key를 기준으로 오른쪽 처음
-// 	char	*ret;
-// 	char	*head;
-// 	char	*status;
-
-// 	end = 0;
-// 	ret = malloc(1);
-// 	while (end < len)	//check전체를 돌면서
-// 	{
-// 		if (check[end] == 8)
-// 		{
-// 			++end;
-// 			continue;
-// 		}
-// 		if (check[end] == 3)
-// 		{
-// 			status = ft_itoa(minishell->exit_status);
-// 			head = ft_strjoin(ret, status);
-// 			free(status);free(ret);
-// 			start = end + 2;
-// 			ret = ft_strjoin(head, ft_substr(token->value, start, len - start + 1));
-// 			free(head);
-// 		}
-// 		else if (check[end] == 7)
-// 		{
-// 			//ret + end부터 check[start++] == 6인 부분을 찾아서 key와 start 구하기
-// 			//get key->value && is_split
-// 			//strjoin(strjoin(strsub(0, end - 1), value), strsub(start, original_len));
-// 		}
-// 		else
-// 			ft_strlcat(ret, token->value + end, end + 2);
-// 		++end;
-// 	}
-// }
-
 static void	change_exit_status_value(t_minishell *minishell, char *ret, int *now_len)
 {
 	int		len;
@@ -203,16 +165,18 @@ static char *get_key_in_string(int *check, char *str, int *i)
 {
 	char	*ret;
 	int		len;
+	int		limit;
 
 	len = 0;
-	while (check[*i + len + 1])
+	limit = ft_strlen(str);
+	while (limit > *i + len + 1 && check[*i + len + 1])
 	{
-		if (check[*i + len] != 6)
+		if (check[*i + len + 1] == 6)
+			++len;
+		else
 			break ;
-		++len;
 	}
-	printf(">>%d\n", len + 1);
-	ret = ft_substr(str, *i + 1, len + 1);
+	ret = ft_substr(str, *i + 1, len);
 	*i += len + 1;
 	return (ret);
 }
@@ -220,20 +184,24 @@ static char *get_key_in_string(int *check, char *str, int *i)
 static void	change_value(char *ret, char *key, char *value, int *now_len)
 {
 	int	value_len;
-	int	len;
+	int	original_len;
 	char	*head;
 	char	*tail;
 
 	value_len = ft_strlen(value);
-	len = ft_strlen(ret);
-	head = ft_strjoin(ft_substr(ret, 0, *now_len), value);
-	tail = ft_substr(ret, *now_len + ft_strlen(key) + 1, len - ft_strlen(key));
+	original_len = ft_strlen(ret);
+	tail = ft_substr(ret, *now_len + (int)ft_strlen(key) + 1, original_len - *now_len - ft_strlen(key) + 1);
+	if (value)
+		head = ft_strjoin(ft_substr(ret, 0, *now_len), value);
+	else
+		head = ft_substr(ret, 0, *now_len);
 	free(ret);
 	ret = ft_strjoin(head, tail);
 	*now_len += value_len;
-	(*now_len)--;
 	free(head);free(tail);
+	printf("\t\tret:%s:(%zu)\n", ret, ft_strlen(ret));
 }
+
 static void	change_envp_value(t_minishell *minishell, t_token *token, int *check, char *ret)
 {
 	int	i;
@@ -244,9 +212,8 @@ static void	change_envp_value(t_minishell *minishell, t_token *token, int *check
 	i = 0;
 	len = ft_strlen(token->value);
 	now_len = 0;
-	printf("str: %s\tret: %s\n", token->value, ret);	//TODO
 	while (i < len)
-	{printf("[%c(%d)] %s\n", token->value[i], check[i], ret);
+	{printf("\t\t[%d] %s\n", i, ret);
 		if (check[i] == 8)
 		{
 			++i;
@@ -261,16 +228,20 @@ static void	change_envp_value(t_minishell *minishell, t_token *token, int *check
 		if (check[i] == 7)
 		{
 			key = get_key_in_string(check, token->value, &i);
-			change_value(ret, key, find_envp_value(minishell->envp, key), &now_len);
+			printf("\t\tkey: %s\n", key);
+			char *value = find_envp_value(minishell->envp, key);
+			printf("\t\tvalue: %s\n", value);
+			change_value(ret, key, value, &now_len);
 			free(key);
 			continue ;
 		}
 		++i;
 		++now_len;
+
 	}
 }
 
-int	envp_expand(t_minishell *minishell, t_token *token)
+int	envp_expand(t_minishell *minishell, t_token *token, int *is_expand)
 {
 	int		*check;
 	int		original_len = 0;
@@ -281,11 +252,12 @@ int	envp_expand(t_minishell *minishell, t_token *token)
 		return (1);
 	if (token->type == WORD && ft_strchr(token->value, '$'))
 	{
+*is_expand = 1;
 		original_len = ft_strlen(token->value);
 		check = ft_calloc(original_len, sizeof(int));
-		get_char_type(token->value, check);	//1. 문자열 자리별 타입을 체크
-		find_envp_key(check, original_len); //2. 일반문자-> envp key 찾아내기
-		del_len = quote_in_envp(token->value, check);    //3. quote 처리
+		get_char_type(token->value, check);
+		find_envp_key(check, original_len);
+		del_len = quote_in_envp(token->value, check);
 		ret = ft_calloc(original_len - del_len + 1, 1);
 		if (!ret)
 		{
@@ -294,16 +266,18 @@ int	envp_expand(t_minishell *minishell, t_token *token)
 		}
 		get_delete_char_string(token->value, check, ret, original_len);
 		change_envp_value(minishell, token, check, ret);
+		if (!ft_strlen(ret))
+		{printf("in null ret\n");
+			del_token(&token);
+			if (token->prev)
+				token = token->prev;
+			return (1);
+		}
+		printf("\t\tret value: %s\n", ret);
 		free(token->value);
 		token->value = ret;
-		//change_envp_value(minishell, token, check, original_len);//4. change_envp_value
+
 		//5. split and inset token
 	}
-	// printf("%s(%s)\n", token->value, ret);
-	// for(int i=0;i < original_len;i++)
-	// {
-	// 	printf("%c[%d]\n", token->value[i], check[i]);
-	// }
-	(void)minishell;
 	return (1);
 }

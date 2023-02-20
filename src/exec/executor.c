@@ -6,6 +6,7 @@
 #include "redirect.h"
 #include "signals.h"
 #include "expander.h"
+#include "test_code.h"
 
 void	iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree,
 	t_pipe **pipe)

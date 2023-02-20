@@ -49,7 +49,7 @@ static void get_delete_quote_string(char *str, int *check, char *ret, int len)
 	}
 }
 
-int quote_delete(t_token *token)
+int quote_delete(t_token *token, int is_expand)
 {
 	int del_len;
 	int original_len;
@@ -57,6 +57,8 @@ int quote_delete(t_token *token)
 	int *check;
 
 	if (!token)
+		return (1);
+	if (is_expand)
 		return (1);
 	original_len = ft_strlen(token->value);
 	check = ft_calloc(original_len, sizeof(int));

@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:26:05 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/20 15:45:04 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/20 15:47:53 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	child_process(t_minishell *minishell, t_parse_tree *parse_tree,
 	{
 		ret = exec_child_scmd(minishell, parse_tree, pipe, envp);
 	}
-	// minishell->exit_status = 1;
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(parse_tree->token->value, 2);
 	shell_exit(minishell, ret, ": command not found");

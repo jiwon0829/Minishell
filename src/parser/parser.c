@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 10:06:13 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/13 10:06:28 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/20 15:49:52 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static void free_token(t_token *token)
+static void	free_token(t_token *token)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	while (token)
 	{

@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:12:14 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 13:12:34 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/20 15:49:30 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ void	redir_lstadd_back(t_redirect **head, t_redirect *new)
 {
 	t_redirect	*end_list;
 
-	// if (!new || !head)
-	// 	return ;
 	if (!*head)
 	{
 		*head = new;

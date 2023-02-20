@@ -6,7 +6,7 @@
 /*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:20:40 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 09:38:31 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/20 15:47:45 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree,
 	get_cmd(minishell, parse_tree->token->arg, parse_tree, envp);
 	if (parse_tree->token == NULL)
 		exit (0);
-	if (((*pipe)->next != NULL && (*pipe)->right_flag == 1) && parse_tree->up->type
+	if (((*pipe)->next != NULL && (*pipe)->right_flag == 1)
+		&& parse_tree->up->type
 		== PIPE && parse_tree->up->up->type == PIPE)
 		dup2((*pipe)->next->fd[1], STDOUT_FILENO);
 	else if ((pipe && (*pipe)->right_flag != 1) && parse_tree->up->type == PIPE)

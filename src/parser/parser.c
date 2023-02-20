@@ -25,7 +25,7 @@ static void free_token(t_token *token)
 	}
 }
 
-t_parse_tree	*parser(t_token *token)
+t_parse_tree	*parser(t_minishell *minishell, t_token *token)
 {
 	t_parse_tree	*parse_tree;
 	t_token			*tail;
@@ -33,6 +33,7 @@ t_parse_tree	*parser(t_token *token)
 	if (!syntax_error_check(token))
 	{
 		free_token(token);
+		minishell->exit_status = 258;
 		return (NULL);
 	}
 	parse_tree = NULL;

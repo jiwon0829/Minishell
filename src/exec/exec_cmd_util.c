@@ -54,7 +54,6 @@ int	exec_builtin_scmd(t_minishell *minishell, t_parse_tree *parse_tree)
 void	exec_multi_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
 	t_pipe **pipes)
 {
-	printf("in multi cmd\n");
 	(*pipes)->pid = fork();
 	if ((*pipes)->pid < 0)
 		shell_err(minishell, 1, "error");

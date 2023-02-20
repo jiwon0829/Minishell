@@ -107,7 +107,6 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
 	set_cmd(minishell, parse_tree);
 	if (parse_tree->token == NULL)
 	{
-		printf("QWERQ\n");
 		redir_dup(minishell);
 		free_redirect(minishell);
 		return ;

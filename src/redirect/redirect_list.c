@@ -46,7 +46,6 @@ static t_redirect	*re_lstlast(t_redirect *lst)
 int	redir_dup(t_minishell *minishell)
 {
 	t_redirect * tmp;
-	printf("in redir dup\n");
 
 	tmp = minishell->redirect;
 	while (minishell->redirect)
@@ -65,8 +64,6 @@ int	redir_dup(t_minishell *minishell)
 		minishell->redirect = minishell->redirect->next;
 	}
 	minishell->redirect = tmp;
-		printf("QWERQ\n");
-
 	return (1);
 }
 

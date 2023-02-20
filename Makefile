@@ -1,4 +1,4 @@
-CC = cc -g -fsanitize=address
+CC = cc 
 CFLAGS = -Wall -Wextra -Werror
 # -g -fsanitize=address
 # 클러스터

@@ -102,7 +102,8 @@ void	get_cmd(t_minishell *minishell, t_arg *arg,
 	arg->cmd_arg = make_cmd_arg(parse_tree);
 	if (arg->cmd_arg == NULL)
 		shell_exit(minishell, 1, "cmd_empty");
-	if (strncmp("./", *(arg->cmd_arg), 2) == 0)
+	if (strncmp("./", *(arg->cmd_arg), 2) == 0 ||
+		strncmp("/", *(arg->cmd_arg), 1) == 0)
 		i = check_cur_exec(minishell, arg);
 	if (i == 1 || i == -1)
 	{

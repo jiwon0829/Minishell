@@ -9,7 +9,7 @@ void	expander(t_minishell *minishell, t_parse_tree *parse_tree)
 	token = parse_tree->token;
 	while (token)
 	{
-		if (!envp_expand(token) || !quote_delete(token) || !wildcard(token))
+		if (!envp_expand(minishell, token) || !quote_delete(token) || !wildcard(token))
 		{
 			minishell->exit_status = 1;
 			return ;

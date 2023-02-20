@@ -29,5 +29,5 @@ int	wildcard(t_token *token);
 int quote_delete(t_token *token);
 
 //envp
-int	envp_expand(t_token *token);
+int	envp_expand(t_minishell *minishell, t_token *token);
 #endif

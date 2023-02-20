@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hanjiwon <hanjiwon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:24:05 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/18 22:01:40 by hanjiwon         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:57:40 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,9 @@ void	iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree,
 {
 	t_heredoc	*tmp;
 	int	i;
-	
+
 	i = 0;
 	expander(minishell, parse_tree);
-
 	handle_iteration(minishell, parse_tree, pipe);
 	if (parse_tree->type == 0)
 	{
@@ -65,7 +64,6 @@ void	iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree,
 			i++;
 		}
 	}
-
 }
 
 void	executor(t_minishell *minishell, t_parse_tree *parse_tree)

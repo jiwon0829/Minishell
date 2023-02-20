@@ -205,12 +205,13 @@ static char *get_key_in_string(int *check, char *str, int *i)
 	int		len;
 
 	len = 0;
-	while (check[*i + len])
+	while (check[*i + len + 1])
 	{
 		if (check[*i + len] != 6)
 			break ;
 		++len;
 	}
+	printf(">>%d\n", len + 1);
 	ret = ft_substr(str, *i + 1, len + 1);
 	*i += len + 1;
 	return (ret);
@@ -243,8 +244,9 @@ static void	change_envp_value(t_minishell *minishell, t_token *token, int *check
 	i = 0;
 	len = ft_strlen(token->value);
 	now_len = 0;
+	printf("str: %s\tret: %s\n", token->value, ret);	//TODO
 	while (i < len)
-	{
+	{printf("[%c(%d)] %s\n", token->value[i], check[i], ret);
 		if (check[i] == 8)
 		{
 			++i;
@@ -261,6 +263,7 @@ static void	change_envp_value(t_minishell *minishell, t_token *token, int *check
 			key = get_key_in_string(check, token->value, &i);
 			change_value(ret, key, find_envp_value(minishell->envp, key), &now_len);
 			free(key);
+			continue ;
 		}
 		++i;
 		++now_len;

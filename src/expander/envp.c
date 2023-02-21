@@ -151,7 +151,9 @@ static void	change_exit_status_value(t_minishell *minishell, char **ret, int *no
 
 	len = ft_strlen(*ret);
 	status = ft_itoa(minishell->exit_status);
-	head = ft_strjoin(ft_substr(*ret, 0, *now_len), status);
+	tail = ft_substr(*ret, 0, *now_len);
+	head = ft_strjoin(tail, status);
+	free(tail);
 	tail = ft_substr(*ret, *now_len + 2, len - *now_len - 2);
 	free(*ret);
 	*ret = ft_strjoin(head, tail);
@@ -190,11 +192,15 @@ static void	change_value(char **ret, char *key, char *value, int *now_len)
 
 	value_len = ft_strlen(value);
 	original_len = ft_strlen(*ret);
-	tail = ft_substr(*ret, *now_len + (int)ft_strlen(key) + 1, original_len - *now_len - ft_strlen(key) + 1);
 	if (value)
-		head = ft_strjoin(ft_substr(*ret, 0, *now_len), value);
+	{
+		tail = ft_substr(*ret, 0, *now_len);
+		head = ft_strjoin(tail, value);
+		free(tail);
+	}
 	else
 		head = ft_substr(*ret, 0, *now_len);
+	tail = ft_substr(*ret, *now_len + (int)ft_strlen(key) + 1, original_len - *now_len - ft_strlen(key) + 1);
 	free(*ret);
 	if (!ft_strlen(head) && !ft_strlen(tail))
 		*ret = ft_calloc(1, 1);
@@ -268,6 +274,7 @@ int	envp_expand(t_minishell *minishell, t_token *token, int *is_expand)
 		change_envp_value(minishell, token, check, &ret);
 		free(token->value);
 		token->value = ret;
+		free(check);
 	}
 	return (1);
 }

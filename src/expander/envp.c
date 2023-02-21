@@ -142,19 +142,19 @@ static void get_delete_char_string(char *str, int *check, char *ret, int len)
 	}
 }
 
-static void	change_exit_status_value(t_minishell *minishell, char *ret, int *now_len)
+static void	change_exit_status_value(t_minishell *minishell, char **ret, int *now_len)
 {
 	int		len;
 	char	*status;
 	char	*head;
 	char	*tail;
 
-	len = ft_strlen(ret);
+	len = ft_strlen(*ret);
 	status = ft_itoa(minishell->exit_status);
-	head = ft_strjoin(ft_substr(ret, 0, *now_len), status);
-	tail = ft_substr(ret, *now_len + 2, len - *now_len - 2);
-	free(ret);
-	ret = ft_strjoin(head, tail);
+	head = ft_strjoin(ft_substr(*ret, 0, *now_len), status);
+	tail = ft_substr(*ret, *now_len + 2, len - *now_len - 2);
+	free(*ret);
+	*ret = ft_strjoin(head, tail);
 	*now_len += ft_strlen(status);
 	free(status);
 	free(head);
@@ -181,7 +181,7 @@ static char *get_key_in_string(int *check, char *str, int *i)
 	return (ret);
 }
 
-static void	change_value(char *ret, char *key, char *value, int *now_len)
+static void	change_value(char **ret, char *key, char *value, int *now_len)
 {
 	int	value_len;
 	int	original_len;
@@ -189,20 +189,22 @@ static void	change_value(char *ret, char *key, char *value, int *now_len)
 	char	*tail;
 
 	value_len = ft_strlen(value);
-	original_len = ft_strlen(ret);
-	tail = ft_substr(ret, *now_len + (int)ft_strlen(key) + 1, original_len - *now_len - ft_strlen(key) + 1);
+	original_len = ft_strlen(*ret);
+	tail = ft_substr(*ret, *now_len + (int)ft_strlen(key) + 1, original_len - *now_len - ft_strlen(key) + 1);
 	if (value)
-		head = ft_strjoin(ft_substr(ret, 0, *now_len), value);
+		head = ft_strjoin(ft_substr(*ret, 0, *now_len), value);
 	else
-		head = ft_substr(ret, 0, *now_len);
-	free(ret);
-	ret = ft_strjoin(head, tail);
+		head = ft_substr(*ret, 0, *now_len);
+	free(*ret);
+	if (!ft_strlen(head) && !ft_strlen(tail))
+		*ret = ft_calloc(1, 1);
+	else
+		*ret = ft_strjoin(head, tail);
 	*now_len += value_len;
 	free(head);free(tail);
-	printf("\t\tret:%s:(%zu)\n", ret, ft_strlen(ret));
 }
 
-static void	change_envp_value(t_minishell *minishell, t_token *token, int *check, char *ret)
+static void	change_envp_value(t_minishell *minishell, t_token *token, int *check, char **ret)
 {
 	int	i;
 	int	len;
@@ -213,7 +215,7 @@ static void	change_envp_value(t_minishell *minishell, t_token *token, int *check
 	len = ft_strlen(token->value);
 	now_len = 0;
 	while (i < len)
-	{printf("\t\t[%d] %s\n", i, ret);
+	{
 		if (check[i] == 8)
 		{
 			++i;
@@ -228,9 +230,7 @@ static void	change_envp_value(t_minishell *minishell, t_token *token, int *check
 		if (check[i] == 7)
 		{
 			key = get_key_in_string(check, token->value, &i);
-			printf("\t\tkey: %s\n", key);
 			char *value = find_envp_value(minishell->envp, key);
-			printf("\t\tvalue: %s\n", value);
 			change_value(ret, key, value, &now_len);
 			free(key);
 			continue ;
@@ -252,7 +252,7 @@ int	envp_expand(t_minishell *minishell, t_token *token, int *is_expand)
 		return (1);
 	if (token->type == WORD && ft_strchr(token->value, '$'))
 	{
-*is_expand = 1;
+	*is_expand = 1;
 		original_len = ft_strlen(token->value);
 		check = ft_calloc(original_len, sizeof(int));
 		get_char_type(token->value, check);
@@ -265,19 +265,9 @@ int	envp_expand(t_minishell *minishell, t_token *token, int *is_expand)
 			return (0);
 		}
 		get_delete_char_string(token->value, check, ret, original_len);
-		change_envp_value(minishell, token, check, ret);
-		if (!ft_strlen(ret))
-		{printf("in null ret\n");
-			del_token(&token);
-			if (token->prev)
-				token = token->prev;
-			return (1);
-		}
-		printf("\t\tret value: %s\n", ret);
+		change_envp_value(minishell, token, check, &ret);
 		free(token->value);
 		token->value = ret;
-
-		//5. split and inset token
 	}
 	return (1);
 }

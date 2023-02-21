@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/21 16:54:33 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/21 16:55:31 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LEXER_H
 # define LEXER_H
 
-#include "minishell.h"
-#include "types/t_token.h"
+# include "minishell.h"
+# include "types/t_token.h"
 
 # define WORD 0
 # define BLANK 1
@@ -23,39 +35,29 @@
 # define LOGICAL 17
 # define REDIR 18
 
-//lexer.c
-// t_token	*lexer(t_minishell *minishell, char *input);
 t_token	*tokenizer(char *input);
-int	sub_lexer_quotes(int *type, char *input_i, char **start, t_token **tokens);
-void	sub_lexer(int *type, char *input_i, char **start, t_token **tokens);
-
-
-//lexer_util.c
-void    init_common_token(t_token **token, char *input, char **start, int *type);
-int 	init_quot_token(t_token **token, char *input, char **start, int *type);
-int     get_type(char input);
+int		sub_lexer_quotes(int *type, char *input_i, char **start, \
+						t_token **tokens);
+void	sub_lexer(int *type, char *input_i, char **start, \
+					t_token **tokens);
+void	init_common_token(t_token **token, char *input, \
+							char **start, int *type);
+int		init_quot_token(t_token **token, char *input, \
+						char **start, int *type);
+int		get_type(char input);
 void	init_index(int *index);
 void	init_separs(char **separs);
-
-//lexer_check_qoute.c
-int check_quot(char input);
-
-//lexer_free.c
+int		check_quot(char input);
 void	free_tokens(t_token *token);
-
-//lexer.c
-t_token *lexer(t_token *token);
-void tokenize_space(int *type, char *input_i, char **start);
-int	set_token_types(t_token **token);
-int	sub_set_token_types(char **separs, int *index, t_token *temp);
-
-
-//tokenize_symbol.c
-int	tokenize_special(int *type, char *input_i, char **start, t_token **tokens);
-
-//token.c
+t_token	*lexer(t_token *token);
+void	tokenize_space(int *type, char *input_i, char **start);
+int		set_token_types(t_token **token);
+int		sub_set_token_types(char **separs, int *index, t_token *temp);
+int		tokenize_special(int *type, char *input_i, char **start, \
+						t_token **tokens);
 void	add_token(t_token **first, t_token *to_add);
 t_token	*create_token(int length, char *start, int type);
 void	insert_token(t_token **tail, t_token *to_add);
 void	del_token(t_token **target);
+
 #endif

@@ -1,9 +1,19 @@
-#ifndef T_EXPENDER_H
-# define T_EXPENDER_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   t_expander.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/21 16:37:58 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/21 16:44:50 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
 
-// #include "t_parse_tree.h"
+#ifndef T_EXPANDER_H
+# define T_EXPANDER_H
 
-typedef struct s_expander t_expander;
+typedef struct s_expander	t_expander;
 
 struct s_expander
 {

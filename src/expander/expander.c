@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:31:51 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 13:14:51 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:59:46 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "expander.h"
 #include "envp.h"
-#include "test_code.h"
+
 
 void	expander(t_minishell *minishell, t_parse_tree *parse_tree)
 {

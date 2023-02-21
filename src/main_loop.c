@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:50:03 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/20 21:20:45 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 16:59:46 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "lexer.h"
 #include "parser.h"
 #include "exec.h"
-#include "test_code.h"
+
 
 static char	*read_line(char **line)
 {

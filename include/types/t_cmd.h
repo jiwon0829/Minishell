@@ -6,12 +6,12 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 16:25:26 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/21 16:37:09 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 16:39:50 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CMD_H
-# define CMD_H
+#ifndef T_CMD_H
+# define T_CMD_H
 
 # include <stdlib.h>
 # include "t_minishell.h"
@@ -30,7 +30,7 @@ struct s_cmd_tbl
 struct s_cmd
 {
 	char	*cmd;
-	void (*func)(t_minishell *minishell, char **arr);
+	void	(*func)(t_minishell *minishell, char **arr);
 	int		argc;
 	char	*opt;
 };

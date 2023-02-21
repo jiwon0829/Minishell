@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_child_util.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:20:40 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/20 15:47:45 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:59:46 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "redirect.h"
 #include "builtin.h"
 #include "signals.h"
-#include "test_code.h"
+
 
 int	exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree,
 	t_pipe **pipe, char **envp)

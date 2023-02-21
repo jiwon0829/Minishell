@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 18:21:24 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/20 15:49:10 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:59:46 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "lexer.h"
-#include "test_code.h"
+
 
 void	sub_lexer(int *type, char *input_i, char **start, t_token **tokens)
 {

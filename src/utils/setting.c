@@ -22,7 +22,7 @@ static void setting_shlvl(t_envp *envp)
 	free(shlvl_str);
 }
 
-#include "test_code.h"	//TODO
+	//TODO
 void	init(t_minishell *minishell, char *envp[])
 {
 	set_signal(CATCH, IGNORE);

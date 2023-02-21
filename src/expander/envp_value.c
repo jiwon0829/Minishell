@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 17:39:23 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/21 17:39:57 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 19:22:24 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "expander.h"
 #include "envp.h"
 
-void get_delete_char_string(char *str, int *check, char *ret, int len)
+void	get_delete_char_string(char *str, int *check, char *ret, int len)
 {
-	int i;
-	int now_len;
+	int	i;
+	int	now_len;
 
 	i = 0;
 	now_len = 0;
@@ -34,7 +34,8 @@ void get_delete_char_string(char *str, int *check, char *ret, int len)
 	}
 }
 
-void	change_exit_status_value(t_minishell *minishell, char **ret, int *now_len)
+void	change_exit_status_value(t_minishell *minishell, char **ret, \
+								int *now_len, int *i)
 {
 	int		len;
 	char	*status;
@@ -53,9 +54,10 @@ void	change_exit_status_value(t_minishell *minishell, char **ret, int *now_len)
 	free(status);
 	free(head);
 	free(tail);
+	*i += 2;
 }
 
-char *get_key_in_string(int *check, char *str, int *i)
+char	*get_key_in_string(int *check, char *str, int *i)
 {
 	char	*ret;
 	int		len;
@@ -77,8 +79,8 @@ char *get_key_in_string(int *check, char *str, int *i)
 
 void	change_value(char **ret, char *key, char *value, int *now_len)
 {
-	int	value_len;
-	int	original_len;
+	int		value_len;
+	int		original_len;
 	char	*head;
 	char	*tail;
 
@@ -92,49 +94,44 @@ void	change_value(char **ret, char *key, char *value, int *now_len)
 	}
 	else
 		head = ft_substr(*ret, 0, *now_len);
-	tail = ft_substr(*ret, *now_len + (int)ft_strlen(key) + 1, original_len - *now_len - ft_strlen(key) + 1);
+	tail = ft_substr(*ret, *now_len + (int)ft_strlen(key) + 1, \
+			original_len - *now_len - ft_strlen(key) + 1);
 	free(*ret);
 	if (!ft_strlen(head) && !ft_strlen(tail))
 		*ret = ft_calloc(1, 1);
 	else
 		*ret = ft_strjoin(head, tail);
 	*now_len += value_len;
-	free(head);free(tail);
+	free(head);
+	free(tail);
 }
 
-void	change_envp_value(t_minishell *minishell, t_token *token, int *check, char **ret)
+void	change_envp_value(t_minishell *minishell, t_token *token, \
+							int *check, char **ret)
 {
-	int	i;
-	int	len;
-	int	now_len;
+	int		i;
+	int		now_len;
 	char	*key;
 
 	i = 0;
-	len = ft_strlen(token->value);
 	now_len = 0;
-	while (i < len)
+	while (i < (int)ft_strlen(token->value))
 	{
 		if (check[i] == 8)
-		{
-			++i;
-			continue ;
-		}
-		if (check[i] == 3)
-		{
-			change_exit_status_value(minishell, ret, &now_len);
-			i += 2;
-			continue ;
-		}
-		if (check[i] == 7)
+			--now_len;
+		else if (check[i] == 3)
+			change_exit_status_value(minishell, ret, &now_len, &i);
+		else if (check[i] == 7)
 		{
 			key = get_key_in_string(check, token->value, &i);
-			char *value = find_envp_value(minishell->envp, key);
-			change_value(ret, key, value, &now_len);
+			change_value(ret, key, find_envp_value(minishell->envp, key), \
+						&now_len);
 			free(key);
-			continue ;
 		}
+		else
+		{
 		++i;
 		++now_len;
-
+		}
 	}
 }

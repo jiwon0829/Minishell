@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/21 16:51:24 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/21 19:10:39 by jiwonhan         ###   ########seoul.kr  */
+/*   Created: 2023/02/21 19:28:42 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/21 19:29:21 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,7 @@ char	*get_key_in_string(int *check, char *str, int *i);
 void	change_value(char **ret, char *key, char *value, int *now_len);
 void	change_envp_value(t_minishell *minishell, t_token *token, \
 						int *check, char **ret);
+void	get_change_dollor_str(t_minishell *minishell, t_expander *ex, \
+						t_parse_tree *parse_tree, int *i);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_list_util.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:07:53 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/21 17:08:25 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 19:08:32 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	redir_dup_output_over(t_minishell *minishell)
 
 void	redir_dup_heredoc(t_minishell *minishell)
 {
-	int	ret;
-	t_heredoc *tmp;
+	t_heredoc	*tmp;
+	int			ret;
 
 	tmp = minishell->heredoc;
 	ret = dup2(minishell->heredoc->fd[0], STDIN_FILENO);

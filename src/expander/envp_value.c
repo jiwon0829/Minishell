@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 17:39:23 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/21 19:22:24 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 19:46:35 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	change_envp_value(t_minishell *minishell, t_token *token, \
 	while (i < (int)ft_strlen(token->value))
 	{
 		if (check[i] == 8)
-			--now_len;
+			++i;
 		else if (check[i] == 3)
 			change_exit_status_value(minishell, ret, &now_len, &i);
 		else if (check[i] == 7)

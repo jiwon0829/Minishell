@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:34:46 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/21 17:01:25 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 19:43:30 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	split_key_value(t_envp *envp, char *str)
 	}
 	else if (!sign && !find_envp(envp, key))
 	{
+		free(key);
 		key = ft_strdup(str);
 		insert_envp(&envp, key, 0);
 	}
@@ -70,7 +71,9 @@ void	export(t_minishell *minishell, char **arr)
 			export_error_message(arr[i]);
 		}
 		else
+		{
 			split_key_value(minishell->envp, arr[i]);
+		}
 		++i;
 	}
 }

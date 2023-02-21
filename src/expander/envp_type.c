@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 17:40:06 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/21 17:40:44 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 18:10:59 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,17 @@
 #include "expander.h"
 #include "envp.h"
 
-int find_type(char *str)
+int	find_type(char *str)
 {
-	char    type[5][3] = {"\'", "\"", "$?", "$", " "};
-	int     i;
+	char	*type[5];
+	int		i;
 
 	i = 0;
+	type[0] = "\'";
+	type[1] = "\"";
+	type[2] = "$?";
+	type[3] = "$";
+	type[4] = " ";
 	while (i < 5)
 	{
 		if (!ft_strncmp(str, type[i], ft_strlen(type[i])))
@@ -29,9 +34,9 @@ int find_type(char *str)
 	return (0);
 }
 
-void get_char_type(char *str, int *check)
+void	get_char_type(char *str, int *check)
 {
-	int type;
+	int	type;
 
 	while (*str)
 	{
@@ -48,9 +53,9 @@ void get_char_type(char *str, int *check)
 	}
 }
 
-void change_single_quote(int *check, int start, int end)
+void	change_single_quote(int *check, int start, int end)
 {
-	int i;
+	int	i;
 
 	i = start + 1;
 	while (i < end)
@@ -63,15 +68,15 @@ void change_single_quote(int *check, int start, int end)
 	check[end] = 8;
 }
 
-int quote_in_envp(char *str, int *check)
+int	quote_in_envp(char *str, int *check)
 {
-	char    *start;
-	char    *quote;
-	int     ret;
+	char	*start;
+	char	*quote;
+	int		ret;
 
 	ret = 0;
 	start = str;
-	while(*start)
+	while (*start)
 	{
 		if (*start == '\'')
 		{
@@ -97,5 +102,3 @@ int quote_in_envp(char *str, int *check)
 	}
 	return (ret);
 }
-
-

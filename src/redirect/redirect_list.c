@@ -53,7 +53,10 @@ int	redir_dup(t_minishell *minishell)
 		if (minishell->redirect->type == INPUT)
 		{
 			if (redir_dup_input(minishell) == FAILURE)
+			{
+				minishell->redirect = tmp;
 				return (FAILURE);
+			}
 		}
 		else if (minishell->redirect->type == OUTPUT_OVER)
 			redir_dup_output_over(minishell);

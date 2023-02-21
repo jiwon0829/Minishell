@@ -101,6 +101,7 @@ void	check_heredoc(t_minishell *minishell, t_parse_tree *parse_tree)
 			if (minishell->exit_status == 130)
 				return ;
 			tmp_token = tmp_token->next->next;
+			minishell->heredoc_cnt++;
 		}
 		else
 			tmp_token = tmp_token->next;

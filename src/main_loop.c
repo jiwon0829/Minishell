@@ -106,6 +106,7 @@ void	main_loop(t_minishell *minishell)
 			executor(minishell, parse_tree);
 		free_all(parse_tree);
 		parse_tree = NULL;
+		// system("leaks --list -- minishell");
 	}
 	rl_clear_history();
 	is_eof(minishell);

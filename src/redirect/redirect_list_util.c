@@ -66,7 +66,9 @@ void	redir_dup_output_over(t_minishell *minishell)
 void	redir_dup_heredoc(t_minishell *minishell)
 {
 	int	ret;
+	t_heredoc *tmp;
 
+	tmp = minishell->heredoc;
 	ret = dup2(minishell->heredoc->fd[0], STDIN_FILENO);
 	close(minishell->heredoc->fd[0]);
 	minishell->heredoc = minishell->heredoc->next;
@@ -78,6 +80,8 @@ void	redir_dup_heredoc(t_minishell *minishell)
 	{
 		exit_err_massage(minishell, 1, "dup2_error");
 	}
+	if (minishell->inchild == 0)
+		minishell->heredoc = tmp;
 }
 
 void	redir_dup_output_append(t_minishell *minishell)

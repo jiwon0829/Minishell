@@ -97,7 +97,7 @@ void	handle_iteration(t_minishell *minishell, t_parse_tree *parse_tree,
 	t_pipe **pipe)
 {
 	int	fd[2];
-
+	
 	if (!parse_tree)
 		return ;
 	parse_tree->token->fd_in = 0;

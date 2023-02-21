@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:34:46 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/15 15:34:43 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 16:24:42 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ void	export(t_minishell *minishell, char **arr)
 	while (arr[i])
 	{
 		if (!check_variable_name(arr[i]))
+		{
+			minishell->exit_status = 1;
 			export_error_message(arr[i]);
+		}
 		else
 			split_key_value(minishell->envp, arr[i]);
 		++i;

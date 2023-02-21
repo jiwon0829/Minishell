@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   t_cmd.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/21 16:25:26 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/21 16:37:09 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CMD_H
 # define CMD_H
 
-#include <stdlib.h>
-#include "t_minishell.h"	//TODO remove?
-#include "../libft/libft.h"
+# include <stdlib.h>
+# include "t_minishell.h"
+# include "../libft/libft.h"
 
-typedef struct s_minishell t_minishell;
-typedef struct s_cmd_tbl t_cmd_tbl;
-typedef struct s_cmd t_cmd;
+typedef struct s_minishell	t_minishell;
+typedef struct s_cmd_tbl	t_cmd_tbl;
+typedef struct s_cmd		t_cmd;
 
 struct s_cmd_tbl
 {

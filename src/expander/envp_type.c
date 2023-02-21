@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 17:40:06 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/21 18:10:59 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 18:27:31 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,22 +78,15 @@ int	quote_in_envp(char *str, int *check)
 	start = str;
 	while (*start)
 	{
-		if (*start == '\'')
+		if (*start == '\'' || *start == '\"')
 		{
 			quote = ft_strchr(start + 1, *start);
 			if (quote)
 			{
-				change_word_all(check, start - str, quote - str);
-				start = quote;
-				ret += 2;
-			}
-		}
-		else if (*start == '\"')
-		{
-			quote = ft_strchr(start + 1, *start);
-			if (quote)
-			{
-				change_single_quote(check, start - str, quote - str);
+				if (quote[0] == '\'')
+					change_word_all(check, start - str, quote - str);
+				else if (quote[0] == '\"')
+					change_single_quote(check, start - str, quote - str);
 				start = quote;
 				ret += 2;
 			}

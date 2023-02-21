@@ -50,11 +50,9 @@ void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree,
 	iterate_tree(minishell, parse_tree->left, pipes);
 	dup2(minishell->exit_fdin, STDIN_FILENO);
 	free_n_move_pipe(minishell, pipes);
+	(*pipes)->right_flag = 1;
 	if (minishell->exit_status == 0)
-	{
-		(*pipes)->right_flag = 1;
 		iterate_tree(minishell, parse_tree->right, pipes);
-	}
 	free_n_move_pipe(minishell, pipes);
 }
 
@@ -71,9 +69,7 @@ void	execute_or_node(t_minishell *minishell, t_parse_tree *parse_tree,
 	free_n_move_pipe(minishell, pipes);
 	(*pipes)->right_flag = 1;
 	if (minishell->exit_status != 0)
-	{
 		iterate_tree(minishell, parse_tree->right, pipes);
-	}
 	free_n_move_pipe(minishell, pipes);
 }
 

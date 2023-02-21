@@ -109,6 +109,7 @@ void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
 	{
 		redir_dup(minishell);
 		free_redirect(minishell);
+		free_n_move_pipe(minishell, pipes);
 		dup2(minishell->exit_fdin, STDIN_FILENO);
 		dup2(minishell->exit_fdout, STDOUT_FILENO);
 		return ;

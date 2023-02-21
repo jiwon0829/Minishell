@@ -1,34 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander.c                                         :+:      :+:    :+:   */
+/*   error_message2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 11:31:51 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/21 17:11:32 by jiwonhan         ###   ########seoul.kr  */
+/*   Created: 2023/02/21 17:08:51 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/21 17:08:52 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "expander.h"
-#include "envp.h"
+#include "error_message.h"
 
-void	expander(t_minishell *minishell, t_parse_tree *parse_tree)
+void	memory_malloc_error(void)
 {
-	t_token	*token;
-	int		check;
-
-	token = parse_tree->token;
-	check = 0;
-	while (token)
-	{
-		if (!envp_expand(minishell, token, &check) || \
-			!quote_delete(token, check) || !wildcard(token))
-		{
-			minishell->exit_status = 1;
-			return ;
-		}
-		token = token->next;
-	}
+	ft_putendl_fd("memory malloc fail", 2);
+	exit (1);
 }

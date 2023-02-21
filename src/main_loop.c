@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:50:03 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/21 16:59:46 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 17:07:38 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "lexer.h"
 #include "parser.h"
 #include "exec.h"
-
+#include "builtin.h"
 
 static char	*read_line(char **line)
 {
@@ -94,7 +94,6 @@ void	main_loop(t_minishell *minishell)
 		if (!check_line(&line))
 		{
 			free(line);
-			line = NULL;
 			continue ;
 		}
 		token = tokenizer(line);
@@ -102,7 +101,7 @@ void	main_loop(t_minishell *minishell)
 		line = NULL;
 		token = lexer(token);
 		parse_tree = parser(minishell, token);
-		if (parse_tree)//print_parse_tree(parse_tree, 0);
+		if (parse_tree)
 			executor(minishell, parse_tree);
 		free_all(parse_tree);
 		parse_tree = NULL;

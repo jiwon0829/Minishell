@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:07:53 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/21 16:59:46 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 17:08:25 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include "lexer.h"
 #include "redirect.h"
 #include "builtin.h"
-
 
 int	redir_dup_input(t_minishell *minishell)
 {

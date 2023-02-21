@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quote.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/21 17:11:49 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/21 17:12:39 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "expander.h"
 
-static int  get_delete_len_and_check(char *str, int *check)
+static int	get_delete_len_and_check(char *str, int *check)
 {
-	int ret;
-	char *start;
-	char *quote;
+	int		ret;
+	char	*start;
+	char	*quote;
 
 	ret = 0;
 	start = str;
@@ -29,10 +41,10 @@ static int  get_delete_len_and_check(char *str, int *check)
 	return (ret);
 }
 
-static void get_delete_quote_string(char *str, int *check, char *ret, int len)
+static void	get_delete_quote_string(char *str, int *check, char *ret, int len)
 {
-	int i;
-	int now_len;
+	int	i;
+	int	now_len;
 
 	i = 0;
 	now_len = 0;
@@ -49,12 +61,12 @@ static void get_delete_quote_string(char *str, int *check, char *ret, int len)
 	}
 }
 
-int quote_delete(t_token *token, int is_expand)
+int	quote_delete(t_token *token, int is_expand)
 {
-	int del_len;
-	int original_len;
-	char    *ret;
-	int *check;
+	int		del_len;
+	int		original_len;
+	char	*ret;
+	int		*check;
 
 	if (!token)
 		return (1);

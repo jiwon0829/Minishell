@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   setting.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/21 17:10:26 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/21 17:10:26 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include "envp.h"
 #include "builtin.h"
 #include "signals.h"
 
-static void setting_shlvl(t_envp *envp)
+static void	setting_shlvl(t_envp *envp)
 {
-	t_envp *shlvl_node;
-	int shlvl;
+	t_envp	*shlvl_node;
+	int		shlvl;
 	char	*shlvl_str;
 
 	shlvl_node = get_envpnode(envp, "SHLVL");

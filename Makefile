@@ -22,8 +22,7 @@ INC_TYPES := $(addprefix $(INC_TYPES_DIR)/, $(INC_TYPES))
 
 LIBFT_DIR = libft
 
-SRCS = src/test_code.c \
-		src/utils/error_message.c src/utils/setting.c \
+SRCS = src/utils/error_message.c src/utils/error_message2.c src/utils/setting.c \
 		src/minishell.c src/main_loop.c  src/utils/memory.c\
 		src/envp/setting.c src/envp/node.c src/envp/print.c\
 		src/builtin/builtin.c src/builtin/echo.c src/builtin/env.c \
@@ -43,7 +42,7 @@ SRCS = src/test_code.c \
 		src/heredoc/heredoc_util.c src/heredoc/heredoc.c src/heredoc/heredoc_expand.c src/heredoc/heredoc_expand_util.c \
 		src/redirect/redirect_list.c src/redirect/redirects.c src/redirect/redirect_list_util.c\
 		src/expander/expander.c src/expander/expander_util.c src/expander/quote.c \
-		src/expander/wildcard.c src/expander/expander_dollor_util.c src/expander/envp.c \
+		src/expander/wildcard.c src/expander/envp.c \
 		src/free/redirect_free.c
 
 OBJS = $(SRCS:.c=.o)

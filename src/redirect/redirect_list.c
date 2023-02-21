@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:12:14 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/21 16:59:46 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 17:08:18 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include "lexer.h"
 #include "redirect.h"
 #include "builtin.h"
-
 
 static int	re_lstsize(t_redirect *lst)
 {
@@ -45,7 +44,7 @@ static t_redirect	*re_lstlast(t_redirect *lst)
 
 int	redir_dup(t_minishell *minishell)
 {
-	t_redirect * tmp;
+	t_redirect	*tmp;
 
 	tmp = minishell->redirect;
 	while (minishell->redirect)

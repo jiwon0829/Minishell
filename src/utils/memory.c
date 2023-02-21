@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hanjiwon <hanjiwon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 18:31:35 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/17 16:18:39 by hanjiwon         ###   ########.fr       */
+/*   Updated: 2023/02/21 17:10:05 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 static void	free_parse_tree(t_parse_tree *tree)
 {
-	// printf("in free_parse_tree\n");
 	if (tree->left)
 		free_parse_tree(tree->left);
 	if (tree->right)
@@ -27,7 +26,6 @@ static void	free_parse_tree(t_parse_tree *tree)
 
 void	free_all(t_parse_tree *parse_tree)
 {
-	// printf("in free_all\n");
 	if (!parse_tree)
 		return ;
 	free_parse_tree(parse_tree);

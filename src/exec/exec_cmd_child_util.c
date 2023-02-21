@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:20:40 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/21 16:59:46 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 17:06:03 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 #include "redirect.h"
 #include "builtin.h"
 #include "signals.h"
-
 
 int	exec_child_logical(t_minishell *minishell, t_parse_tree *parse_tree,
 	t_pipe **pipe, char **envp)

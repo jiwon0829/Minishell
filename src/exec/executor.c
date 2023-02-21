@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/21 17:06:19 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/21 17:06:37 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 #include "exec.h"
@@ -6,7 +16,6 @@
 #include "redirect.h"
 #include "signals.h"
 #include "expander.h"
-
 
 void	iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree,
 	t_pipe **pipe)

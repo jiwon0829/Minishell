@@ -6,13 +6,12 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 18:19:38 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/21 16:59:46 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 17:07:06 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "lexer.h"
-
 
 int	sub_set_token_types(char **separs, int *index, t_token *temp)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:26:05 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/21 17:05:52 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 19:07:53 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree,
 void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
 	t_pipe **pipes)
 {
-
 	set_redirect(minishell, parse_tree);
 	set_cmd(minishell, parse_tree);
 	if (parse_tree->token == NULL)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_type.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 17:40:06 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/21 18:10:59 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 19:07:10 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

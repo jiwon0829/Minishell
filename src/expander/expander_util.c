@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_util.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 11:27:57 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 15:44:47 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 19:06:36 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,7 @@ void	expand_dollor(t_minishell *minishell, t_expander *ex,
 			ex->j, ex->k - ex->j + 1);
 	free(parse_tree->token->value);
 	if (get_envpnode(minishell->envp, ex->middle_str))
-	{
-		ex->change_str = get_envpnode(minishell->envp, ex->middle_str)->value;
-		ex->return_str = expen_strjoin(ex->first_str, ex->change_str);
-		parse_tree->token->value = expen_strjoin(ex->return_str, ex->last_str);
-		*i = strlen(ex->return_str) - 1 ;
-	}
+		get_change_dollor_str(minishell, ex, parse_tree, i);
 	else
 	{
 		parse_tree->token->value = expen_strjoin(ex->first_str, ex->last_str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:17:02 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/21 17:05:34 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 19:08:01 by inosong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void	execute_pipe_node(t_minishell *minishell, t_parse_tree *parse_tree,
 void	handle_iteration(t_minishell *minishell, t_parse_tree *parse_tree,
 	t_pipe **pipe)
 {
-
 	int	fd[2];
 
 	if (!parse_tree)

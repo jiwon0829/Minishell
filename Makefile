@@ -2,11 +2,11 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 # -g -fsanitize=address
 # 클러스터
-#   READLINE_LIB = -lreadline -L/goinfre/$(USER)/.brew/opt/readline/lib
-#   READLINE_INC = -I/goinfre/$(USER)/.brew/opt/readline/include
+  READLINE_LIB = -lreadline -L/goinfre/$(USER)/.brew/opt/readline/lib
+  READLINE_INC = -I/goinfre/$(USER)/.brew/opt/readline/include
 # MAC 인텔
-READLINE_LIB = -lreadline -L/usr/local/opt/readline/lib
-READLINE_INC = -I/usr/local/opt/readline/include
+# READLINE_LIB = -lreadline -L/usr/local/opt/readline/lib
+# READLINE_INC = -I/usr/local/opt/readline/include
 
 LIBFT = libft/libft.a
 
@@ -43,7 +43,7 @@ SRCS = src/utils/error_message.c src/utils/error_message2.c src/utils/setting.c 
 		src/redirect/redirect_list.c src/redirect/redirects.c src/redirect/redirect_list_util.c\
 		src/expander/expander.c src/expander/expander_util.c src/expander/quote.c \
 		src/expander/wildcard.c src/expander/envp.c src/expander/envp_value.c \
-		src/expander/envp_type.c src/free/redirect_free.c
+		src/expander/envp_type.c src/free/redirect_free.c src/expander/expander_util2.c
 
 OBJS = $(SRCS:.c=.o)
 

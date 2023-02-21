@@ -28,7 +28,7 @@ SRCS = src/utils/error_message.c src/utils/error_message2.c src/utils/setting.c 
 		src/builtin/builtin.c src/builtin/echo.c src/builtin/env.c \
 		src/builtin/export.c src/builtin/pwd.c src/builtin/unset.c \
 		src/builtin/exit.c src/builtin/cd.c \
-		src/signal/handler.c\
+		src/signal/handler.c src/envp/delete.c \
 		src/lexer/lexer_free.c src/lexer/lexer_util.c \
 		src/lexer/tokenizer.c src/lexer/token.c src/lexer/lexer_check_quote.c \
 		src/lexer/tokenize_symbol.c src/lexer/lexer.c \

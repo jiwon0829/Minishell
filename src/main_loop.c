@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:50:03 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/21 17:07:38 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 19:47:30 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	main_loop(t_minishell *minishell)
 			executor(minishell, parse_tree);
 		free_all(parse_tree);
 		parse_tree = NULL;
-		system("leaks --list -- minishell");
+		//system("leaks --list -- minishell");
 	}
 	rl_clear_history();
 	is_eof(minishell);

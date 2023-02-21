@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:17:02 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/20 15:48:33 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/21 17:05:34 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 #include "lexer.h"
 #include "redirect.h"
 #include "signals.h"
-#include "test_code.h"
 
 void	free_n_move_pipe(t_minishell *minishell, t_pipe **pipes)
 {
 	t_pipe	*tmp;
 
-	(void)minishell;
 	if ((*pipes) && (*pipes)->right_flag == 1)
 	{
 		if ((*pipes)->type == PIPE)
@@ -37,6 +35,7 @@ void	free_n_move_pipe(t_minishell *minishell, t_pipe **pipes)
 			(*pipes) = tmp;
 		}
 	}
+	(void)minishell;
 }
 
 void	execute_and_node(t_minishell *minishell, t_parse_tree *parse_tree,

@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:34:46 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/21 16:24:42 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 17:01:25 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,10 @@ void	split_key_value(t_envp *envp, char *str)
 			insert_envp(&envp, key, value);
 		free(value);
 	}
-	else
+	else if (!sign && !find_envp(envp, key))
 	{
-		if (find_envp(envp, key))
-			;
-		else
-		{
-			key = ft_strdup(str);
-			insert_envp(&envp, key, 0);
-		}
+		key = ft_strdup(str);
+		insert_envp(&envp, key, 0);
 	}
 	free(key);
 }

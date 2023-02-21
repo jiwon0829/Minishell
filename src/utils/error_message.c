@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error_message.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/21 17:08:55 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/21 17:09:58 by jiwonhan         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "error_message.h"
 
 void	export_error_message(char *msg)
@@ -29,13 +41,7 @@ void	exit_argment_error(char *msg)
 	ft_putstr_fd(": numeric argument required\n", 2);
 }
 
-void	exit_argment_cnt_error()
+void	exit_argment_cnt_error(void)
 {
 	ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
-}
-
-void	memory_malloc_error(void)
-{
-	ft_putendl_fd("memory malloc fail", 2);
-	exit (1);
 }

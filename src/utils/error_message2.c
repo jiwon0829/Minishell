@@ -1,32 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.h                                          :+:      :+:    :+:   */
+/*   error_message2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/21 16:59:12 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/21 16:59:25 by jiwonhan         ###   ########seoul.kr  */
+/*   Created: 2023/02/21 17:08:51 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/21 17:08:52 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNALS_H
-# define SIGNALS_H
+#include "error_message.h"
 
-# include <signal.h>
-# include <sys/ioctl.h>
-# include "types/t_minishell.h"
-
-enum e_signum
+void	memory_malloc_error(void)
 {
-	DEFAULT,
-	CATCH,
-	IGNORE
-};
-
-void	set_signal(int sigint, int sigquit);
-void	prompt_handler(int sig);
-void	heredoc_handler(int sig);
-void	sigquit_handler(int sig);
-
-#endif
+	ft_putendl_fd("memory malloc fail", 2);
+	exit (1);
+}

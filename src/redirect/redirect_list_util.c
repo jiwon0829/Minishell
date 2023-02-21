@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_list_util.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:07:53 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/15 13:13:34 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/21 17:08:25 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include "lexer.h"
 #include "redirect.h"
 #include "builtin.h"
-#include "test_code.h"
 
 int	redir_dup_input(t_minishell *minishell)
 {

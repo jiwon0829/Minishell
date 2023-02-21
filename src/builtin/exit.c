@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:34:05 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/15 14:52:22 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 17:00:38 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,5 @@ void	ft_exit(t_minishell *minishell, char **arr)
 		minishell->exit_status = (int)(ft_atoll(arr[1]) % 256);
 		ft_putstr_fd("exit\n", 2);
 	}
-	// system("leaks minishell");
 	exit(minishell->exit_status);
 }

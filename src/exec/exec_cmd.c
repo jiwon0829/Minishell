@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:26:05 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/20 15:47:53 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/21 17:05:52 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 #include "builtin.h"
 #include "signals.h"
 #include "free.h"
-#include "test_code.h"
 
 static void	wait_pid(t_minishell *minishell, t_pipe **pipe)
 {

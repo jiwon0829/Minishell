@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_util.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: inosong <inosong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 09:22:58 by inosong           #+#    #+#             */
-/*   Updated: 2023/02/20 15:47:37 by inosong          ###   ########.fr       */
+/*   Updated: 2023/02/21 17:06:12 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 #include "redirect.h"
 #include "builtin.h"
 #include "signals.h"
-#include "test_code.h"
 
 int	exec_builtin(t_minishell *minishell, t_parse_tree *parse_tree)
 {

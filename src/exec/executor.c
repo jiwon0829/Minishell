@@ -16,9 +16,7 @@ void	iterate_tree(t_minishell *minishell, t_parse_tree *parse_tree,
 
 	i = 0;
 	expander(minishell, parse_tree);
-	if (minishell->heredoc)
 	handle_iteration(minishell, parse_tree, pipe);
-	if (minishell->heredoc)
 	if (parse_tree->type == 0)
 	{
 		while (i < minishell->heredoc_cnt)
@@ -49,6 +47,5 @@ void	executor(t_minishell *minishell, t_parse_tree *parse_tree)
 		minishell->exit_status = 1;
 		return ;
 	}
-	if (minishell->heredoc)
 	iterate_tree(minishell, parse_tree, &pipe);
 }

@@ -102,6 +102,7 @@ void	parent_process(t_minishell *minishell, t_parse_tree *parse_tree,
 void	exec_cmd(t_minishell *minishell, t_parse_tree *parse_tree,
 	t_pipe **pipes)
 {
+
 	set_redirect(minishell, parse_tree);
 	set_cmd(minishell, parse_tree);
 	if (parse_tree->token == NULL)

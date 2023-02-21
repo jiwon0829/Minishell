@@ -6,7 +6,7 @@
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 17:39:23 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/21 18:23:01 by jiwonhan         ###   ########seoul.kr  */
+/*   Updated: 2023/02/21 19:22:24 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	get_delete_char_string(char *str, int *check, char *ret, int len)
 }
 
 void	change_exit_status_value(t_minishell *minishell, char **ret, \
-								int *now_len)
+								int *now_len, int *i)
 {
 	int		len;
 	char	*status;
@@ -54,6 +54,7 @@ void	change_exit_status_value(t_minishell *minishell, char **ret, \
 	free(status);
 	free(head);
 	free(tail);
+	*i += 2;
 }
 
 char	*get_key_in_string(int *check, char *str, int *i)
@@ -109,32 +110,28 @@ void	change_envp_value(t_minishell *minishell, t_token *token, \
 							int *check, char **ret)
 {
 	int		i;
-	int		len;
 	int		now_len;
 	char	*key;
 
 	i = 0;
-	len = ft_strlen(token->value);
 	now_len = 0;
-	while (i < len)
+	while (i < (int)ft_strlen(token->value))
 	{
 		if (check[i] == 8)
 			--now_len;
-		if (check[i] == 3)
-		{
-			change_exit_status_value(minishell, ret, &now_len);
-			i += 2;
-			continue ;
-		}
-		if (check[i] == 7)
+		else if (check[i] == 3)
+			change_exit_status_value(minishell, ret, &now_len, &i);
+		else if (check[i] == 7)
 		{
 			key = get_key_in_string(check, token->value, &i);
 			change_value(ret, key, find_envp_value(minishell->envp, key), \
 						&now_len);
 			free(key);
-			continue ;
 		}
+		else
+		{
 		++i;
 		++now_len;
+		}
 	}
 }

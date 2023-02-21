@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envp_utils.c                                       :+:      :+:    :+:   */
+/*   envp_value.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiwonhan <jiwonhan@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/21 17:17:05 by jiwonhan          #+#    #+#             */
-/*   Updated: 2023/02/21 17:19:30 by jiwonhan         ###   ########seoul.kr  */
+/*   Created: 2023/02/21 17:39:23 by jiwonhan          #+#    #+#             */
+/*   Updated: 2023/02/21 17:39:57 by jiwonhan         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,48 +14,27 @@
 #include "expander.h"
 #include "envp.h"
 
-int find_type(char *str)
+void get_delete_char_string(char *str, int *check, char *ret, int len)
 {
-	char    type[5][3] = {"\'", "\"", "$?", "$", " "};
-	int     i;
+	int i;
+	int now_len;
 
 	i = 0;
-	while (i < 5)
+	now_len = 0;
+	while (i < len)
 	{
-		if (!ft_strncmp(str, type[i], ft_strlen(type[i])))
-			return (i + 1);
+		if (check[i] == 8)
+		{
+			++i;
+			continue ;
+		}
+		ft_strlcat(ret, str + i, now_len + 2);
+		++now_len;
 		++i;
 	}
-	return (0);
 }
 
-static void change_word_all(int *check, int start, int end)
-{
-	int i;
-
-	i = start + 1;
-	while(i < end)
-		check[i++] = 0;
-	check[start] = 8;
-	check[end] = 8;
-}
-
-static void change_single_quote(int *check, int start, int end)
-{
-	int i;
-
-	i = start + 1;
-	while (i < end)
-	{
-		if (check[i] == 1)
-			check[i] = 0;
-		++i;
-	}
-	check[start] = 8;
-	check[end] = 8;
-}
-
-static void	change_exit_status_value(t_minishell *minishell, char **ret, int *now_len)
+void	change_exit_status_value(t_minishell *minishell, char **ret, int *now_len)
 {
 	int		len;
 	char	*status;
@@ -76,7 +55,27 @@ static void	change_exit_status_value(t_minishell *minishell, char **ret, int *no
 	free(tail);
 }
 
-static void	change_value(char **ret, char *key, char *value, int *now_len)
+char *get_key_in_string(int *check, char *str, int *i)
+{
+	char	*ret;
+	int		len;
+	int		limit;
+
+	len = 0;
+	limit = ft_strlen(str);
+	while (limit > *i + len + 1 && check[*i + len + 1])
+	{
+		if (check[*i + len + 1] == 6)
+			++len;
+		else
+			break ;
+	}
+	ret = ft_substr(str, *i + 1, len);
+	*i += len + 1;
+	return (ret);
+}
+
+void	change_value(char **ret, char *key, char *value, int *now_len)
 {
 	int	value_len;
 	int	original_len;
@@ -103,22 +102,39 @@ static void	change_value(char **ret, char *key, char *value, int *now_len)
 	free(head);free(tail);
 }
 
-
-static void get_char_type(char *str, int *check)
+void	change_envp_value(t_minishell *minishell, t_token *token, int *check, char **ret)
 {
-	int type;
+	int	i;
+	int	len;
+	int	now_len;
+	char	*key;
 
-	while (*str)
+	i = 0;
+	len = ft_strlen(token->value);
+	now_len = 0;
+	while (i < len)
 	{
-		type = find_type(str);
-		str++;
-		*check = type;
-		check++;
-		if (type == 3)
+		if (check[i] == 8)
 		{
-			str++;
-			*check = type;
-			check++;
+			++i;
+			continue ;
 		}
+		if (check[i] == 3)
+		{
+			change_exit_status_value(minishell, ret, &now_len);
+			i += 2;
+			continue ;
+		}
+		if (check[i] == 7)
+		{
+			key = get_key_in_string(check, token->value, &i);
+			char *value = find_envp_value(minishell->envp, key);
+			change_value(ret, key, value, &now_len);
+			free(key);
+			continue ;
+		}
+		++i;
+		++now_len;
+
 	}
 }

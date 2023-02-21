@@ -42,8 +42,8 @@ SRCS = src/utils/error_message.c src/utils/error_message2.c src/utils/setting.c 
 		src/heredoc/heredoc_util.c src/heredoc/heredoc.c src/heredoc/heredoc_expand.c src/heredoc/heredoc_expand_util.c \
 		src/redirect/redirect_list.c src/redirect/redirects.c src/redirect/redirect_list_util.c\
 		src/expander/expander.c src/expander/expander_util.c src/expander/quote.c \
-		src/expander/wildcard.c src/expander/envp.c \
-		src/free/redirect_free.c
+		src/expander/wildcard.c src/expander/envp.c src/expander/envp_value.c \
+		src/expander/envp_type.c src/free/redirect_free.c
 
 OBJS = $(SRCS:.c=.o)
 
